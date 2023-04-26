@@ -1,4 +1,4 @@
-# All the Devrev openapi spec files
+# All the Devrev Openapi spec files
 
 internal - The internal or private OpenAPI spec, not for public consumption
 
