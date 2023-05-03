@@ -32,10 +32,10 @@ jobs:
       - name: Release beta SDKs
         env:
           FERN_TOKEN: ${{ secrets.FERN_TOKEN }}
-        run: fern generate --api beta --log-level debug
+        run: fern generate --api beta --group sdks --log-level debug
 
       - name: Release public SDKs
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           FERN_TOKEN: ${{ secrets.FERN_TOKEN }}
-        run: fern generate --api public --version ${{ github.ref_name }} --log-level debug
+        run: fern generate --api public --group sdks --version ${{ github.ref_name }} --log-level debug
