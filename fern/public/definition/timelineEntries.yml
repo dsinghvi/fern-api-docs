@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+imports:
+  root: __package__.yml
+
+service:
+  auth: true
+  base-path: ""
+  endpoints:
+    create:
+      path: /timeline-entries.create
+      method: POST
+      request:
+        body:
+          type: root.TimelineEntriesCreateRequest
+          docs: The request to create a timeline entry for an object.
+      response:
+        docs: Success.
+        type: root.TimelineEntriesCreateResponse
+
+    get:
+      path: /timeline-entries.get
+      method: GET
+      request:
+        name: TimelineEntriesGetRequest
+        query-parameters:
+          id:
+            type: string
+      response:
+        docs: Success.
+        type: root.TimelineEntriesGetResponse
+
+    list:
+      path: /timeline-entries.list
+      method: GET
+      request:
+        name: TimelineEntriesListRequest
+        query-parameters:
+          object:
+            type: string
+          cursor:
+            type: optional<string>
+          limit:
+            type: optional<integer>
+          mode:
+            type: optional<root.ListMode>
+      response:
+        docs: Success.
+        type: root.TimelineEntriesListResponse
+
+    update:
+      path: /timeline-entries.update
+      method: POST
+      request:
+        body:
+          type: root.TimelineEntriesUpdateRequest
+          docs: The request to update a timeline entry.
+      response:
+        docs: Success.
+        type: root.TimelineEntriesUpdateResponse

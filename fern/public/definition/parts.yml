@@ -1,0 +1,82 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+imports:
+  root: __package__.yml
+
+service:
+  auth: true
+  base-path: ""
+  endpoints:
+    create:
+      path: /parts.create
+      method: POST
+      request:
+        body:
+          type: root.PartsCreateRequest
+      response:
+        docs: Success.
+        type: root.PartsCreateResponse
+
+    delete:
+      path: /parts.delete
+      method: POST
+      request:
+        name: PartsDeleteRequest
+        body:
+          properties:
+            id:
+              type: string
+              docs: The ID of the part to delete.
+      response:
+        docs: Success.
+        type: root.parts-delete-response
+
+    get:
+      path: /parts.get
+      method: GET
+      request:
+        name: PartsGetRequest
+        query-parameters:
+          id:
+            type: string
+      response:
+        docs: Success.
+        type: root.PartsGetResponse
+
+    list:
+      path: /parts.list
+      method: GET
+      request:
+        name: PartsListRequest
+        query-parameters:
+          created_by:
+            type: optional<string>
+            allow-multiple: true
+          cursor:
+            type: optional<string>
+          limit:
+            type: optional<integer>
+          mode:
+            type: optional<root.ListMode>
+          name:
+            type: optional<string>
+            allow-multiple: true
+          owned_by:
+            type: optional<string>
+            allow-multiple: true
+          type:
+            type: optional<root.PartType>
+            allow-multiple: true
+      response:
+        docs: Success.
+        type: root.PartsListResponse
+
+    update:
+      path: /parts.update
+      method: POST
+      request:
+        body:
+          type: root.PartsUpdateRequest
+      response:
+        docs: Success.
+        type: root.PartsUpdateResponse

@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+imports:
+  root: __package__.yml
+
+service:
+  auth: true
+  base-path: ""
+  endpoints:
+    list:
+      path: /dev-users.list
+      method: GET
+      request:
+        name: DevUsersListRequest
+        query-parameters:
+          cursor:
+            type: optional<string>
+          email:
+            type: optional<string>
+            allow-multiple: true
+          limit:
+            type: optional<integer>
+          mode:
+            type: optional<root.ListMode>
+          sort_by:
+            type: optional<string>
+            allow-multiple: true
+          state:
+            type: optional<root.UserState>
+            allow-multiple: true
+      response:
+        docs: Success.
+        type: root.DevUsersListResponse
+
+    self:
+      path: /dev-users.self
+      method: GET
+      response:
+        docs: Success.
+        type: root.DevUsersSelfResponse

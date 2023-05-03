@@ -1,0 +1,136 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+imports:
+  root: __package__.yml
+
+service:
+  auth: true
+  base-path: ""
+  endpoints:
+    create:
+      path: /works.create
+      method: POST
+      request:
+        body:
+          type: root.WorksCreateRequest
+      response:
+        docs: Success.
+        type: root.WorksCreateResponse
+
+    delete:
+      path: /works.delete
+      method: POST
+      request:
+        name: WorksDeleteRequest
+        body:
+          properties:
+            id:
+              type: string
+              docs: The work's ID.
+      response:
+        docs: Success.
+        type: root.works-delete-response
+
+    export:
+      path: /works.export
+      method: GET
+      request:
+        name: WorksExportRequest
+        query-parameters:
+          applies_to_part:
+            type: optional<string>
+            allow-multiple: true
+          created_by:
+            type: optional<string>
+            allow-multiple: true
+          first:
+            type: optional<integer>
+          issue.priority:
+            type: optional<root.IssuePriority>
+            allow-multiple: true
+          issue.rev_orgs:
+            type: optional<string>
+            allow-multiple: true
+          owned_by:
+            type: optional<string>
+            allow-multiple: true
+          stage.name:
+            type: optional<string>
+            allow-multiple: true
+          ticket.rev_org:
+            type: optional<string>
+            allow-multiple: true
+          ticket.severity:
+            type: optional<root.TicketSeverity>
+            allow-multiple: true
+          type:
+            type: optional<root.WorkType>
+            allow-multiple: true
+      response:
+        docs: Success.
+        type: root.WorksExportResponse
+
+    get:
+      path: /works.get
+      method: GET
+      request:
+        name: WorksGetRequest
+        query-parameters:
+          id:
+            type: string
+      response:
+        docs: Success.
+        type: root.WorksGetResponse
+
+    list:
+      path: /works.list
+      method: GET
+      request:
+        name: WorksListRequest
+        query-parameters:
+          applies_to_part:
+            type: optional<string>
+            allow-multiple: true
+          created_by:
+            type: optional<string>
+            allow-multiple: true
+          cursor:
+            type: optional<string>
+          issue.priority:
+            type: optional<root.IssuePriority>
+            allow-multiple: true
+          issue.rev_orgs:
+            type: optional<string>
+            allow-multiple: true
+          limit:
+            type: optional<integer>
+          mode:
+            type: optional<root.ListMode>
+          owned_by:
+            type: optional<string>
+            allow-multiple: true
+          stage.name:
+            type: optional<string>
+            allow-multiple: true
+          ticket.rev_org:
+            type: optional<string>
+            allow-multiple: true
+          ticket.severity:
+            type: optional<root.TicketSeverity>
+            allow-multiple: true
+          type:
+            type: optional<root.WorkType>
+            allow-multiple: true
+      response:
+        docs: Success.
+        type: root.WorksListResponse
+
+    update:
+      path: /works.update
+      method: POST
+      request:
+        body:
+          type: root.WorksUpdateRequest
+      response:
+        docs: Success.
+        type: root.WorksUpdateResponse
