@@ -313,6 +313,11 @@ components:
       - urn:devrev:params:oauth:grant-type:token-issue
       - urn:ietf:params:oauth:grant-type:token-exchange
       type: string
+      x-fern-enum:
+        urn:devrev:params:oauth:grant-type:token-issue:
+          name: urn-devrev-params-oauth-grant-type-token-issue
+        urn:ietf:params:oauth:grant-type:token-exchange:
+          name: urn-ietf-params-oauth-grant-type-token-exchange
     auth-token-requested-token-type:
       description: The type of the requested token.
       enum:
@@ -326,6 +331,25 @@ components:
       - urn:devrev:params:oauth:token-type:sys
       - urn:ietf:params:oauth:token-type:jwt
       type: string
+      x-fern-enum:
+        urn:devrev:params:oauth:token-type:aat:
+          name: urn-devrev-params-oauth-token-type-aat
+        urn:devrev:params:oauth:token-type:aat:public:
+          name: urn-devrev-params-oauth-token-type-aat-public
+        urn:devrev:params:oauth:token-type:dev:
+          name: urn-devrev-params-oauth-token-type-dev
+        urn:devrev:params:oauth:token-type:pat:
+          name: urn-devrev-params-oauth-token-type-pat
+        urn:devrev:params:oauth:token-type:rev:
+          name: urn-devrev-params-oauth-token-type-rev
+        urn:devrev:params:oauth:token-type:session:
+          name: urn-devrev-params-oauth-token-type-session
+        urn:devrev:params:oauth:token-type:session:dev0:
+          name: urn-devrev-params-oauth-token-type-session-dev0
+        urn:devrev:params:oauth:token-type:sys:
+          name: urn-devrev-params-oauth-token-type-sys
+        urn:ietf:params:oauth:token-type:jwt:
+          name: urn-ietf-params-oauth-token-type-jwt
     auth-token-status:
       description: The status of the token.
       enum:
@@ -344,6 +368,21 @@ components:
       - urn:devrev:params:oauth:token-type:userinfo:profile
       - urn:ietf:params:oauth:token-type:jwt
       type: string
+      x-fern-enum:
+        urn:devrev:params:oauth:token-type:jwt:auth0:
+          name: urn-devrev-params-oauth-token-type-jwt-auth0
+        urn:devrev:params:oauth:token-type:jwt:dev:
+          name: urn-devrev-params-oauth-token-type-jwt-dev
+        urn:devrev:params:oauth:token-type:revinfo:
+          name: urn-devrev-params-oauth-token-type-revinfo
+        urn:devrev:params:oauth:token-type:sysu:
+          name: urn-devrev-params-oauth-token-type-sysu
+        urn:devrev:params:oauth:token-type:userinfo:
+          name: urn-devrev-params-oauth-token-type-userinfo
+        urn:devrev:params:oauth:token-type:userinfo:profile:
+          name: urn-devrev-params-oauth-token-type-userinfo-profile
+        urn:ietf:params:oauth:token-type:jwt:
+          name: urn-ietf-params-oauth-token-type-jwt
     auth-token-token-type:
       description: |
         The type of the issued token. Bearer is the only supported token type.
@@ -798,6 +837,7 @@ components:
           mapping:
             bad_request: '#/components/schemas/error-bad-request-bad-request'
             invalid_enum_value: '#/components/schemas/error-bad-request-invalid-enum-value'
+            invalid_field: '#/components/schemas/error-bad-request-invalid-field'
             missing_required_field: '#/components/schemas/error-bad-request-missing-required-field'
             parse_error: '#/components/schemas/error-bad-request-parse-error'
             value_not_permitted: '#/components/schemas/error-bad-request-value-not-permitted'
@@ -805,6 +845,7 @@ components:
         oneOf:
         - $ref: '#/components/schemas/error-bad-request-bad-request'
         - $ref: '#/components/schemas/error-bad-request-invalid-enum-value'
+        - $ref: '#/components/schemas/error-bad-request-invalid-field'
         - $ref: '#/components/schemas/error-bad-request-missing-required-field'
         - $ref: '#/components/schemas/error-bad-request-parse-error'
         - $ref: '#/components/schemas/error-bad-request-value-not-permitted'
@@ -837,6 +878,15 @@ components:
       - value
       title: error-bad-request-invalid-enum-value
       type: object
+    error-bad-request-invalid-field:
+      properties:
+        field_name:
+          description: The field name that's invalid.
+          type: string
+      required:
+      - field_name
+      title: error-bad-request-invalid-field
+      type: object
     error-bad-request-missing-required-field:
       properties:
         field_name:
@@ -853,6 +903,7 @@ components:
       enum:
       - bad_request
       - invalid_enum_value
+      - invalid_field
       - missing_required_field
       - parse_error
       - value_not_permitted
@@ -2660,6 +2711,11 @@ components:
         body:
           description: Body of the work object.
           type: string
+        custom_schema_fragments:
+          description: The custom schema fragments to use.
+          items:
+            type: string
+          type: array
         owned_by:
           description: The users that own the work.
           example:
@@ -2806,6 +2862,11 @@ components:
           description: |
             Updated body of the work object, or unchanged if not provided.
           type: string
+        custom_schema_fragments:
+          description: The custom schema fragments to use.
+          items:
+            type: string
+          type: array
         id:
           description: The work's ID.
           example: don:<partition>:core:devo/<dev-org-id>:<work-type>/<work-id>
@@ -4864,8 +4925,14 @@ security:
 - auth-token: []
 servers:
 - description: DevRev API endpoint.
-  url: 'https://api.devrev.ai'
-  x-name: Production
+  url: '{protocol}://{hostname}'
+  variables:
+    hostname:
+      default: api.devrev.ai
+      description: API hostname.
+    protocol:
+      default: https
+      description: API protocol.
 tags:
 - description: Artifact (file) management APIs.
   name: artifacts
