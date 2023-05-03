@@ -6,7 +6,7 @@ groups:
         output:
           location: npm
           package-name: "@fern-api/devrev"
-          token: ${FERN_NPM_TOKEN}
+          token: ${NPM_TOKEN}
         github:
           repository: fern-devrev/devrev-node
         config:
