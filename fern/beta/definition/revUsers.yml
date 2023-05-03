@@ -1,0 +1,171 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+imports:
+  root: __package__.yml
+
+service:
+  auth: true
+  base-path: ""
+  endpoints:
+    create:
+      path: /rev-users.create
+      method: POST
+      request:
+        name: RevUsersCreateRequest
+        body:
+          properties:
+            description:
+              docs: Description of the Rev user.
+              type: optional<string>
+            display_name:
+              docs: |
+                The user's display name. The name is non-unique and mutable.
+              type: optional<string>
+            email:
+              docs: Email address of the Rev user.
+              type: optional<string>
+            external_ref:
+              docs: >
+                External ref is a mutable unique identifier for a user within
+                the
+                Dev organization from your primary customer record. If none is
+                available, a good alternative is the email address/phone number
+                which could uniquely identify the user. If none is specified, a
+                system-generated identifier will be assigned to the user.
+              type: optional<string>
+            phone_numbers:
+              docs: Phone numbers of the Rev user.
+              type: optional<list<string>>
+            rev_org:
+              type: string
+              docs: >
+                The ID of Rev organization for which a Rev user is to be
+                created.
+      response:
+        docs: Success.
+        type: root.RevUsersCreateResponse
+
+    delete:
+      path: /rev-users.delete
+      method: POST
+      request:
+        name: RevUsersDeleteRequest
+        body:
+          properties:
+            id:
+              type: string
+              docs: The ID of Rev user to delete.
+      response:
+        docs: Success.
+        type: root.rev-users-delete-response
+
+    get:
+      path: /rev-users.get
+      method: GET
+      request:
+        name: RevUsersGetRequest
+        query-parameters:
+          id:
+            type: string
+      response:
+        docs: Success.
+        type: root.RevUsersGetResponse
+
+    link-rev-user-to-rev-org:
+      path: /rev-users.link
+      method: POST
+      request:
+        name: LinkRevUserToRevOrgRequest
+        body:
+          properties:
+            rev_org_don:
+              type: string
+              docs: The don of the rev org to link the rev user to.
+            user_don:
+              type: string
+              docs: The don of the rev user to link.
+      response:
+        docs: Success.
+        type: root.LinkRevUserToRevOrgResponse
+
+    list:
+      path: /rev-users.list
+      method: GET
+      request:
+        name: RevUsersListRequest
+        query-parameters:
+          created_by:
+            type: optional<string>
+            allow-multiple: true
+          created_date.after:
+            type: optional<string>
+          created_date.before:
+            type: optional<string>
+          cursor:
+            type: optional<string>
+          email:
+            type: optional<string>
+            allow-multiple: true
+          external_ref:
+            type: optional<string>
+            allow-multiple: true
+          limit:
+            type: optional<integer>
+          mode:
+            type: optional<root.ListMode>
+          modified_date.after:
+            type: optional<string>
+          modified_date.before:
+            type: optional<string>
+          rev_org:
+            type: optional<string>
+            allow-multiple: true
+          sort_by:
+            type: optional<string>
+            allow-multiple: true
+      response:
+        docs: Success.
+        type: root.RevUsersListResponse
+
+    unlink-rev-user-from-rev-org:
+      path: /rev-users.unlink
+      method: POST
+      request:
+        name: UnlinkRevUserFromRevOrgRequest
+        body:
+          properties:
+            rev_org_don:
+              type: string
+              docs: The don of the rev org to unlink the rev user from.
+            user_don:
+              type: string
+              docs: The don of the rev user to unlink.
+      response:
+        docs: Success.
+        type: root.UnlinkRevUserFromRevOrgResponse
+
+    update:
+      path: /rev-users.update
+      method: POST
+      request:
+        name: RevUsersUpdateRequest
+        body:
+          properties:
+            description:
+              docs: Updated description of the Rev user.
+              type: optional<string>
+            display_name:
+              docs: Updated display name of the Rev user.
+              type: optional<string>
+            email:
+              docs: Updated email address of the Rev user.
+              type: optional<string>
+            external_ref:
+              docs: Updated external ref value of the Rev user.
+              type: optional<string>
+            id:
+              type: string
+              docs: The ID of Rev user to update.
+      response:
+        docs: Success.
+        type: root.RevUsersUpdateResponse
