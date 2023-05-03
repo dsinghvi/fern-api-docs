@@ -48,6 +48,19 @@ components:
             $ref: '#/components/schemas/error-unauthorized'
       description: 401 Unauthorized.
   schemas:
+    aggregated-schema:
+      description: List of custom fields from multiple source fragments.
+      title: aggregated-schema
+      type: object
+    aggregated-schema-get-response:
+      properties:
+        schema:
+          $ref: '#/components/schemas/aggregated-schema'
+      required:
+      - schema
+      title: aggregated-schema-get-response
+      type: object
+      x-go-name: AggregatedSchemaGetResponseBody
     artifact-summary:
       allOf:
       - $ref: '#/components/schemas/atom-base-summary'
@@ -299,6 +312,188 @@ components:
       title: conversations-update-response
       type: object
       x-go-name: ConversationsUpdateResponseBody
+    custom-schema-fragment:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          $ref: '#/components/schemas/custom-schema-fragment-type'
+      required:
+      - type
+      title: custom-schema-fragment
+      type: object
+    custom-schema-fragment-type:
+      type: string
+    custom-schema-fragments-get-response:
+      properties:
+        fragment:
+          $ref: '#/components/schemas/custom-schema-fragment'
+      required:
+      - fragment
+      title: custom-schema-fragments-get-response
+      type: object
+      x-go-name: CustomSchemaFragmentsGetResponseBody
+    custom-schema-fragments-list-response:
+      properties:
+        cursor:
+          description: |
+            The cursor to resume iteration from, otherwise if not provided,
+            then iteration starts from the beginning.
+          type: string
+        result:
+          description: The custom schema fragments.
+          items:
+            $ref: '#/components/schemas/custom-schema-fragment'
+          type: array
+      required:
+      - result
+      title: custom-schema-fragments-list-response
+      type: object
+      x-go-name: CustomSchemaFragmentsListResponseBody
+    custom-schema-fragments-set-request:
+      discriminator:
+        mapping:
+          app_fragment: '#/components/schemas/custom-schema-fragments-set-request-app-fragment'
+          custom_type_fragment: '#/components/schemas/custom-schema-fragments-set-request-custom-type-fragment'
+          tenant_fragment: '#/components/schemas/custom-schema-fragments-set-request-tenant-fragment'
+        propertyName: type
+      oneOf:
+      - $ref: '#/components/schemas/custom-schema-fragments-set-request-app-fragment'
+      - $ref: '#/components/schemas/custom-schema-fragments-set-request-custom-type-fragment'
+      - $ref: '#/components/schemas/custom-schema-fragments-set-request-tenant-fragment'
+      properties:
+        deprecated:
+          description: True if this fragment has been deprecated.
+          type: boolean
+        description:
+          description: The description of the custom schema fragment.
+          type: string
+        fields:
+          description: List of all fields in this fragment.
+          items:
+            $ref: '#/components/schemas/schema-field-descriptor'
+          type: array
+        leaf_type:
+          description: The leaf type this fragment applies to.
+          type: string
+        type:
+          $ref: '#/components/schemas/custom-schema-fragments-set-request-type'
+      required:
+      - description
+      - leaf_type
+      - type
+      title: custom-schema-fragments-set-request
+      type: object
+    custom-schema-fragments-set-request-app-fragment:
+      properties:
+        app:
+          description: The app this fragment applies to.
+          type: string
+        app_fragment_name:
+          description: The name of the app fragment.
+          type: string
+      required:
+      - app
+      - app_fragment_name
+      title: custom-schema-fragments-set-request-app-fragment
+      type: object
+    custom-schema-fragments-set-request-custom-type-fragment:
+      properties:
+        stock_field_enum_overrides:
+          description: List of stock field enum overrides.
+          items:
+            $ref: '#/components/schemas/stock-field-enum-override'
+          type: array
+        subtype:
+          description: |
+            The string used to populate the subtype in the leaf type.
+          type: string
+        subtype_display_name:
+          description: The display name of the subtype.
+          type: string
+      required:
+      - subtype
+      title: custom-schema-fragments-set-request-custom-type-fragment
+      type: object
+    custom-schema-fragments-set-request-tenant-fragment:
+      title: custom-schema-fragments-set-request-tenant-fragment
+      type: object
+    custom-schema-fragments-set-request-type:
+      enum:
+      - app_fragment
+      - custom_type_fragment
+      - tenant_fragment
+      type: string
+    custom-schema-fragments-set-response:
+      properties:
+        id:
+          description: The ID of the custom schema fragment.
+          type: string
+      required:
+      - id
+      title: custom-schema-fragments-set-response
+      type: object
+      x-go-name: CustomSchemaFragmentsSetResponseBody
+    custom-stage:
+      allOf:
+      - $ref: '#/components/schemas/atom-base'
+      title: custom-stage
+    custom-stages-get-response:
+      properties:
+        custom_stage:
+          $ref: '#/components/schemas/custom-stage'
+      required:
+      - custom_stage
+      title: custom-stages-get-response
+      type: object
+      x-go-name: CustomStagesGetResponseBody
+    custom-stages-list-response:
+      properties:
+        cursor:
+          description: |
+            The cursor to resume iteration from, otherwise if not provided,
+            then iteration starts from the beginning.
+          type: string
+        result:
+          description: The custom stages.
+          items:
+            $ref: '#/components/schemas/custom-stage'
+          type: array
+      required:
+      - result
+      title: custom-stages-list-response
+      type: object
+      x-go-name: CustomStagesListResponseBody
+    custom-state:
+      allOf:
+      - $ref: '#/components/schemas/atom-base'
+      title: custom-state
+    custom-states-get-response:
+      properties:
+        custom_state:
+          $ref: '#/components/schemas/custom-state'
+      required:
+      - custom_state
+      title: custom-states-get-response
+      type: object
+      x-go-name: CustomStatesGetResponseBody
+    custom-states-list-response:
+      properties:
+        cursor:
+          description: |
+            The cursor to resume iteration from, otherwise if not provided,
+            then iteration starts from the beginning.
+          type: string
+        result:
+          description: The custom states.
+          items:
+            $ref: '#/components/schemas/custom-state'
+          type: array
+      required:
+      - result
+      title: custom-states-list-response
+      type: object
+      x-go-name: CustomStatesListResponseBody
     dev-user-summary:
       allOf:
       - $ref: '#/components/schemas/user-base-summary'
@@ -314,6 +509,7 @@ components:
           mapping:
             bad_request: '#/components/schemas/error-bad-request-bad-request'
             invalid_enum_value: '#/components/schemas/error-bad-request-invalid-enum-value'
+            invalid_field: '#/components/schemas/error-bad-request-invalid-field'
             missing_required_field: '#/components/schemas/error-bad-request-missing-required-field'
             parse_error: '#/components/schemas/error-bad-request-parse-error'
             value_not_permitted: '#/components/schemas/error-bad-request-value-not-permitted'
@@ -321,6 +517,7 @@ components:
         oneOf:
         - $ref: '#/components/schemas/error-bad-request-bad-request'
         - $ref: '#/components/schemas/error-bad-request-invalid-enum-value'
+        - $ref: '#/components/schemas/error-bad-request-invalid-field'
         - $ref: '#/components/schemas/error-bad-request-missing-required-field'
         - $ref: '#/components/schemas/error-bad-request-parse-error'
         - $ref: '#/components/schemas/error-bad-request-value-not-permitted'
@@ -353,6 +550,15 @@ components:
       - value
       title: error-bad-request-invalid-enum-value
       type: object
+    error-bad-request-invalid-field:
+      properties:
+        field_name:
+          description: The field name that's invalid.
+          type: string
+      required:
+      - field_name
+      title: error-bad-request-invalid-field
+      type: object
     error-bad-request-missing-required-field:
       properties:
         field_name:
@@ -369,6 +575,7 @@ components:
       enum:
       - bad_request
       - invalid_enum_value
+      - invalid_field
       - missing_required_field
       - parse_error
       - value_not_permitted
@@ -957,6 +1164,539 @@ components:
       title: rev-users-update-response
       type: object
       x-go-name: RevUsersUpdateResponseBody
+    schema-bool-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          default_value:
+            description: Default value.
+            type: boolean
+        type: object
+      title: schema-bool-field-descriptor
+    schema-bool-list-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          default_value:
+            description: Default value.
+            items:
+              type: boolean
+            type: array
+        type: object
+      title: schema-bool-list-field-descriptor
+    schema-composite-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          composite_type:
+            description: Composite type. Required when field type is composite.
+            type: string
+        type: object
+      title: schema-composite-field-descriptor
+    schema-composite-list-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          composite_type:
+            description: Composite type. Required when field type is composite.
+            type: string
+        type: object
+      title: schema-composite-list-field-descriptor
+    schema-double-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          default_value:
+            description: Default value.
+            format: double
+            type: number
+        type: object
+      title: schema-double-field-descriptor
+    schema-double-list-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          default_value:
+            description: Default value.
+            items:
+              format: double
+              type: number
+            type: array
+        type: object
+      title: schema-double-list-field-descriptor
+    schema-enum-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          allowed_values:
+            description: Allowed values for the field.
+            items:
+              type: string
+            type: array
+          default_value:
+            description: Default value.
+            type: string
+        required:
+        - allowed_values
+        type: object
+      title: schema-enum-field-descriptor
+    schema-enum-list-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          allowed_values:
+            description: Allowed values for the field.
+            items:
+              type: string
+            type: array
+          default_value:
+            description: Default value.
+            items:
+              type: string
+            type: array
+        required:
+        - allowed_values
+        type: object
+      title: schema-enum-list-field-descriptor
+    schema-field-descriptor:
+      description: Set of field attributes.
+      discriminator:
+        mapping:
+          array: '#/components/schemas/schema-field-descriptor-array-type'
+          bool: '#/components/schemas/schema-bool-field-descriptor'
+          composite: '#/components/schemas/schema-composite-field-descriptor'
+          double: '#/components/schemas/schema-double-field-descriptor'
+          enum: '#/components/schemas/schema-enum-field-descriptor'
+          id: '#/components/schemas/schema-id-field-descriptor'
+          int: '#/components/schemas/schema-int-field-descriptor'
+          rich_text: '#/components/schemas/schema-rich-text-field-descriptor'
+          text: '#/components/schemas/schema-text-field-descriptor'
+          timestamp: '#/components/schemas/schema-timestamp-field-descriptor'
+          tokens: '#/components/schemas/schema-tokens-field-descriptor'
+        propertyName: field_type
+      oneOf:
+      - $ref: '#/components/schemas/schema-bool-field-descriptor'
+      - $ref: '#/components/schemas/schema-composite-field-descriptor'
+      - $ref: '#/components/schemas/schema-double-field-descriptor'
+      - $ref: '#/components/schemas/schema-enum-field-descriptor'
+      - $ref: '#/components/schemas/schema-field-descriptor-array-type'
+      - $ref: '#/components/schemas/schema-id-field-descriptor'
+      - $ref: '#/components/schemas/schema-int-field-descriptor'
+      - $ref: '#/components/schemas/schema-rich-text-field-descriptor'
+      - $ref: '#/components/schemas/schema-text-field-descriptor'
+      - $ref: '#/components/schemas/schema-timestamp-field-descriptor'
+      - $ref: '#/components/schemas/schema-tokens-field-descriptor'
+      properties:
+        field_type:
+          $ref: '#/components/schemas/schema-field-descriptor-field-type'
+      required:
+      - field_type
+      title: schema-field-descriptor
+      type: object
+    schema-field-descriptor-array-type:
+      discriminator:
+        mapping:
+          bool: '#/components/schemas/schema-bool-list-field-descriptor'
+          composite: '#/components/schemas/schema-composite-list-field-descriptor'
+          double: '#/components/schemas/schema-double-list-field-descriptor'
+          enum: '#/components/schemas/schema-enum-list-field-descriptor'
+          id: '#/components/schemas/schema-id-list-field-descriptor'
+          int: '#/components/schemas/schema-int-list-field-descriptor'
+          rich_text: '#/components/schemas/schema-rich-text-list-field-descriptor'
+          text: '#/components/schemas/schema-text-list-field-descriptor'
+          timestamp: '#/components/schemas/schema-timestamp-list-field-descriptor'
+          tokens: '#/components/schemas/schema-tokens-list-field-descriptor'
+        propertyName: base_type
+      oneOf:
+      - $ref: '#/components/schemas/schema-bool-list-field-descriptor'
+      - $ref: '#/components/schemas/schema-composite-list-field-descriptor'
+      - $ref: '#/components/schemas/schema-double-list-field-descriptor'
+      - $ref: '#/components/schemas/schema-enum-list-field-descriptor'
+      - $ref: '#/components/schemas/schema-id-list-field-descriptor'
+      - $ref: '#/components/schemas/schema-int-list-field-descriptor'
+      - $ref: '#/components/schemas/schema-rich-text-list-field-descriptor'
+      - $ref: '#/components/schemas/schema-text-list-field-descriptor'
+      - $ref: '#/components/schemas/schema-timestamp-list-field-descriptor'
+      - $ref: '#/components/schemas/schema-tokens-list-field-descriptor'
+      properties:
+        base_type:
+          $ref: '#/components/schemas/schema-field-descriptor-array-type-base-type'
+        max_items:
+          description: The maximum array length.
+          format: int64
+          type: integer
+        min_items:
+          description: The minimum array length.
+          format: int64
+          type: integer
+      required:
+      - base_type
+      title: schema-field-descriptor-array-type
+      type: object
+    schema-field-descriptor-array-type-base-type:
+      enum:
+      - bool
+      - composite
+      - double
+      - enum
+      - id
+      - int
+      - rich_text
+      - text
+      - timestamp
+      - tokens
+      type: string
+    schema-field-descriptor-base:
+      properties:
+        description:
+          description: Description of the field.
+          type: string
+        is_filterable:
+          description: |
+            Whether this field is filterable, groupable and sortable.
+          type: boolean
+        is_personally_identifiable_information:
+          description: |
+            Whether this field can hold Personally Identifiable Information
+            (PII).
+          type: boolean
+        is_required:
+          description: Whether this field is required or not.
+          type: boolean
+        name:
+          description: Name of the field.
+          type: string
+        origin:
+          description: Type this field is from.
+          type: string
+      required:
+      - name
+      title: schema-field-descriptor-base
+      type: object
+    schema-field-descriptor-field-type:
+      enum:
+      - array
+      - bool
+      - composite
+      - double
+      - enum
+      - id
+      - int
+      - rich_text
+      - text
+      - timestamp
+      - tokens
+      type: string
+    schema-id-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          default_value:
+            description: Default value.
+            type: string
+          id_type:
+            description: Object ID types. Required when field type is ID.
+            items:
+              type: string
+            type: array
+        type: object
+      title: schema-id-field-descriptor
+    schema-id-list-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          default_value:
+            description: Default value.
+            items:
+              type: string
+            type: array
+          id_type:
+            description: Object ID types. Required when field type is ID.
+            items:
+              type: string
+            type: array
+        type: object
+      title: schema-id-list-field-descriptor
+    schema-int-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          default_value:
+            description: Default value.
+            format: int64
+            type: integer
+          gt:
+            description: The minimum value for the integer (exclusive).
+            format: int64
+            type: integer
+          gte:
+            description: The minimum value for the integer (inclusive).
+            format: int64
+            type: integer
+          lt:
+            description: The maximum value for the integer (exclusive).
+            format: int64
+            type: integer
+          lte:
+            description: The maximum value for the integer (inclusive).
+            format: int64
+            type: integer
+        type: object
+      title: schema-int-field-descriptor
+    schema-int-list-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          default_value:
+            description: Default value.
+            items:
+              format: int64
+              type: integer
+            type: array
+          gt:
+            description: The minimum value for the integer (exclusive).
+            format: int64
+            type: integer
+          gte:
+            description: The minimum value for the integer (inclusive).
+            format: int64
+            type: integer
+          lt:
+            description: The maximum value for the integer (exclusive).
+            format: int64
+            type: integer
+          lte:
+            description: The maximum value for the integer (inclusive).
+            format: int64
+            type: integer
+        type: object
+      title: schema-int-list-field-descriptor
+    schema-rich-text-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          contains:
+            description: The contained substring.
+            type: string
+          default_value:
+            description: Default value.
+            type: string
+          eq_len:
+            description: The exact string length.
+            format: int64
+            type: integer
+          max_len:
+            description: The maximum string length.
+            format: int64
+            type: integer
+          min_len:
+            description: The minimum string length.
+            format: int64
+            type: integer
+          pattern:
+            description: The string pattern (regular expression).
+            type: string
+          prefix:
+            description: The string prefix.
+            type: string
+          suffix:
+            description: The string suffix.
+            type: string
+        type: object
+      title: schema-rich-text-field-descriptor
+    schema-rich-text-list-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          contains:
+            description: The contained substring.
+            type: string
+          default_value:
+            description: Default value.
+            items:
+              type: string
+            type: array
+          eq_len:
+            description: The exact string length.
+            format: int64
+            type: integer
+          max_len:
+            description: The maximum string length.
+            format: int64
+            type: integer
+          min_len:
+            description: The minimum string length.
+            format: int64
+            type: integer
+          pattern:
+            description: The string pattern (regular expression).
+            type: string
+          prefix:
+            description: The string prefix.
+            type: string
+          suffix:
+            description: The string suffix.
+            type: string
+        type: object
+      title: schema-rich-text-list-field-descriptor
+    schema-text-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          contains:
+            description: The contained substring.
+            type: string
+          default_value:
+            description: Default value.
+            type: string
+          eq_len:
+            description: The exact string length.
+            format: int64
+            type: integer
+          max_len:
+            description: The maximum string length.
+            format: int64
+            type: integer
+          min_len:
+            description: The minimum string length.
+            format: int64
+            type: integer
+          pattern:
+            description: The string pattern (regular expression).
+            type: string
+          prefix:
+            description: The string prefix.
+            type: string
+          suffix:
+            description: The string suffix.
+            type: string
+        type: object
+      title: schema-text-field-descriptor
+    schema-text-list-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          contains:
+            description: The contained substring.
+            type: string
+          default_value:
+            description: Default value.
+            items:
+              type: string
+            type: array
+          eq_len:
+            description: The exact string length.
+            format: int64
+            type: integer
+          max_len:
+            description: The maximum string length.
+            format: int64
+            type: integer
+          min_len:
+            description: The minimum string length.
+            format: int64
+            type: integer
+          pattern:
+            description: The string pattern (regular expression).
+            type: string
+          prefix:
+            description: The string prefix.
+            type: string
+          suffix:
+            description: The string suffix.
+            type: string
+        type: object
+      title: schema-text-list-field-descriptor
+    schema-timestamp-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          default_value:
+            description: Default value.
+            format: date-time
+            type: string
+        type: object
+      title: schema-timestamp-field-descriptor
+    schema-timestamp-list-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          default_value:
+            description: Default value.
+            items:
+              format: date-time
+              type: string
+            type: array
+        type: object
+      title: schema-timestamp-list-field-descriptor
+    schema-tokens-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          contains:
+            description: The contained substring.
+            type: string
+          default_value:
+            description: Default value.
+            type: string
+          eq_len:
+            description: The exact string length.
+            format: int64
+            type: integer
+          max_len:
+            description: The maximum string length.
+            format: int64
+            type: integer
+          min_len:
+            description: The minimum string length.
+            format: int64
+            type: integer
+          pattern:
+            description: The string pattern (regular expression).
+            type: string
+          prefix:
+            description: The string prefix.
+            type: string
+          suffix:
+            description: The string suffix.
+            type: string
+        type: object
+      title: schema-tokens-field-descriptor
+    schema-tokens-list-field-descriptor:
+      allOf:
+      - $ref: '#/components/schemas/schema-field-descriptor-base'
+      - properties:
+          contains:
+            description: The contained substring.
+            type: string
+          default_value:
+            description: Default value.
+            items:
+              type: string
+            type: array
+          eq_len:
+            description: The exact string length.
+            format: int64
+            type: integer
+          max_len:
+            description: The maximum string length.
+            format: int64
+            type: integer
+          min_len:
+            description: The minimum string length.
+            format: int64
+            type: integer
+          pattern:
+            description: The string pattern (regular expression).
+            type: string
+          prefix:
+            description: The string prefix.
+            type: string
+          suffix:
+            description: The string suffix.
+            type: string
+        type: object
+      title: schema-tokens-list-field-descriptor
     set-tag-with-value:
       properties:
         id:
@@ -999,6 +1739,68 @@ components:
           type: string
       title: stage-update
       type: object
+    stock-field-enum-override:
+      description: Override for the allowed values of a stock field enum.
+      title: stock-field-enum-override
+      type: object
+    stock-schema-fragment:
+      allOf:
+      - $ref: '#/components/schemas/atom-base'
+      title: stock-schema-fragment
+    stock-schema-fragments-get-response:
+      properties:
+        fragment:
+          $ref: '#/components/schemas/stock-schema-fragment'
+      required:
+      - fragment
+      title: stock-schema-fragments-get-response
+      type: object
+      x-go-name: StockSchemaFragmentsGetResponseBody
+    stock-schema-fragments-list-response:
+      properties:
+        cursor:
+          description: |
+            The cursor to resume iteration from, otherwise if not provided,
+            then iteration starts from the beginning.
+          type: string
+        result:
+          description: The stock schema fragments.
+          items:
+            $ref: '#/components/schemas/stock-schema-fragment'
+          type: array
+      required:
+      - result
+      title: stock-schema-fragments-list-response
+      type: object
+      x-go-name: StockSchemaFragmentsListResponseBody
+    subtype:
+      properties:
+        display_name:
+          description: Display name of the subtype.
+          type: string
+        fragment_id:
+          description: DON of the custom type fragment this subtype belongs to.
+          type: string
+        value:
+          description: Value of the subtype.
+          type: string
+      required:
+      - fragment_id
+      - value
+      title: subtype
+      type: object
+    subtypes-list-response:
+      properties:
+        subtypes:
+          description: List of subtypes.
+          items:
+            $ref: '#/components/schemas/subtype'
+          type: array
+      required:
+      - subtypes
+      title: subtypes-list-response
+      type: object
+      x-go-name: SubtypesListResponseBody
     sys-user:
       allOf:
       - $ref: '#/components/schemas/user-base'
@@ -2124,6 +2926,551 @@ paths:
           $ref: '#/components/responses/service-unavailable'
       tags:
       - rev-users
+  /schemas.aggregated.get:
+    get:
+      description: Gets the aggregated schema.
+      operationId: aggregated-schema-get
+      parameters:
+      - description: |
+          The list of custom schema fragment DONs which are to be aggregated.
+        explode: false
+        in: query
+        name: custom_schema_fragment_ids
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      - description: The stock schema fragment which is to be aggregated.
+        explode: false
+        in: query
+        name: stock_schema_fragment_id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aggregated-schema-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - customization
+  /schemas.custom.get:
+    get:
+      description: Gets a custom schema fragment.
+      operationId: custom-schema-fragments-get
+      parameters:
+      - description: The ID of the custom schema fragment.
+        explode: false
+        in: query
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/custom-schema-fragments-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - customization
+  /schemas.custom.list:
+    get:
+      description: Lists custom schema fragments.
+      operationId: custom-schema-fragments-list
+      parameters:
+      - description: The list of app names.
+        explode: false
+        in: query
+        name: app
+        schema:
+          items:
+            type: string
+          type: array
+      - description: |
+          The cursor to resume iteration from, otherwise if not provided, then
+          iteration starts from the beginning.
+        explode: false
+        in: query
+        name: cursor
+        schema:
+          type: string
+      - description: The list of leaf types.
+        explode: false
+        in: query
+        name: leaf_type
+        schema:
+          items:
+            type: string
+          type: array
+      - description: The maximum number of items.
+        explode: false
+        in: query
+        name: limit
+        schema:
+          format: int32
+          type: integer
+      - description: |
+          The list of fields to sort the items by and how to sort them.
+        explode: false
+        in: query
+        name: sort_by
+        schema:
+          items:
+            type: string
+          type: array
+      - description: The list of subtypes.
+        explode: false
+        in: query
+        name: subtype
+        schema:
+          items:
+            type: string
+          type: array
+      - description: Filters for custom schema fragment of the provided types.
+        explode: false
+        in: query
+        name: types
+        schema:
+          items:
+            $ref: '#/components/schemas/custom-schema-fragment-type'
+          type: array
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/custom-schema-fragments-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - customization
+  /schemas.custom.set:
+    post:
+      description: Creates or updates a custom schema fragment.
+      operationId: custom-schema-fragments-set
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/custom-schema-fragments-set-request'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/custom-schema-fragments-set-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - customization
+  /schemas.stock.get:
+    get:
+      description: Gets a stock schema fragment.
+      operationId: stock-schema-fragments-get
+      parameters:
+      - description: The ID of the stock schema fragment.
+        explode: false
+        in: query
+        name: id
+        schema:
+          type: string
+      - description: The leaf type this fragment applies to.
+        explode: false
+        in: query
+        name: leaf_type
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/stock-schema-fragments-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - customization
+  /schemas.stock.list:
+    get:
+      description: Lists stock schema fragments.
+      operationId: stock-schema-fragments-list
+      parameters:
+      - description: |
+          The cursor to resume iteration from, otherwise if not provided, then
+          iteration starts from the beginning.
+        explode: false
+        in: query
+        name: cursor
+        schema:
+          type: string
+      - description: The list of leaf types.
+        explode: false
+        in: query
+        name: leaf_type
+        schema:
+          items:
+            type: string
+          type: array
+      - description: The maximum number of items.
+        explode: false
+        in: query
+        name: limit
+        schema:
+          format: int32
+          type: integer
+      - description: |
+          The list of fields to sort the items by and how to sort them.
+        explode: false
+        in: query
+        name: sort_by
+        schema:
+          items:
+            type: string
+          type: array
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/stock-schema-fragments-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - customization
+  /schemas.subtypes.list:
+    get:
+      description: Lists subtypes.
+      operationId: subtypes-list
+      parameters:
+      - description: Leaf type for which subtypes are required.
+        explode: false
+        in: query
+        name: leaf_type
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/subtypes-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - customization
+  /stages.custom.get:
+    get:
+      description: Gets a custom stage.
+      operationId: custom-stages-get
+      parameters:
+      - description: The ID of the custom stage to get.
+        explode: false
+        in: query
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/custom-stages-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - customization
+  /stages.custom.list:
+    get:
+      description: Lists custom stages.
+      operationId: custom-stages-list
+      parameters:
+      - description: |
+          The cursor to resume iteration from, otherwise if not provided, then
+          iteration starts from the beginning.
+        explode: false
+        in: query
+        name: cursor
+        schema:
+          type: string
+      - description: The maximum number of items.
+        explode: false
+        in: query
+        name: limit
+        schema:
+          format: int32
+          type: integer
+      - description: ' Required if any marketplace_ref.* fields are provided.'
+        explode: false
+        in: query
+        name: marketplace_ref.id
+        schema:
+          type: string
+      - description: The list of stage names.
+        explode: false
+        in: query
+        name: name
+        schema:
+          items:
+            type: string
+          type: array
+      - description: The list of stage ordinals.
+        explode: false
+        in: query
+        name: ordinal
+        schema:
+          items:
+            format: int32
+            type: integer
+          type: array
+      - description: |
+          The list of fields to sort the items by and how to sort them.
+        explode: false
+        in: query
+        name: sort_by
+        schema:
+          items:
+            type: string
+          type: array
+      - description: ' Required if any state_id.* fields are provided.'
+        explode: false
+        in: query
+        name: state_id.id
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/custom-stages-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - customization
+  /states.custom.get:
+    get:
+      description: Gets a custom state.
+      operationId: custom-states-get
+      parameters:
+      - description: The ID of the custom state to get.
+        explode: false
+        in: query
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/custom-states-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - customization
+  /states.custom.list:
+    get:
+      description: Lists custom states.
+      operationId: custom-states-list
+      parameters:
+      - description: |
+          The cursor to resume iteration from, otherwise if not provided, then
+          iteration starts from the beginning.
+        explode: false
+        in: query
+        name: cursor
+        schema:
+          type: string
+      - description: The list of final stage indicators.
+        explode: false
+        in: query
+        name: is_final
+        schema:
+          type: boolean
+      - description: The maximum number of items.
+        explode: false
+        in: query
+        name: limit
+        schema:
+          format: int32
+          type: integer
+      - description: The list of stage names.
+        explode: false
+        in: query
+        name: name
+        schema:
+          items:
+            type: string
+          type: array
+      - description: The list of stage ordinals.
+        explode: false
+        in: query
+        name: ordinal
+        schema:
+          items:
+            format: int32
+            type: integer
+          type: array
+      - description: |
+          The list of fields to sort the items by and how to sort them.
+        explode: false
+        in: query
+        name: sort_by
+        schema:
+          items:
+            type: string
+          type: array
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/custom-states-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - customization
   /sys-users.list:
     get:
       description: Lists system users within your organization.
@@ -2231,6 +3578,8 @@ servers:
 tags:
 - description: DevRev conversation interaction.
   name: conversations
+- description: DevRev customization.
+  name: customization
 - description: DevRev link interactions.
   name: links
 - description: Rev user interactions.

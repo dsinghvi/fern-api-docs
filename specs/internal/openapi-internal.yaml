@@ -90,6 +90,13 @@ components:
             items:
               type: string
             type: array
+          external_refs:
+            description: |
+              External refs are unique identifiers from your customer system of
+              records, stored as a list.
+            items:
+              type: string
+            type: array
           owned_by:
             description: List of Dev user IDs owning this Account.
             items:
@@ -160,6 +167,11 @@ components:
           items:
             type: string
           type: array
+        external_refs:
+          description: Array of references of Accounts to be filtered.
+          items:
+            type: string
+          type: array
         modified_date:
           $ref: '#/components/schemas/date-time-filter'
         owned_by:
@@ -221,6 +233,14 @@ components:
           items:
             type: string
           type: array
+        external_refs:
+          description: |
+            External refs are unique identifiers from your customer system of
+            records, stored as a list. Currently the length of this field is
+            limited to 1.
+          items:
+            type: string
+          type: array
         logo_id:
           description: Artifact ID of the account's logo.
           example: don:<partition>:core:devo/<dev-org-id>:artifact/<artifact-id>
@@ -272,6 +292,33 @@ components:
       title: accounts-delete-response
       type: object
       x-go-name: AccountsDeleteResponseBody
+    accounts-delete-validate-request:
+      description: Request object to check if an account can be deleted.
+      properties:
+        id:
+          description: The ID of Account to be checked for deletion.
+          type: string
+      required:
+      - id
+      title: accounts-delete-validate-request
+      type: object
+    accounts-delete-validate-response:
+      description: |
+        Response object containing infomation if an account can be deleted.
+      properties:
+        is_supported:
+          description: |
+            Bool value denoting if deletion of an account is supported.
+          type: boolean
+        reason:
+          description: |
+            Optional string to denote why an Account cannot be deleted.
+          type: string
+      required:
+      - is_supported
+      title: accounts-delete-validate-response
+      type: object
+      x-go-name: AccountsDeleteValidateResponseBody
     accounts-get-request:
       description: Request object to get Account's information.
       properties:
@@ -342,6 +389,11 @@ components:
           type: array
         domains:
           description: Array of domain for Accounts to be filtered.
+          items:
+            type: string
+          type: array
+        external_refs:
+          description: Array of references of Accounts to be filtered.
           items:
             type: string
           type: array
@@ -443,6 +495,11 @@ components:
           type: array
         domains:
           description: Array of domain for Accounts to be filtered.
+          items:
+            type: string
+          type: array
+        external_refs:
+          description: Array of references of Accounts to be filtered.
           items:
             type: string
           type: array
@@ -549,6 +606,13 @@ components:
           items:
             type: string
           type: array
+        external_refs:
+          description: |
+            Updated External Refs of account. Currently the length of this
+            field is limited to 1.
+          items:
+            type: string
+          type: array
         id:
           description: The ID of Account to update.
           type: string
@@ -608,14 +672,14 @@ components:
       - unknown
       - update
       type: string
-    addon-rules:
+    addon-rule:
       allOf:
       - $ref: '#/components/schemas/atom-base'
       - properties:
           addon_sku:
             $ref: '#/components/schemas/sku-summary'
           associativity:
-            $ref: '#/components/schemas/addon-rules-associativity'
+            $ref: '#/components/schemas/addon-rule-associativity'
           description:
             description: Description of the SKU rules.
             type: string
@@ -628,21 +692,25 @@ components:
         - product
         - subscription_sku
         type: object
-      title: addon-rules
-    addon-rules-associativity:
+      title: addon-rule
+    addon-rule-associativity:
       description: |
         Type of association between SKU and addon, defaults to optional.
       enum:
       - mandatory
       - optional
       type: string
+    addon-rule-summary:
+      allOf:
+      - $ref: '#/components/schemas/atom-base-summary'
+      title: addon-rule-summary
     addon-rules-create-request:
       properties:
         addon_id:
           description: Addon SKU for which the rule is defined.
           type: string
         associativity:
-          $ref: '#/components/schemas/addon-rules-associativity'
+          $ref: '#/components/schemas/addon-rule-associativity'
         description:
           description: Description of the addon rule.
           type: string
@@ -661,7 +729,7 @@ components:
     addon-rules-create-response:
       properties:
         addon_rule:
-          $ref: '#/components/schemas/addon-rules'
+          $ref: '#/components/schemas/addon-rule'
       required:
       - addon_rule
       title: addon-rules-create-response
@@ -688,7 +756,7 @@ components:
     addon-rules-get-response:
       properties:
         addon_rule:
-          $ref: '#/components/schemas/addon-rules'
+          $ref: '#/components/schemas/addon-rule'
       required:
       - addon_rule
       title: addon-rules-get-response
@@ -707,7 +775,7 @@ components:
           description: |
             The associativity for which the addon rules need to be aggregated
           items:
-            $ref: '#/components/schemas/addon-rules-associativity'
+            $ref: '#/components/schemas/addon-rule-associativity'
           type: array
         ids:
           description: The list of addon rule DONs which are to be aggregated.
@@ -743,21 +811,17 @@ components:
         addon_rules:
           description: The list of addon rules.
           items:
-            $ref: '#/components/schemas/addon-rules'
+            $ref: '#/components/schemas/addon-rule'
           type: array
       required:
       - addon_rules
       title: addon-rules-list-response
       type: object
       x-go-name: AddonRulesListResponseBody
-    addon-rules-summary:
-      allOf:
-      - $ref: '#/components/schemas/atom-base-summary'
-      title: addon-rules-summary
     addon-rules-update-request:
       properties:
         associativity:
-          $ref: '#/components/schemas/addon-rules-associativity'
+          $ref: '#/components/schemas/addon-rule-associativity'
         description:
           description: Description of the addon rule.
           type: string
@@ -774,7 +838,7 @@ components:
     addon-rules-update-response:
       properties:
         addon_rule:
-          $ref: '#/components/schemas/addon-rules'
+          $ref: '#/components/schemas/addon-rule'
       required:
       - addon_rule
       title: addon-rules-update-response
@@ -783,10 +847,10 @@ components:
     address:
       description: Address details of the customer.
       properties:
-        address_line_1:
+        address_line1:
           description: Address line 1 (e.g., street, PO Box, or company name).
           type: string
-        address_line_2:
+        address_line2:
           description: |
             Address line 2 (e.g., apartment, suite, unit, or building).
           type: string
@@ -803,7 +867,7 @@ components:
           description: State, county, province, or region.
           type: string
       required:
-      - address_line_1
+      - address_line1
       - city
       - country
       title: address
@@ -2132,7 +2196,7 @@ components:
       discriminator:
         mapping:
           account: '#/components/schemas/account-summary'
-          addon_rules: '#/components/schemas/addon-rules-summary'
+          addon_rule: '#/components/schemas/addon-rule-summary'
           app_fragment: '#/components/schemas/app-fragment-summary'
           app_fragment_private: '#/components/schemas/app-fragment-private-summary'
           article: '#/components/schemas/article-summary'
@@ -2189,6 +2253,7 @@ components:
           new_invoice: '#/components/schemas/new-invoice-summary'
           new_invoice_item: '#/components/schemas/new-invoice-item-summary'
           news: '#/components/schemas/news-summary'
+          oasis_data: '#/components/schemas/oasis-data-summary'
           object_assignment_notification: '#/components/schemas/object-assignment-notification-summary'
           object_member: '#/components/schemas/object-member-summary'
           one_time_line_item: '#/components/schemas/one-time-line-item-summary'
@@ -2214,13 +2279,14 @@ components:
           reward_transaction: '#/components/schemas/reward-transaction-summary'
           role: '#/components/schemas/role-summary'
           room: '#/components/schemas/room-summary'
+          rule: '#/components/schemas/rule-summary'
           runnable: '#/components/schemas/runnable-summary'
           runnable_pin: '#/components/schemas/runnable-pin-summary'
           service_account: '#/components/schemas/service-account-summary'
           service_plan: '#/components/schemas/service-plan-summary'
           settings: '#/components/schemas/settings-summary'
           sku: '#/components/schemas/sku-summary'
-          sku_rules: '#/components/schemas/sku-rules-summary'
+          sku_rule: '#/components/schemas/sku-rule-summary'
           sla: '#/components/schemas/sla-summary'
           sla_tracker: '#/components/schemas/sla-tracker-summary'
           snap_component: '#/components/schemas/snap-component-summary'
@@ -2254,7 +2320,7 @@ components:
         propertyName: type
       oneOf:
       - $ref: '#/components/schemas/account-summary'
-      - $ref: '#/components/schemas/addon-rules-summary'
+      - $ref: '#/components/schemas/addon-rule-summary'
       - $ref: '#/components/schemas/app-fragment-private-summary'
       - $ref: '#/components/schemas/app-fragment-summary'
       - $ref: '#/components/schemas/article-summary'
@@ -2311,6 +2377,7 @@ components:
       - $ref: '#/components/schemas/new-invoice-item-summary'
       - $ref: '#/components/schemas/new-invoice-summary'
       - $ref: '#/components/schemas/news-summary'
+      - $ref: '#/components/schemas/oasis-data-summary'
       - $ref: '#/components/schemas/object-assignment-notification-summary'
       - $ref: '#/components/schemas/object-member-summary'
       - $ref: '#/components/schemas/one-time-line-item-summary'
@@ -2336,12 +2403,13 @@ components:
       - $ref: '#/components/schemas/reward-transaction-summary'
       - $ref: '#/components/schemas/role-summary'
       - $ref: '#/components/schemas/room-summary'
+      - $ref: '#/components/schemas/rule-summary'
       - $ref: '#/components/schemas/runnable-pin-summary'
       - $ref: '#/components/schemas/runnable-summary'
       - $ref: '#/components/schemas/service-account-summary'
       - $ref: '#/components/schemas/service-plan-summary'
       - $ref: '#/components/schemas/settings-summary'
-      - $ref: '#/components/schemas/sku-rules-summary'
+      - $ref: '#/components/schemas/sku-rule-summary'
       - $ref: '#/components/schemas/sku-summary'
       - $ref: '#/components/schemas/sla-summary'
       - $ref: '#/components/schemas/sla-tracker-summary'
@@ -2383,7 +2451,7 @@ components:
     atom-type:
       enum:
       - account
-      - addon_rules
+      - addon_rule
       - app_fragment
       - app_fragment_private
       - article
@@ -2440,6 +2508,7 @@ components:
       - new_invoice
       - new_invoice_item
       - news
+      - oasis_data
       - object_assignment_notification
       - object_member
       - one_time_line_item
@@ -2465,13 +2534,14 @@ components:
       - reward_transaction
       - role
       - room
+      - rule
       - runnable
       - runnable_pin
       - service_account
       - service_plan
       - settings
       - sku
-      - sku_rules
+      - sku_rule
       - sla
       - sla_tracker
       - snap_component
@@ -2686,6 +2756,11 @@ components:
       - urn:devrev:params:oauth:grant-type:token-issue
       - urn:ietf:params:oauth:grant-type:token-exchange
       type: string
+      x-fern-enum:
+        urn:devrev:params:oauth:grant-type:token-issue:
+          name: urn-devrev-params-oauth-grant-type-token-issue
+        urn:ietf:params:oauth:grant-type:token-exchange:
+          name: urn-ietf-params-oauth-grant-type-token-exchange
     auth-token-requested-token-type:
       description: The type of the requested token.
       enum:
@@ -2699,6 +2774,25 @@ components:
       - urn:devrev:params:oauth:token-type:sys
       - urn:ietf:params:oauth:token-type:jwt
       type: string
+      x-fern-enum:
+        urn:devrev:params:oauth:token-type:aat:
+          name: urn-devrev-params-oauth-token-type-aat
+        urn:devrev:params:oauth:token-type:aat:public:
+          name: urn-devrev-params-oauth-token-type-aat-public
+        urn:devrev:params:oauth:token-type:dev:
+          name: urn-devrev-params-oauth-token-type-dev
+        urn:devrev:params:oauth:token-type:pat:
+          name: urn-devrev-params-oauth-token-type-pat
+        urn:devrev:params:oauth:token-type:rev:
+          name: urn-devrev-params-oauth-token-type-rev
+        urn:devrev:params:oauth:token-type:session:
+          name: urn-devrev-params-oauth-token-type-session
+        urn:devrev:params:oauth:token-type:session:dev0:
+          name: urn-devrev-params-oauth-token-type-session-dev0
+        urn:devrev:params:oauth:token-type:sys:
+          name: urn-devrev-params-oauth-token-type-sys
+        urn:ietf:params:oauth:token-type:jwt:
+          name: urn-ietf-params-oauth-token-type-jwt
     auth-token-status:
       description: The status of the token.
       enum:
@@ -2717,6 +2811,21 @@ components:
       - urn:devrev:params:oauth:token-type:userinfo:profile
       - urn:ietf:params:oauth:token-type:jwt
       type: string
+      x-fern-enum:
+        urn:devrev:params:oauth:token-type:jwt:auth0:
+          name: urn-devrev-params-oauth-token-type-jwt-auth0
+        urn:devrev:params:oauth:token-type:jwt:dev:
+          name: urn-devrev-params-oauth-token-type-jwt-dev
+        urn:devrev:params:oauth:token-type:revinfo:
+          name: urn-devrev-params-oauth-token-type-revinfo
+        urn:devrev:params:oauth:token-type:sysu:
+          name: urn-devrev-params-oauth-token-type-sysu
+        urn:devrev:params:oauth:token-type:userinfo:
+          name: urn-devrev-params-oauth-token-type-userinfo
+        urn:devrev:params:oauth:token-type:userinfo:profile:
+          name: urn-devrev-params-oauth-token-type-userinfo-profile
+        urn:ietf:params:oauth:token-type:jwt:
+          name: urn-ietf-params-oauth-token-type-jwt
     auth-token-summary:
       allOf:
       - $ref: '#/components/schemas/atom-base-summary'
@@ -3044,6 +3153,7 @@ components:
           accounts_count: '#/components/schemas/accounts-count-request'
           accounts_create: '#/components/schemas/accounts-create-request'
           accounts_delete: '#/components/schemas/accounts-delete-request'
+          accounts_delete_validate: '#/components/schemas/accounts-delete-validate-request'
           accounts_get: '#/components/schemas/accounts-get-request'
           accounts_update: '#/components/schemas/accounts-update-request'
           articles_count: '#/components/schemas/articles-count-request'
@@ -3065,6 +3175,7 @@ components:
           rev_orgs_count: '#/components/schemas/rev-orgs-count-request'
           rev_orgs_create: '#/components/schemas/rev-orgs-create-request'
           rev_orgs_delete: '#/components/schemas/rev-orgs-delete-request'
+          rev_orgs_delete_validate: '#/components/schemas/rev-orgs-delete-validate-request'
           rev_orgs_get: '#/components/schemas/rev-orgs-get-request'
           rev_orgs_update: '#/components/schemas/rev-orgs-update-request'
           rev_users_count: '#/components/schemas/rev-users-count-request'
@@ -3092,6 +3203,7 @@ components:
       - $ref: '#/components/schemas/accounts-count-request'
       - $ref: '#/components/schemas/accounts-create-request'
       - $ref: '#/components/schemas/accounts-delete-request'
+      - $ref: '#/components/schemas/accounts-delete-validate-request'
       - $ref: '#/components/schemas/accounts-get-request'
       - $ref: '#/components/schemas/accounts-update-request'
       - $ref: '#/components/schemas/articles-count-request'
@@ -3113,6 +3225,7 @@ components:
       - $ref: '#/components/schemas/rev-orgs-count-request'
       - $ref: '#/components/schemas/rev-orgs-create-request'
       - $ref: '#/components/schemas/rev-orgs-delete-request'
+      - $ref: '#/components/schemas/rev-orgs-delete-validate-request'
       - $ref: '#/components/schemas/rev-orgs-get-request'
       - $ref: '#/components/schemas/rev-orgs-update-request'
       - $ref: '#/components/schemas/rev-users-count-request'
@@ -3147,6 +3260,7 @@ components:
       - accounts_count
       - accounts_create
       - accounts_delete
+      - accounts_delete_validate
       - accounts_get
       - accounts_update
       - articles_count
@@ -3168,6 +3282,7 @@ components:
       - rev_orgs_count
       - rev_orgs_create
       - rev_orgs_delete
+      - rev_orgs_delete_validate
       - rev_orgs_get
       - rev_orgs_update
       - rev_users_count
@@ -3211,6 +3326,7 @@ components:
           accounts_count: '#/components/schemas/accounts-count-response'
           accounts_create: '#/components/schemas/accounts-create-response'
           accounts_delete: '#/components/schemas/accounts-delete-response'
+          accounts_delete_validate: '#/components/schemas/accounts-delete-validate-response'
           accounts_get: '#/components/schemas/accounts-get-response'
           accounts_update: '#/components/schemas/accounts-update-response'
           articles_count: '#/components/schemas/articles-count-response'
@@ -3233,6 +3349,7 @@ components:
           rev_orgs_count: '#/components/schemas/rev-orgs-count-response'
           rev_orgs_create: '#/components/schemas/rev-orgs-create-response'
           rev_orgs_delete: '#/components/schemas/rev-orgs-delete-response'
+          rev_orgs_delete_validate: '#/components/schemas/rev-orgs-delete-validate-response'
           rev_orgs_get: '#/components/schemas/rev-orgs-get-response'
           rev_orgs_update: '#/components/schemas/rev-orgs-update-response'
           rev_users_count: '#/components/schemas/rev-users-count-response'
@@ -3260,6 +3377,7 @@ components:
       - $ref: '#/components/schemas/accounts-count-response'
       - $ref: '#/components/schemas/accounts-create-response'
       - $ref: '#/components/schemas/accounts-delete-response'
+      - $ref: '#/components/schemas/accounts-delete-validate-response'
       - $ref: '#/components/schemas/accounts-get-response'
       - $ref: '#/components/schemas/accounts-update-response'
       - $ref: '#/components/schemas/articles-count-response'
@@ -3282,6 +3400,7 @@ components:
       - $ref: '#/components/schemas/rev-orgs-count-response'
       - $ref: '#/components/schemas/rev-orgs-create-response'
       - $ref: '#/components/schemas/rev-orgs-delete-response'
+      - $ref: '#/components/schemas/rev-orgs-delete-validate-response'
       - $ref: '#/components/schemas/rev-orgs-get-response'
       - $ref: '#/components/schemas/rev-orgs-update-response'
       - $ref: '#/components/schemas/rev-users-count-response'
@@ -3316,6 +3435,7 @@ components:
       - accounts_count
       - accounts_create
       - accounts_delete
+      - accounts_delete_validate
       - accounts_get
       - accounts_update
       - articles_count
@@ -3338,6 +3458,7 @@ components:
       - rev_orgs_count
       - rev_orgs_create
       - rev_orgs_delete
+      - rev_orgs_delete_validate
       - rev_orgs_get
       - rev_orgs_update
       - rev_users_count
@@ -8620,6 +8741,11 @@ components:
           items:
             type: string
           type: array
+        external_refs:
+          description: Array of references of Accounts to be filtered.
+          items:
+            type: string
+          type: array
         group_by:
           description: The field to group the collection by.
           type: string
@@ -9892,6 +10018,7 @@ components:
           mapping:
             bad_request: '#/components/schemas/error-bad-request-bad-request'
             invalid_enum_value: '#/components/schemas/error-bad-request-invalid-enum-value'
+            invalid_field: '#/components/schemas/error-bad-request-invalid-field'
             missing_required_field: '#/components/schemas/error-bad-request-missing-required-field'
             parse_error: '#/components/schemas/error-bad-request-parse-error'
             value_not_permitted: '#/components/schemas/error-bad-request-value-not-permitted'
@@ -9899,6 +10026,7 @@ components:
         oneOf:
         - $ref: '#/components/schemas/error-bad-request-bad-request'
         - $ref: '#/components/schemas/error-bad-request-invalid-enum-value'
+        - $ref: '#/components/schemas/error-bad-request-invalid-field'
         - $ref: '#/components/schemas/error-bad-request-missing-required-field'
         - $ref: '#/components/schemas/error-bad-request-parse-error'
         - $ref: '#/components/schemas/error-bad-request-value-not-permitted'
@@ -9931,6 +10059,15 @@ components:
       - value
       title: error-bad-request-invalid-enum-value
       type: object
+    error-bad-request-invalid-field:
+      properties:
+        field_name:
+          description: The field name that's invalid.
+          type: string
+      required:
+      - field_name
+      title: error-bad-request-invalid-field
+      type: object
     error-bad-request-missing-required-field:
       properties:
         field_name:
@@ -9947,6 +10084,7 @@ components:
       enum:
       - bad_request
       - invalid_enum_value
+      - invalid_field
       - missing_required_field
       - parse_error
       - value_not_permitted
@@ -10544,9 +10682,35 @@ components:
         id_v1:
           description: The ID of the snap-in that was deleted.
           type: string
+        timeline_comment_draft:
+          $ref: '#/components/schemas/event-snap-in-deleted-timeline-comment-draft'
       required:
       - id
       title: event-snap-in-deleted
+      type: object
+    event-snap-in-deleted-timeline-comment-draft:
+      properties:
+        artifacts:
+          description: The artifacts for the comment.
+          items:
+            $ref: '#/components/schemas/artifact-summary'
+          type: array
+        body:
+          description: The comment's body. This may be empty.
+          type: string
+        body_type:
+          $ref: '#/components/schemas/timeline-comment-body-type'
+        references:
+          description: The objects referenced in the comment.
+          items:
+            $ref: '#/components/schemas/atom-summary'
+          type: array
+        snap_kit_body:
+          description: The SnapKit Body of the comment.
+          type: object
+      required:
+      - body
+      title: event-snap-in-deleted-timeline-comment-draft
       type: object
     event-snap-in-updated:
       properties:
@@ -10978,12 +11142,38 @@ components:
           description: |
             The ID of the object that the user is typing in the context of.
           type: string
+        timeline_comment_draft:
+          $ref: '#/components/schemas/event-user-typing-timeline-comment-draft'
         user:
           $ref: '#/components/schemas/user-summary'
       required:
       - object
       - user
       title: event-user-typing
+      type: object
+    event-user-typing-timeline-comment-draft:
+      properties:
+        artifacts:
+          description: The artifacts for the comment.
+          items:
+            $ref: '#/components/schemas/artifact-summary'
+          type: array
+        body:
+          description: The comment's body. This may be empty.
+          type: string
+        body_type:
+          $ref: '#/components/schemas/timeline-comment-body-type'
+        references:
+          description: The objects referenced in the comment.
+          items:
+            $ref: '#/components/schemas/atom-summary'
+          type: array
+        snap_kit_body:
+          description: The SnapKit Body of the comment.
+          type: object
+      required:
+      - body
+      title: event-user-typing-timeline-comment-draft
       type: object
     event-vista-created:
       properties:
@@ -11370,6 +11560,9 @@ components:
         ui_engagement_enabled:
           description: Whether engagements are enabled
           type: boolean
+        ui_faqs_enabled:
+          description: Whether the FAQs feature is enabled in UI.
+          type: boolean
         ui_flows_config_event_source_enabled:
           description: |
             Whether event source selection/creation is enabled in flows
@@ -11474,6 +11667,9 @@ components:
           type: boolean
         ui_sprint_insights_enabled:
           description: Whether Sprint Insights is enabled on the UI.
+          type: boolean
+        ui_streaming_comments_enabled:
+          description: Whether streaming comments are enabled on the UI.
           type: boolean
         ui_ticket_clustering_enabled:
           description: Whether ticket clustering is enabled on the UI
@@ -17984,20 +18180,66 @@ components:
       type: object
       x-go-name: NotificationsSendResponseBody
     oasis-data:
-      properties:
-        file_paths:
-          description: The file paths that contain the data.
-          items:
+      allOf:
+      - $ref: '#/components/schemas/atom-base'
+      - properties:
+          data_window:
+            $ref: '#/components/schemas/time-range'
+          metric_name:
+            description: The name of the metric.
             type: string
-          type: array
+          path:
+            description: Path to where the metric data is stored.
+            type: string
+          rev_org:
+            $ref: '#/components/schemas/org-summary'
+          size:
+            description: Size of the file containing the metric data (bytes).
+            format: int32
+            type: integer
+        required:
+        - data_window
+        - metric_name
+        - path
+        - size
+        type: object
+      title: oasis-data
+    oasis-data-create-request:
+      description: The request to create the data for a metric.
+      properties:
+        data_path:
+          description: The path where the data is located.
+          type: string
         metric_name:
           description: The name of the metric.
           type: string
+        rev_org:
+          description: The Rev org for which the data belongs.
+          example: don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          type: string
+        size:
+          description: The size of the data in bytes.
+          format: int64
+          type: integer
+        time_range:
+          $ref: '#/components/schemas/time-range'
       required:
-      - file_paths
+      - data_path
       - metric_name
-      title: oasis-data
+      - size
+      - time_range
+      title: oasis-data-create-request
       type: object
+    oasis-data-create-response:
+      description: The response to creating the oasis data.
+      properties:
+        data:
+          $ref: '#/components/schemas/oasis-data'
+      required:
+      - data
+      title: oasis-data-create-response
+      type: object
+      x-go-name: OasisDataCreateResponseBody
     oasis-data-fetch-request:
       description: |
         The request to get information related to the data for a metric.
@@ -18006,9 +18248,6 @@ components:
           description: |
             The cursor to resume iteration from. If not provided, then
             iteration starts from the beginning.
-          type: string
-        dev_org:
-          description: Filters the data for the given dev org.
           type: string
         limit:
           description: |
@@ -18024,6 +18263,8 @@ components:
           description: |
             Filters the data that is associated with any of the provided Rev
             organizations.
+          example:
+          - don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
           items:
             type: string
           type: array
@@ -18062,9 +18303,6 @@ components:
             The cursor to resume iteration from. If not provided, then
             iteration starts from the beginning.
           type: string
-        dev_org:
-          description: Filters the data for the given dev org.
-          type: string
         limit:
           description: |
             The maximum number of query results to return. The default is '50'.
@@ -18082,6 +18320,8 @@ components:
           description: |
             Filters the data that is associated with any of the provided Rev
             organizations.
+          example:
+          - don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
           items:
             type: string
           type: array
@@ -18113,6 +18353,10 @@ components:
       title: oasis-data-query-response
       type: object
       x-go-name: OasisDataQueryResponseBody
+    oasis-data-summary:
+      allOf:
+      - $ref: '#/components/schemas/atom-base-summary'
+      title: oasis-data-summary
     object-assignment-notification:
       allOf:
       - $ref: '#/components/schemas/notification-base'
@@ -18225,8 +18469,6 @@ components:
       - collection
       - command
       - comment
-      - commerce_devo_config
-      - commerce_revo_config
       - communication
       - component
       - conditional_role
@@ -18244,6 +18486,7 @@ components:
       - custom_type_fragment
       - custom_work
       - dev_org
+      - dev_org_commerce_details
       - dev_user
       - devrev_profile
       - devrev_reminder
@@ -18295,7 +18538,8 @@ components:
       - org_schedule
       - org_schedule_fragment
       - part_pin
-      - payment_method
+      - payment_method_bank_account
+      - payment_method_card
       - plug_preferences
       - plug_setting
       - pr_review_reminder
@@ -18310,9 +18554,10 @@ components:
       - recurring_line_item
       - request
       - rev_org
+      - rev_org_commerce_details
       - rev_user
       - reward
-      - reward_usage_history
+      - reward_transaction
       - role
       - room
       - rule
@@ -18324,6 +18569,7 @@ components:
       - service_plan
       - settings
       - sku
+      - sku_rule
       - sla
       - sla_policy
       - sla_tracker
@@ -18335,7 +18581,6 @@ components:
       - snap_kit_action
       - stage_diagram
       - stock_schema_fragment
-      - subscription_rule
       - survey
       - survey_response
       - svc_acc
@@ -23148,6 +23393,11 @@ components:
             items:
               $ref: '#/components/schemas/article-summary'
             type: array
+          applies_to_parts:
+            description: Details of the parts relevant to the question_answer.
+            items:
+              $ref: '#/components/schemas/part-summary'
+            type: array
           owned_by:
             description: The users that own the question_answer.
             items:
@@ -23156,10 +23406,28 @@ components:
           question:
             description: The Question.
             type: string
+          suggested_answer:
+            description: |
+              An alternative answer suggested by the Q/A generation algorithm.
+            type: string
+          suggested_for_deletion:
+            description: |
+              Whether the Q/A was marked for deletion by the Q/A generation
+              algorithm.
+            type: boolean
+          tags:
+            description: Tags associated with the article.
+            items:
+              $ref: '#/components/schemas/tag-with-value'
+            type: array
           topic:
             description: The topic to which the QA belongs.
             type: string
+          verified:
+            description: Whether the Q/A was verified.
+            type: boolean
         required:
+        - applies_to_parts
         - owned_by
         type: object
       title: question-answer
@@ -23177,6 +23445,15 @@ components:
           type: string
         applies_to_articles:
           description: The articles that the question-answer applies to.
+          items:
+            type: string
+          type: array
+        applies_to_parts:
+          description: |
+            The parts that the question-answer applies to. Specifying at least
+            one part is required when creating question-answers.
+          example:
+          - don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
           items:
             type: string
           type: array
@@ -23198,11 +23475,31 @@ components:
         question:
           description: Question of the question-answer.
           type: string
+        suggested_answer:
+          description: |
+            Alternative answer for the question-answer sugested by Q/A
+            Discovery.
+          type: string
+        suggested_for_deletion:
+          description: |
+            Whether the question-answer was suggeste to be deleted by Q/A
+            Discovery.
+          type: boolean
+        tags:
+          description: Tags associated with the question-answer.
+          items:
+            $ref: '#/components/schemas/set-tag-with-value'
+          type: array
         topic:
           description: Topic of the question-answer.
           type: string
+        verified:
+          description: |
+            Whether the question-answer was verified by a user or not.
+          type: boolean
       required:
       - answer
+      - applies_to_parts
       - question
       title: question-answers-create-request
       type: object
@@ -23258,6 +23555,14 @@ components:
           items:
             type: string
           type: array
+        applies_to_parts:
+          description: |
+            Filters for question-answer belonging to any of the provided parts.
+          example:
+          - don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          items:
+            type: string
+          type: array
         created_after_date:
           description: |
             Filters for question-answers created after the timestamp provided.
@@ -23294,6 +23599,14 @@ components:
             Filters for question-answers owned by any of these users.
           example:
           - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          items:
+            type: string
+          type: array
+        tags:
+          description: |
+            Filters for question-answer with any of the provided tags.
+          example:
+          - don:<partition>:core:devo/<dev-org-id>:tag/<tag-id>
           items:
             type: string
           type: array
@@ -23345,6 +23658,8 @@ components:
           type: string
         applies_to_articles:
           $ref: '#/components/schemas/question-answers-update-request-applies-to-articles'
+        applies_to_parts:
+          $ref: '#/components/schemas/question-answers-update-request-applies-to-parts'
         id:
           description: The question-answer's's ID.
           type: string
@@ -23355,11 +23670,27 @@ components:
             Updated question of the question-answer object, or unchanged if not
             provided.
           type: string
+        suggested_answer:
+          description: |
+            Updated suggested_answer of the question-answer object, or
+            unchanged if not provided.
+          type: string
+        suggested_for_deletion:
+          description: |
+            Updated suggested_for_deletion of the question-answer object, or
+            unchanged if not provided.
+          type: boolean
+        tags:
+          $ref: '#/components/schemas/question-answers-update-request-tags'
         topic:
           description: |
             Updated topic of the question-answer object, or unchanged if not
             provided.
           type: string
+        verified:
+          description: |
+            Updates whether the question-answer was verified by a user or not.
+          type: boolean
       required:
       - id
       title: question-answers-update-request
@@ -23373,6 +23704,17 @@ components:
           type: array
       title: question-answers-update-request-applies-to-articles
       type: object
+    question-answers-update-request-applies-to-parts:
+      properties:
+        set:
+          description: Updates the parts that the question-answer applies to.
+          example:
+          - don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          items:
+            type: string
+          type: array
+      title: question-answers-update-request-applies-to-parts
+      type: object
     question-answers-update-request-owned-by:
       properties:
         set:
@@ -23385,6 +23727,15 @@ components:
             type: string
           type: array
       title: question-answers-update-request-owned-by
+      type: object
+    question-answers-update-request-tags:
+      properties:
+        set:
+          description: Sets the provided tags on the question-answer.
+          items:
+            $ref: '#/components/schemas/set-tag-with-value'
+          type: array
+      title: question-answers-update-request-tags
       type: object
     question-answers-update-response:
       properties:
@@ -24093,6 +24444,36 @@ components:
       title: rev-orgs-delete-response
       type: object
       x-go-name: RevOrgsDeleteResponseBody
+    rev-orgs-delete-validate-request:
+      description: |
+        Request object to check if an Rev organization can be deleted.
+      properties:
+        id:
+          description: The ID of Rev organization to be checked for deletion.
+          example: don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          type: string
+      required:
+      - id
+      title: rev-orgs-delete-validate-request
+      type: object
+    rev-orgs-delete-validate-response:
+      description: |
+        Response object containing infomation if a Rev organization can be
+        deleted.
+      properties:
+        is_supported:
+          description: |
+            Bool value denoting if deletion of a Rev organization is supported.
+          type: boolean
+        reason:
+          description: |
+            Optional string to denote why a Rev organization cannot be deleted.
+          type: string
+      required:
+      - is_supported
+      title: rev-orgs-delete-validate-response
+      type: object
+      x-go-name: RevOrgsDeleteValidateResponseBody
     rev-orgs-export-request:
       properties:
         account:
@@ -25548,6 +25929,25 @@ components:
       title: rev-users-list-response
       type: object
       x-go-name: RevUsersListResponseBody
+    rev-users-merge-request:
+      description: Request object for RevUsersMerge call.
+      properties:
+        primary_user:
+          description: The unique ID of the primary user.
+          type: string
+        secondary_user:
+          description: The unique ID of the secondary user.
+          type: string
+      required:
+      - primary_user
+      - secondary_user
+      title: rev-users-merge-request
+      type: object
+    rev-users-merge-response:
+      description: The response to RevUsersMerge call.
+      title: rev-users-merge-response
+      type: object
+      x-go-name: RevUsersMergeResponseBody
     rev-users-self-request:
       description: A request to get the authenticated user's information.
       title: rev-users-self-request
@@ -25997,6 +26397,7 @@ components:
       description: Target object type of the role.
       enum:
       - addon_rule
+      - article
       - artifact
       - capability
       - conversation
@@ -26014,7 +26415,8 @@ components:
       - linkable
       - marketplace
       - marketplace_category
-      - payment_method
+      - object_member
+      - payment_method_card
       - pricing
       - product
       - rev_user
@@ -26023,7 +26425,8 @@ components:
       - runnable
       - service_plan
       - sku
-      - subscription_rule
+      - sku_rule
+      - snap_in
       - ticket
       - token
       - uom
@@ -26351,6 +26754,198 @@ components:
       - errors
       title: row-error
       type: object
+    rule:
+      allOf:
+      - $ref: '#/components/schemas/atom-base'
+      - properties:
+          description:
+            description: Description of the rule.
+            type: string
+          name:
+            description: Name of the rule.
+            type: string
+          nodes:
+            description: RuleNodes.
+            items:
+              $ref: '#/components/schemas/rule-node-instance'
+            type: array
+          state:
+            description: State of the rule.
+            type: string
+          trigger:
+            $ref: '#/components/schemas/rule-node-instance'
+        type: object
+      title: rule
+    rule-node-instance:
+      description: RuleNode instance containg relevant rule node information.
+      properties:
+        description:
+          description: Description of the rule node.
+          type: string
+        display_name:
+          description: Display Name of the rule node.
+          type: string
+        input:
+          description: input of the rule node.
+          type: object
+        name:
+          description: Name of the rule node.
+          type: string
+        rule_node_id:
+          description: Id of the rule node.
+          type: string
+        transitions:
+          description: |
+            List of transitions of the rule node based on the output state.
+          items:
+            $ref: '#/components/schemas/rule-node-transition'
+          type: array
+      required:
+      - transitions
+      title: rule-node-instance
+      type: object
+    rule-node-transition:
+      description: |
+        Contains which rule node to transition to next based on the the output
+        state.
+      properties:
+        node:
+          description: Id of the next rule node.
+          type: string
+        state:
+          description: Output state of the rule node.
+          type: string
+      title: rule-node-transition
+      type: object
+    rule-summary:
+      allOf:
+      - $ref: '#/components/schemas/atom-base-summary'
+      title: rule-summary
+    rules-create-request:
+      description: The request for creating a rule.
+      properties:
+        description:
+          description: Description of the rule.
+          type: string
+        name:
+          description: Name of the rule.
+          type: string
+        nodes:
+          description: Nodes part of the rule.
+          items:
+            $ref: '#/components/schemas/rule-node-instance'
+          type: array
+        state:
+          description: State of the rule.
+          type: string
+        trigger:
+          $ref: '#/components/schemas/rule-node-instance'
+      required:
+      - name
+      - nodes
+      - state
+      - trigger
+      title: rules-create-request
+      type: object
+    rules-create-response:
+      description: The response for create rule request.
+      properties:
+        rule:
+          $ref: '#/components/schemas/rule'
+      required:
+      - rule
+      title: rules-create-response
+      type: object
+      x-go-name: RulesCreateResponseBody
+    rules-delete-request:
+      description: The request for getting a rule.
+      properties:
+        id:
+          description: The ID of the requested rule.
+          type: string
+      required:
+      - id
+      title: rules-delete-request
+      type: object
+    rules-get-request:
+      description: The request for getting a rule.
+      properties:
+        id:
+          description: The ID of the requested rule.
+          type: string
+      required:
+      - id
+      title: rules-get-request
+      type: object
+    rules-get-response:
+      description: The response for get rule request.
+      properties:
+        rule:
+          $ref: '#/components/schemas/rule'
+      required:
+      - rule
+      title: rules-get-response
+      type: object
+      x-go-name: RulesGetResponseBody
+    rules-list-request:
+      description: The request for getting rules based on requested filters.
+      properties:
+        state:
+          description: State of the rule.
+          items:
+            type: string
+          type: array
+      title: rules-list-request
+      type: object
+    rules-list-response:
+      description: The response for list rule request.
+      properties:
+        rules:
+          description: Rules matching the list request.
+          items:
+            $ref: '#/components/schemas/rule'
+          type: array
+      required:
+      - rules
+      title: rules-list-response
+      type: object
+      x-go-name: RulesListResponseBody
+    rules-update-request:
+      description: The request for updating a rule.
+      properties:
+        description:
+          description: The updated description of the rule.
+          type: string
+        id:
+          description: The ID of the rule to update.
+          type: string
+        name:
+          description: The updated name of the rule.
+          type: string
+        nodes:
+          description: The updated nodes part of the rule.
+          items:
+            $ref: '#/components/schemas/rule-node-instance'
+          type: array
+        state:
+          description: The updated state of the rule.
+          type: string
+        trigger:
+          $ref: '#/components/schemas/rule-node-instance'
+      required:
+      - id
+      title: rules-update-request
+      type: object
+    rules-update-response:
+      description: The response for update rule request.
+      properties:
+        rule:
+          $ref: '#/components/schemas/rule'
+      required:
+      - rule
+      title: rules-update-response
+      type: object
+      x-go-name: RulesUpdateResponseBody
     run-discovery-request:
       properties:
         other_dev_org:
@@ -28260,7 +28855,7 @@ components:
         - status
         type: object
       title: sku
-    sku-rules:
+    sku-rule:
       allOf:
       - $ref: '#/components/schemas/atom-base'
       - properties:
@@ -28280,7 +28875,11 @@ components:
         - allowed_sku_names
         - product
         type: object
-      title: sku-rules
+      title: sku-rule
+    sku-rule-summary:
+      allOf:
+      - $ref: '#/components/schemas/atom-base-summary'
+      title: sku-rule-summary
     sku-rules-create-request:
       properties:
         allowed_sku_names:
@@ -28309,7 +28908,7 @@ components:
     sku-rules-create-response:
       properties:
         sku_rule:
-          $ref: '#/components/schemas/sku-rules'
+          $ref: '#/components/schemas/sku-rule'
       required:
       - sku_rule
       title: sku-rules-create-response
@@ -28336,7 +28935,7 @@ components:
     sku-rules-get-response:
       properties:
         sku_rule:
-          $ref: '#/components/schemas/sku-rules'
+          $ref: '#/components/schemas/sku-rule'
       required:
       - sku_rule
       title: sku-rules-get-response
@@ -28376,17 +28975,13 @@ components:
         sku_rules:
           description: The list of sku rules.
           items:
-            $ref: '#/components/schemas/sku-rules'
+            $ref: '#/components/schemas/sku-rule'
           type: array
       required:
       - sku_rules
       title: sku-rules-list-response
       type: object
       x-go-name: SkuRulesListResponseBody
-    sku-rules-summary:
-      allOf:
-      - $ref: '#/components/schemas/atom-base-summary'
-      title: sku-rules-summary
     sku-rules-update-request:
       properties:
         add_allowed_sku_names:
@@ -28416,7 +29011,7 @@ components:
     sku-rules-update-response:
       properties:
         sku_rule:
-          $ref: '#/components/schemas/sku-rules'
+          $ref: '#/components/schemas/sku-rule'
       required:
       - sku_rule
       title: sku-rules-update-response
@@ -29716,6 +30311,8 @@ components:
         msg:
           description: Message of the log.
           type: string
+        process:
+          $ref: '#/components/schemas/snap-in-packages-log-process-filter-log-process-enum'
         snap_in_package:
           description: Snap-in-package from which the function was created.
           type: string
@@ -29766,6 +30363,28 @@ components:
       - none
       - trace
       - warn
+      type: string
+    snap-in-packages-log-process-filter:
+      properties:
+        exclude:
+          description: |
+            Exclude the specified values instead of (default behaviour)
+            including them.
+          type: boolean
+        values:
+          description: List of values to include/exclude.
+          items:
+            $ref: '#/components/schemas/snap-in-packages-log-process-filter-log-process-enum'
+          type: array
+      required:
+      - values
+      title: snap-in-packages-log-process-filter
+      type: object
+    snap-in-packages-log-process-filter-log-process-enum:
+      enum:
+      - build
+      - function
+      - none
       type: string
     snap-in-packages-log-source-type-filter:
       properties:
@@ -29858,6 +30477,8 @@ components:
           $ref: '#/components/schemas/snap-in-packages-log-string-filter'
         level:
           $ref: '#/components/schemas/snap-in-packages-log-level-filter'
+        process:
+          $ref: '#/components/schemas/snap-in-packages-log-process-filter'
         snap_in_package:
           $ref: '#/components/schemas/snap-in-packages-log-string-filter'
         snap_in_version:
@@ -30074,8 +30695,6 @@ components:
             items:
               $ref: '#/components/schemas/snap-in-tag-definition'
             type: array
-        required:
-        - global_variables
         type: object
       title: snap-in-version
     snap-in-version-state:
@@ -30147,6 +30766,75 @@ components:
       title: snap-in-versions-get-response
       type: object
       x-go-name: SnapInVersionsGetResponseBody
+    snap-in-versions-list-request:
+      properties:
+        created_by:
+          description: |
+            Filters for snap-in-versions created by any of these users.
+          example:
+          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          items:
+            type: string
+          type: array
+        created_date:
+          $ref: '#/components/schemas/date-time-filter'
+        cursor:
+          description: |
+            The cursor to resume iteration from. If not provided, then
+            iteration starts from the beginning.
+          type: string
+        limit:
+          description: |
+            The maximum number of snap-in versions to return. The default is
+            '50', the maximum is '100'.
+          format: int32
+          type: integer
+        mode:
+          $ref: '#/components/schemas/list-mode'
+        modified_date:
+          $ref: '#/components/schemas/date-time-filter'
+        snap_in_package:
+          description: |
+            Filters for snap-in-versions part of any of these packages.
+          items:
+            type: string
+          type: array
+        sort_by:
+          description: |
+            Fields to sort the snap-in versions by and the direction to sort
+            them.
+          items:
+            type: string
+          type: array
+        state:
+          description: Filters for snap-in-versions in any of these states.
+          items:
+            $ref: '#/components/schemas/snap-in-version-state'
+          type: array
+      title: snap-in-versions-list-request
+      type: object
+    snap-in-versions-list-response:
+      properties:
+        next_cursor:
+          description: |
+            The cursor used to iterate subsequent results in accordance to the
+            sort order. If not set, then no later elements exist.
+          type: string
+        prev_cursor:
+          description: |
+            The cursor used to iterate preceding results in accordance to the
+            sort order. If not set, then no prior elements exist.
+          type: string
+        snap_in_versions:
+          description: List of snap-in versions.
+          items:
+            $ref: '#/components/schemas/snap-in-version'
+          type: array
+      required:
+      - snap_in_versions
+      title: snap-in-versions-list-response
+      type: object
+      x-go-name: SnapInVersionsListResponseBody
     snap-ins-delete-request:
       properties:
         id:
@@ -30692,8 +31380,6 @@ components:
             The leaf type. Should be specified to retrieve the default stage
             diagram for the leaf type. If not provided, then id is used.
           type: string
-      required:
-      - id
       title: stage-diagrams-get-request
       type: object
     stage-diagrams-get-response:
@@ -31816,6 +32502,22 @@ components:
             $ref: '#/components/schemas/ticket-severity'
         type: object
       title: ticket-summary
+    time-range:
+      description: A time range object.
+      properties:
+        end_time:
+          description: Timestamp representing the end of the time range.
+          format: date-time
+          type: string
+        start_time:
+          description: Timestamp representing the start of the time range.
+          format: date-time
+          type: string
+      required:
+      - end_time
+      - start_time
+      title: time-range
+      type: object
     timeline-change-event:
       allOf:
       - $ref: '#/components/schemas/timeline-entry-base'
@@ -32407,6 +33109,33 @@ components:
       - seconds
       title: timestamp
       type: object
+    track-event:
+      properties:
+        name:
+          description: Name of the event.
+          type: string
+        payload:
+          description: Payload of the event
+          type: object
+      required:
+      - name
+      - payload
+      title: track-event
+      type: object
+    track-events-publish-request:
+      properties:
+        events_list:
+          items:
+            $ref: '#/components/schemas/track-event'
+          type: array
+      required:
+      - events_list
+      title: track-events-publish-request
+      type: object
+    track-events-publish-response:
+      title: track-events-publish-response
+      type: object
+      x-go-name: TrackEventsPublishResponseBody
     translate-request:
       properties:
         contents:
@@ -33551,6 +34280,9 @@ components:
             type: array
           state:
             $ref: '#/components/schemas/user-state'
+          thumbnail:
+            description: The display picture of the user.
+            type: string
         type: object
       title: user-base
     user-base-summary:
@@ -33576,6 +34308,9 @@ components:
             type: string
           state:
             $ref: '#/components/schemas/user-state'
+          thumbnail:
+            description: The display picture of the user.
+            type: string
         type: object
       title: user-base-summary
     user-invitation-delete-request:
@@ -34387,6 +35122,11 @@ components:
           type: array
         domains:
           description: Array of domain for Accounts to be filtered.
+          items:
+            type: string
+          type: array
+        external_refs:
+          description: Array of references of Accounts to be filtered.
           items:
             type: string
           type: array
@@ -35823,28 +36563,12 @@ components:
       discriminator:
         mapping:
           works: '#/components/schemas/vistas-groups-update-request-works-group-item'
-        propertyName: filter_type
+        propertyName: object_type
       oneOf:
       - $ref: '#/components/schemas/vistas-groups-update-request-works-group-item'
       properties:
-        filter_type:
-          $ref: '#/components/schemas/grouped-vista-filter-type'
-      required:
-      - filter_type
-      title: vistas-groups-update-request
-      type: object
-    vistas-groups-update-request-works-group-item:
-      discriminator:
-        mapping:
-          curated: '#/components/schemas/vistas-groups-update-request-works-group-item-curated-group'
-          dynamic: '#/components/schemas/vistas-groups-update-request-works-group-item-dynamic-group'
-        propertyName: type
-      oneOf:
-      - $ref: '#/components/schemas/vistas-groups-update-request-works-group-item-curated-group'
-      - $ref: '#/components/schemas/vistas-groups-update-request-works-group-item-dynamic-group'
-      properties:
         custom_view:
-          $ref: '#/components/schemas/vistas-groups-update-request-works-group-item-custom-view'
+          $ref: '#/components/schemas/vistas-groups-update-request-custom-view'
         description:
           description: Updated description of the group.
           type: string
@@ -35861,14 +36585,57 @@ components:
         name:
           description: Updated name of the group.
           type: string
+        object_type:
+          $ref: '#/components/schemas/grouped-vista-filter-type'
         start_date:
           description: Timestamp when the vista starts.
           format: date-time
           type: string
+      required:
+      - id
+      - object_type
+      title: vistas-groups-update-request
+      type: object
+    vistas-groups-update-request-custom-view:
+      properties:
+        column_properties:
+          $ref: '#/components/schemas/vistas-groups-update-request-custom-view-column-properties'
+        show_groups:
+          description: Boolean to specify whether to show groups or not.
+          type: boolean
+      title: vistas-groups-update-request-custom-view
+      type: object
+    vistas-groups-update-request-custom-view-column-properties:
+      properties:
+        set:
+          description: Sets the column property items to provided list.
+          items:
+            $ref: '#/components/schemas/vistas-groups-update-request-custom-view-column-properties-column-property'
+          type: array
+      title: vistas-groups-update-request-custom-view-column-properties
+      type: object
+    vistas-groups-update-request-custom-view-column-properties-column-property:
+      properties:
+        name:
+          description: Name of the column.
+          type: string
+      required:
+      - name
+      title: vistas-groups-update-request-custom-view-column-properties-column-property
+      type: object
+    vistas-groups-update-request-works-group-item:
+      discriminator:
+        mapping:
+          curated: '#/components/schemas/vistas-groups-update-request-works-group-item-curated-group'
+          dynamic: '#/components/schemas/vistas-groups-update-request-works-group-item-dynamic-group'
+        propertyName: type
+      oneOf:
+      - $ref: '#/components/schemas/vistas-groups-update-request-works-group-item-curated-group'
+      - $ref: '#/components/schemas/vistas-groups-update-request-works-group-item-dynamic-group'
+      properties:
         type:
           $ref: '#/components/schemas/works-vista-group-item-type'
       required:
-      - id
       - type
       title: vistas-groups-update-request-works-group-item
       type: object
@@ -35906,33 +36673,6 @@ components:
       required:
       - id
       title: vistas-groups-update-request-works-group-item-curated-group-items-item-value
-      type: object
-    vistas-groups-update-request-works-group-item-custom-view:
-      properties:
-        column_properties:
-          $ref: '#/components/schemas/vistas-groups-update-request-works-group-item-custom-view-column-properties'
-        show_groups:
-          description: Boolean to specify whether to show groups or not.
-          type: boolean
-      title: vistas-groups-update-request-works-group-item-custom-view
-      type: object
-    vistas-groups-update-request-works-group-item-custom-view-column-properties:
-      properties:
-        set:
-          description: Sets the column property items to provided list.
-          items:
-            $ref: '#/components/schemas/vistas-groups-update-request-works-group-item-custom-view-column-properties-column-property'
-          type: array
-      title: vistas-groups-update-request-works-group-item-custom-view-column-properties
-      type: object
-    vistas-groups-update-request-works-group-item-custom-view-column-properties-column-property:
-      properties:
-        name:
-          description: Name of the column.
-          type: string
-      required:
-      - name
-      title: vistas-groups-update-request-works-group-item-custom-view-column-properties-column-property
       type: object
     vistas-groups-update-request-works-group-item-dynamic-group:
       properties:
@@ -36409,6 +37149,11 @@ components:
           type: array
         domains:
           description: Array of domain for Accounts to be filtered.
+          items:
+            type: string
+          type: array
+        external_refs:
+          description: Array of references of Accounts to be filtered.
           items:
             type: string
           type: array
@@ -37436,6 +38181,14 @@ components:
             The cursor to resume iteration from, otherwise if not provided,
             then iteration starts from the beginning.
           type: string
+        events:
+          description: |
+            The watch events that must be present. If empty, all watchers that
+            contain at least one watched event are returned, otherwise watchers
+            that contain at least one of the provided events will be returned.
+          items:
+            $ref: '#/components/schemas/watch-event'
+          type: array
         id:
           description: The object's ID.
           example: don:<partition>:core:devo/<dev-org-id>:<work-type>/<work-id>
@@ -40587,6 +41340,14 @@ paths:
           items:
             type: string
           type: array
+      - description: Array of references of Accounts to be filtered.
+        explode: false
+        in: query
+        name: external_refs
+        schema:
+          items:
+            type: string
+          type: array
       - description: |
           Filters for objects created after the provided timestamp (inclusive).
         explode: false
@@ -40758,6 +41519,39 @@ paths:
       tags:
       - accounts
       x-devrev-owner: akanksha.deswal@devrev.ai
+  /internal/accounts.delete.validate:
+    post:
+      description: Checks if an account can be deleted.
+      operationId: accounts-delete-validate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/accounts-delete-validate-request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accounts-delete-validate-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - accounts
+      x-devrev-owner: akanksha.deswal@devrev.ai
   /internal/accounts.get:
     get:
       description: |
@@ -40889,6 +41683,14 @@ paths:
         explode: false
         in: query
         name: domains
+        schema:
+          items:
+            type: string
+          type: array
+      - description: Array of references of Accounts to be filtered.
+        explode: false
+        in: query
+        name: external_refs
         schema:
           items:
             type: string
@@ -41089,6 +41891,14 @@ paths:
         explode: false
         in: query
         name: domains
+        schema:
+          items:
+            type: string
+          type: array
+      - description: Array of references of Accounts to be filtered.
+        explode: false
+        in: query
+        name: external_refs
         schema:
           items:
             type: string
@@ -41447,7 +42257,7 @@ paths:
         name: associativity
         schema:
           items:
-            $ref: '#/components/schemas/addon-rules-associativity'
+            $ref: '#/components/schemas/addon-rule-associativity'
           type: array
       - description: The list of addon rule DONs which are to be aggregated.
         explode: false
@@ -53071,9 +53881,40 @@ paths:
       tags:
       - notifications
       x-devrev-owner: UNKNOWN
+  /internal/oasis.data.create:
+    post:
+      description: Creates the Oasis data for the metric.
+      operationId: oasis-data-create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/oasis-data-create-request'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/oasis-data-create-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - oasis
+      x-devrev-owner: bhavani.hari@devrev.ai
   /internal/oasis.data.fetch:
     post:
-      description: Returns the Oasis data paths for the metric
+      description: Returns the Oasis data paths for the metric.
       operationId: oasis-data-fetch
       requestBody:
         content:
@@ -53104,7 +53945,7 @@ paths:
       x-devrev-owner: bhavani.hari@devrev.ai
   /internal/oasis.data.query:
     post:
-      description: Returns the Oasis data after executing the query
+      description: Returns the Oasis data after executing the query.
       operationId: oasis-data-query
       requestBody:
         content:
@@ -56933,6 +57774,17 @@ paths:
             type: string
           type: array
       - description: |
+          Filters for question-answer belonging to any of the provided parts.
+        explode: false
+        in: query
+        name: applies_to_parts
+        schema:
+          example:
+          - don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          items:
+            type: string
+          type: array
+      - description: |
           Filters for question-answers created after the timestamp provided.
         explode: false
         in: query
@@ -56991,6 +57843,16 @@ paths:
         schema:
           example:
           - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          items:
+            type: string
+          type: array
+      - description: Filters for question-answer with any of the provided tags.
+        explode: false
+        in: query
+        name: tags
+        schema:
+          example:
+          - don:<partition>:core:devo/<dev-org-id>:tag/<tag-id>
           items:
             type: string
           type: array
@@ -57855,6 +58717,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/rev-orgs-delete-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - rev-orgs
+      x-devrev-owner: akanksha.deswal@devrev.ai
+  /internal/rev-orgs.delete.validate:
+    post:
+      description: Checks if a Rev organization can be deleted.
+      operationId: rev-orgs-delete-validate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rev-orgs-delete-validate-request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rev-orgs-delete-validate-response'
           description: Success.
         "400":
           $ref: '#/components/responses/bad-request'
@@ -59705,6 +60600,43 @@ paths:
       tags:
       - rev-users
       x-devrev-owner: UNKNOWN
+  /internal/rev-users.merge:
+    post:
+      description: |
+        Merges the identity of a secondary Rev user with the primary Rev
+        user.The account of the secondary Rev user will be deleted.All objects
+        - issues, tickets, conversations etc. referencing the secondary Rev
+        user will be transferred to the primary Rev user.
+      operationId: rev-users-merge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rev-users-merge-request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rev-users-merge-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - rev-users
+      x-devrev-owner: UNKNOWN
   /internal/rev-users.sample-csv.get:
     get:
       description: |
@@ -60585,6 +61517,232 @@ paths:
           $ref: '#/components/responses/service-unavailable'
       tags:
       - rooms
+      x-devrev-owner: UNKNOWN
+  /internal/rules.create:
+    post:
+      description: Creates a rule for the specified inputs.
+      operationId: rules-create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rules-create-request'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rules-create-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - rules
+      x-devrev-owner: UNKNOWN
+  /internal/rules.delete:
+    post:
+      description: Delete the specified rule.
+      operationId: rules-delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rules-delete-request'
+      responses:
+        "200":
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - rules
+      x-devrev-owner: UNKNOWN
+  /internal/rules.get:
+    get:
+      description: Gets the specified rule.
+      operationId: rules-get
+      parameters:
+      - description: The ID of the requested rule.
+        explode: false
+        in: query
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rules-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - rules
+      x-devrev-owner: UNKNOWN
+    post:
+      description: Gets the specified rule.
+      operationId: rules-get-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rules-get-request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rules-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - rules
+      x-devrev-owner: UNKNOWN
+  /internal/rules.list:
+    get:
+      description: Lists rules matching the request.
+      operationId: rules-list
+      parameters:
+      - description: State of the rule.
+        explode: false
+        in: query
+        name: state
+        schema:
+          items:
+            type: string
+          type: array
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rules-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - rules
+      x-devrev-owner: UNKNOWN
+    post:
+      description: Lists rules matching the request.
+      operationId: rules-list-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rules-list-request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rules-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - rules
+      x-devrev-owner: UNKNOWN
+  /internal/rules.update:
+    post:
+      description: Updates the specified rule.
+      operationId: rules-update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rules-update-request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rules-update-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - rules
       x-devrev-owner: UNKNOWN
   /internal/schemas.aggregated.get:
     get:
@@ -64536,6 +65694,24 @@ paths:
           them.
         explode: false
         in: query
+        name: filters.process.exclude
+        schema:
+          type: boolean
+      - description: |
+          List of values to include/exclude. Required if any filters.process.*
+          fields are provided.
+        explode: false
+        in: query
+        name: filters.process.values
+        schema:
+          items:
+            $ref: '#/components/schemas/snap-in-packages-log-process-filter-log-process-enum'
+          type: array
+      - description: |
+          Exclude the specified values instead of (default behaviour) including
+          them.
+        explode: false
+        in: query
         name: filters.snap_in_package.exclude
         schema:
           type: boolean
@@ -64838,6 +66014,162 @@ paths:
       tags:
       - snap-in-versions
       x-devrev-owner: peter.marinsek@devrev.ai
+  /internal/snap-in-versions.list:
+    get:
+      description: |
+        ### Owner: harpinder.singh@devrev.ai
+        ### Lists snap-in versions for a Dev organization.
+      operationId: snap-in-versions-list
+      parameters:
+      - description: |
+          Filters for snap-in-versions created by any of these users.
+        explode: false
+        in: query
+        name: created_by
+        schema:
+          example:
+          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          items:
+            type: string
+          type: array
+      - description: |
+          Filters for objects created after the provided timestamp (inclusive).
+        explode: false
+        in: query
+        name: created_date.after
+        schema:
+          format: date-time
+          type: string
+      - description: |
+          Filters for objects created before the provided timestamp
+          (inclusive).
+        explode: false
+        in: query
+        name: created_date.before
+        schema:
+          format: date-time
+          type: string
+      - description: |
+          The cursor to resume iteration from. If not provided, then iteration
+          starts from the beginning.
+        explode: false
+        in: query
+        name: cursor
+        schema:
+          type: string
+      - description: |
+          The maximum number of snap-in versions to return. The default is
+          '50', the maximum is '100'.
+        explode: false
+        in: query
+        name: limit
+        schema:
+          format: int32
+          type: integer
+      - description: |
+          The iteration mode to use, otherwise if not set, then "after" is
+          used.
+        explode: false
+        in: query
+        name: mode
+        schema:
+          $ref: '#/components/schemas/list-mode'
+      - description: |
+          Filters for objects created after the provided timestamp (inclusive).
+        explode: false
+        in: query
+        name: modified_date.after
+        schema:
+          format: date-time
+          type: string
+      - description: |
+          Filters for objects created before the provided timestamp
+          (inclusive).
+        explode: false
+        in: query
+        name: modified_date.before
+        schema:
+          format: date-time
+          type: string
+      - description: |
+          Filters for snap-in-versions part of any of these packages.
+        explode: false
+        in: query
+        name: snap_in_package
+        schema:
+          items:
+            type: string
+          type: array
+      - description: |
+          Fields to sort the snap-in versions by and the direction to sort
+          them.
+        explode: false
+        in: query
+        name: sort_by
+        schema:
+          items:
+            type: string
+          type: array
+      - description: Filters for snap-in-versions in any of these states.
+        explode: false
+        in: query
+        name: state
+        schema:
+          items:
+            $ref: '#/components/schemas/snap-in-version-state'
+          type: array
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/snap-in-versions-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - snap-in-versions
+      x-devrev-owner: harpinder.singh@devrev.ai
+    post:
+      description: Lists snap-in versions for a Dev organization.
+      operationId: snap-in-versions-list-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/snap-in-versions-list-request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/snap-in-versions-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - snap-in-versions
+      x-devrev-owner: harpinder.singh@devrev.ai
   /internal/snap-ins.delete:
     post:
       description: Deletes a SnapIn.
@@ -65314,7 +66646,6 @@ paths:
         explode: false
         in: query
         name: id
-        required: true
         schema:
           type: string
       - description: |
@@ -66842,6 +68173,37 @@ paths:
       tags:
       - timeline-entries
       x-devrev-owner: UNKNOWN
+  /internal/track-events.publish:
+    post:
+      description: Allows publishing of events (example from plug widget).
+      operationId: track-events-publish
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/track-events-publish-request'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/track-events-publish-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - event-source
+      x-devrev-owner: UNKNOWN
   /internal/translate:
     post:
       description: Translates input text to specified target language.
@@ -68152,6 +69514,17 @@ paths:
         name: cursor
         schema:
           type: string
+      - description: |
+          The watch events that must be present. If empty, all watchers that
+          contain at least one watched event are returned, otherwise watchers
+          that contain at least one of the provided events will be returned.
+        explode: false
+        in: query
+        name: events
+        schema:
+          items:
+            $ref: '#/components/schemas/watch-event'
+          type: array
       - description: |
           The maximum number of watchers to return. If not set or `<= 0`, then
           this defaults to `50`.
@@ -71184,6 +72557,8 @@ tags:
   name: roles
 - description: Room management APIs.
   name: rooms
+- description: Rules APIs
+  name: rules
 - description: Management APIs for Availablility Schedules.
   name: schedules
 - description: DevRev search.
