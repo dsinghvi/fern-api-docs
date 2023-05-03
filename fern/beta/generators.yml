@@ -1,0 +1,12 @@
+default-group: sdks
+groups: 
+  sdks:
+    generators:
+      - name: fernapi/fern-typescript-sdk
+        version: 0.5.18
+        output:
+          location: npm
+          url: npm.buildwithfern.com
+          package-name: "@devrev-fern/beta"
+        config:
+          namespaceExport: DevRevBeta

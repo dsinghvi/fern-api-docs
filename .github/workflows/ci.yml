@@ -1,0 +1,41 @@
+name: ci
+
+on: [push]
+
+jobs:
+  fern-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install Fern
+        run: npm install -g fern-api
+
+      - name: Check Fern API is valid
+        run: fern check
+
+  generate-sdks:
+    needs: fern-check
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+
+      - name: Download Fern
+        run: npm install -g fern-api
+
+      - name: Release beta SDKs
+        env:
+          FERN_TOKEN: ${{ secrets.FERN_TOKEN }}
+        run: fern generate --api beta --log-level debug
+
+      - name: Release public SDKs
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          FERN_TOKEN: ${{ secrets.FERN_TOKEN }}
+        run: fern generate --api public --version ${{ github.ref_name }} --log-level debug
