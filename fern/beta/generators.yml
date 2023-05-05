@@ -6,7 +6,9 @@ groups:
         version: 0.5.18
         output:
           location: npm
-          url: npm.buildwithfern.com
-          package-name: "@devrev-fern/beta"
+          package-name: "@fern-api/devrev-beta"
+          token: ${NPM_TOKEN}
+        github:
+          repository: fern-devrev/devrev-node-beta
         config:
           namespaceExport: DevRevBeta
