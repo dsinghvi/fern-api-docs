@@ -87,7 +87,7 @@ components:
           type: array
         id:
           description: The generated artifact's ID.
-          example: don:<partition>:core:devo/<dev-org-id>:artifact/<artifact-id>
+          example: don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
           type: string
         url:
           description: The URL that the file's data should be uploaded to.
@@ -529,7 +529,7 @@ components:
           type: string
         org_traits:
           $ref: '#/components/schemas/auth-tokens-org-traits'
-        rev_user_id:
+        user_id:
           description: The unique ID of the Rev user.
           type: string
         user_ref:
@@ -537,8 +537,6 @@ components:
           type: string
         user_traits:
           $ref: '#/components/schemas/auth-tokens-user-traits'
-      required:
-      - user_ref
       title: auth-tokens-rev-info
       type: object
     auth-tokens-self-delete-request:
@@ -1087,7 +1085,7 @@ components:
       properties:
         id:
           description: The ID of the part that was deleted.
-          example: don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           type: string
       required:
       - id
@@ -1113,7 +1111,7 @@ components:
       properties:
         id:
           description: The ID of the Rev organization that was deleted.
-          example: don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           type: string
       required:
       - id
@@ -1139,7 +1137,7 @@ components:
       properties:
         id:
           description: The ID of the tag that was deleted.
-          example: don:<partition>:core:devo/<dev-org-id>:tag/<tag-id>
+          example: don:core:<partition>:devo/<dev-org-id>:tag/<tag-id>
           type: string
       required:
       - id
@@ -1165,6 +1163,7 @@ components:
       properties:
         id:
           description: The ID of the timeline entry that was deleted.
+          example: don:core:<partition>:devo/<dev-org-id>:ticket/123:timeline_event/<timeline-event-id>
           type: string
       required:
       - id
@@ -1190,7 +1189,7 @@ components:
       properties:
         id:
           description: The ID of the webhook that was deleted.
-          example: don:<partition>:integration:devo/<dev-org-id>:webhook/<webhook-id>
+          example: don:integration:<partition>:devo/<dev-org-id>:webhook/<webhook-id>
           type: string
       required:
       - id
@@ -1216,7 +1215,7 @@ components:
       properties:
         id:
           description: The ID of the work that was deleted.
-          example: don:<partition>:core:devo/<dev-org-id>:<work-type>/<work-id>
+          example: don:core:<partition>:devo/<dev-org-id>:<work-type>/<work-id>
           type: string
       required:
       - id
@@ -1428,7 +1427,7 @@ components:
         owned_by:
           description: The users that own the part.
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -1445,7 +1444,7 @@ components:
         parent_part:
           description: ID of the parent product for the capability.
           example:
-          - don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          - don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           items:
             type: string
           maxItems: 1
@@ -1460,7 +1459,7 @@ components:
           description: |
             ID of the parent part on which the enhancement is to be created.
           example:
-          - don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          - don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           items:
             type: string
           maxItems: 1
@@ -1479,7 +1478,7 @@ components:
         parent_part:
           description: ID of the parent capability/feature for the feature.
           example:
-          - don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          - don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           items:
             type: string
           maxItems: 1
@@ -1504,7 +1503,7 @@ components:
       properties:
         id:
           description: The ID of the part to delete.
-          example: don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           type: string
       required:
       - id
@@ -1565,7 +1564,7 @@ components:
           type: string
         id:
           description: The ID of the part to update.
-          example: don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           type: string
         name:
           description: The updated name of the part.
@@ -1600,7 +1599,7 @@ components:
             Sets the owner IDs to the provided user IDs. This must not be
             empty.
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -1694,7 +1693,7 @@ components:
       properties:
         id:
           description: The ID of Rev organization to delete.
-          example: don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           type: string
       required:
       - id
@@ -1762,7 +1761,7 @@ components:
           type: string
         id:
           description: The ID of Rev organization to update.
-          example: don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           type: string
         tier:
           description: The tier of the RevOrg.
@@ -1801,7 +1800,7 @@ components:
       properties:
         id:
           description: The ID of the tag.
-          example: don:<partition>:core:devo/<dev-org-id>:tag/<tag-id>
+          example: don:core:<partition>:devo/<dev-org-id>:tag/<tag-id>
           type: string
         value:
           description: |
@@ -1931,7 +1930,7 @@ components:
       properties:
         id:
           description: The ID of the tag to delete.
-          example: don:<partition>:core:devo/<dev-org-id>:tag/<tag-id>
+          example: don:core:<partition>:devo/<dev-org-id>:tag/<tag-id>
           type: string
       required:
       - id
@@ -1995,7 +1994,7 @@ components:
           type: string
         id:
           description: The ID of the tag to update.
-          example: don:<partition>:core:devo/<dev-org-id>:tag/<tag-id>
+          example: don:core:<partition>:devo/<dev-org-id>:tag/<tag-id>
           type: string
         name:
           description: |
@@ -2053,8 +2052,7 @@ components:
           body_type:
             $ref: '#/components/schemas/timeline-comment-body-type'
           snap_kit_body:
-            description: The SnapKit Body of the comment.
-            type: object
+            $ref: '#/components/schemas/timeline-snap-kit-body'
         type: object
       title: timeline-comment
     timeline-comment-body-type:
@@ -2074,7 +2072,7 @@ components:
       properties:
         object:
           description: The ID of the object to create the timeline entry for.
-          example: don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           type: string
         type:
           $ref: '#/components/schemas/timeline-entries-create-request-type'
@@ -2090,7 +2088,7 @@ components:
         artifacts:
           description: The IDs of the artifacts attached to the comment.
           example:
-          - don:<partition>:core:devo/<dev-org-id>:artifact/<artifact-id>
+          - don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
           items:
             type: string
           type: array
@@ -2100,8 +2098,7 @@ components:
         body_type:
           $ref: '#/components/schemas/timeline-comment-body-type'
         snap_kit_body:
-          description: The SnapKit body of the comment.
-          type: object
+          $ref: '#/components/schemas/timeline-snap-kit-body'
       title: timeline-entries-create-request-timeline-comment
       type: object
     timeline-entries-create-request-type:
@@ -2162,6 +2159,7 @@ components:
       properties:
         id:
           description: The ID of the timeline entry to update.
+          example: don:core:<partition>:devo/<dev-org-id>:ticket/123:timeline_event/<timeline-event-id>
           type: string
         type:
           $ref: '#/components/schemas/timeline-entries-update-request-type'
@@ -2180,8 +2178,7 @@ components:
         body_type:
           $ref: '#/components/schemas/timeline-comment-body-type'
         snap_kit_body:
-          description: The SnapKit body of the comment.
-          type: object
+          $ref: '#/components/schemas/timeline-snap-kit-body'
       title: timeline-entries-update-request-timeline-comment
       type: object
     timeline-entries-update-request-timeline-comment-artifacts:
@@ -2192,7 +2189,7 @@ components:
             added more than once, i.e. nothing is done if the artifact is
             already attached. Mutually exclusive with `set`.
           example:
-          - don:<partition>:core:devo/<dev-org-id>:artifact/<artifact-id>
+          - don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
           items:
             type: string
           type: array
@@ -2201,14 +2198,14 @@ components:
             Removes the provided artifacts from the comment. If an artifact is
             not present, then it's ignored. Mututally exclusive with `set`.
           example:
-          - don:<partition>:core:devo/<dev-org-id>:artifact/<artifact-id>
+          - don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
           items:
             type: string
           type: array
         set:
           description: Sets the field to the provided artifacts.
           example:
-          - don:<partition>:core:devo/<dev-org-id>:artifact/<artifact-id>
+          - don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
           items:
             type: string
           type: array
@@ -2253,11 +2250,34 @@ components:
     timeline-entry-visibility:
       description: |
         The visibility of the entry. If 'private', then the entry is only
-        visible to the creator, otherwise if not set, then the entry has
-        default visibility.
+        visible to the creator, 'internal' is visible with the Dev
+        organization, 'external' is visible to the Dev organzation and Rev
+        users, and 'public' is visible to all. If not set, then the default
+        visibility is 'external'.
       enum:
+      - external
+      - internal
       - private
+      - public
       type: string
+    timeline-snap-kit-body:
+      description: Snap Kit Body of the comment.
+      properties:
+        body:
+          description: The JSON body of the SnapKit.
+          type: object
+        snap_in_action_name:
+          description: |
+            The name of an action defined in the SnapIn. The combination of
+            snap_in_id and snap_in_action_name uniquely identifies the
+            interaction object which is to be called when actions on a snapkit
+            element is taken.
+          type: string
+        snap_in_id:
+          description: ID of the snap-in which created the SnapKit.
+          type: string
+      title: timeline-snap-kit-body
+      type: object
     user-base:
       allOf:
       - $ref: '#/components/schemas/atom-base'
@@ -2407,7 +2427,7 @@ components:
           $ref: '#/components/schemas/event-webhook-deleted'
         webhook_id:
           description: ID of the webhook for the event.
-          example: don:<partition>:integration:devo/<dev-org-id>:webhook/<webhook-id>
+          example: don:integration:<partition>:devo/<dev-org-id>:webhook/<webhook-id>
           type: string
         webhook_updated:
           $ref: '#/components/schemas/event-webhook-updated'
@@ -2511,7 +2531,7 @@ components:
       properties:
         id:
           description: ID for the webhook.
-          example: don:<partition>:integration:devo/<dev-org-id>:webhook/<webhook-id>
+          example: don:integration:<partition>:devo/<dev-org-id>:webhook/<webhook-id>
           type: string
       required:
       - id
@@ -2560,7 +2580,7 @@ components:
           $ref: '#/components/schemas/webhooks-update-request-event-types'
         id:
           description: ID for the webhook.
-          example: don:<partition>:integration:devo/<dev-org-id>:webhook/<webhook-id>
+          example: don:integration:<partition>:devo/<dev-org-id>:webhook/<webhook-id>
           type: string
         secret:
           description: |
@@ -2698,13 +2718,13 @@ components:
             The [part](https://devrev.ai/docs/product/parts) that the work
             applies to. Specifying a part is required when creating tickets and
             issues.
-          example: don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           type: string
         artifacts:
           description: |
             The IDs of the artifacts to associate with the work item.
           example:
-          - don:<partition>:core:devo/<dev-org-id>:artifact/<artifact-id>
+          - don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
           items:
             type: string
           type: array
@@ -2713,20 +2733,22 @@ components:
           type: string
         custom_schema_fragments:
           description: The custom schema fragments to use.
+          example:
+          - don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>
           items:
             type: string
           type: array
         owned_by:
           description: The users that own the work.
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
         reported_by:
           description: The users that reported the work.
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -2769,7 +2791,7 @@ components:
           type: string
         rev_org:
           description: The Rev organization that the ticket is associated with.
-          example: don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           type: string
         severity:
           $ref: '#/components/schemas/ticket-severity'
@@ -2788,7 +2810,7 @@ components:
       properties:
         id:
           description: The work's ID.
-          example: don:<partition>:core:devo/<dev-org-id>:<work-type>/<work-id>
+          example: don:core:<partition>:devo/<dev-org-id>:<work-type>/<work-id>
           type: string
       required:
       - id
@@ -2854,7 +2876,7 @@ components:
       properties:
         applies_to_part:
           description: Updates the part that the work applies to.
-          example: don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           type: string
         artifacts:
           $ref: '#/components/schemas/works-update-request-artifact-ids'
@@ -2864,12 +2886,14 @@ components:
           type: string
         custom_schema_fragments:
           description: The custom schema fragments to use.
+          example:
+          - don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>
           items:
             type: string
           type: array
         id:
           description: The work's ID.
-          example: don:<partition>:core:devo/<dev-org-id>:<work-type>/<work-id>
+          example: don:core:<partition>:devo/<dev-org-id>:<work-type>/<work-id>
           type: string
         owned_by:
           $ref: '#/components/schemas/works-update-request-owned-by'
@@ -2900,7 +2924,7 @@ components:
         set:
           description: Sets the IDs to the provided artifact IDs.
           example:
-          - don:<partition>:core:devo/<dev-org-id>:artifact/<artifact-id>
+          - don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
           items:
             type: string
           type: array
@@ -2923,7 +2947,7 @@ components:
             Sets the owner IDs to the provided user IDs. This must not be
             empty.
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -2935,7 +2959,7 @@ components:
           description: |
             Sets the users that reported the work to the provided user IDs.
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -2958,7 +2982,7 @@ components:
         rev_org:
           description: |
             Updates the Rev organization that the ticket is associated with.
-          example: don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           nullable: true
           type: string
         severity:
@@ -2999,7 +3023,7 @@ paths:
         name: id
         required: true
         schema:
-          example: don:<partition>:core:devo/<dev-org-id>:artifact/<artifact-id>
+          example: don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
           type: string
       responses:
         "200":
@@ -3650,7 +3674,7 @@ paths:
         name: id
         required: true
         schema:
-          example: don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           type: string
       responses:
         "200":
@@ -3687,7 +3711,7 @@ paths:
         name: created_by
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -3729,7 +3753,7 @@ paths:
         name: owned_by
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -3870,7 +3894,7 @@ paths:
         name: id
         required: true
         schema:
-          example: don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           type: string
       responses:
         "200":
@@ -4117,7 +4141,7 @@ paths:
         name: id
         required: true
         schema:
-          example: don:<partition>:core:devo/<dev-org-id>:tag/<tag-id>
+          example: don:core:<partition>:devo/<dev-org-id>:tag/<tag-id>
           type: string
       responses:
         "200":
@@ -4264,6 +4288,7 @@ paths:
         name: id
         required: true
         schema:
+          example: don:core:<partition>:devo/<dev-org-id>:ticket/123:timeline_event/<timeline-event-id>
           type: string
       responses:
         "200":
@@ -4299,7 +4324,7 @@ paths:
         name: object
         required: true
         schema:
-          example: don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           type: string
       - description: |
           The cursor to resume iteration from. If not provided, then iteration
@@ -4326,6 +4351,17 @@ paths:
         name: mode
         schema:
           $ref: '#/components/schemas/list-mode'
+      - description: |
+          The visibility of the timeline entries to filter for. Note this is a
+          strict filter, such that only entries with the exact visibilities
+          specified will be returned.
+        explode: false
+        in: query
+        name: visibility
+        schema:
+          items:
+            $ref: '#/components/schemas/timeline-entry-visibility'
+          type: array
       responses:
         "200":
           content:
@@ -4452,7 +4488,7 @@ paths:
         name: id
         required: true
         schema:
-          example: don:<partition>:integration:devo/<dev-org-id>:webhook/<webhook-id>
+          example: don:integration:<partition>:devo/<dev-org-id>:webhook/<webhook-id>
           type: string
       responses:
         "200":
@@ -4609,7 +4645,7 @@ paths:
         name: applies_to_part
         schema:
           example:
-          - don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          - don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           items:
             type: string
           type: array
@@ -4619,7 +4655,7 @@ paths:
         name: created_by
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -4647,7 +4683,7 @@ paths:
         name: issue.rev_orgs
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          - don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           items:
             type: string
           type: array
@@ -4657,7 +4693,7 @@ paths:
         name: owned_by
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -4665,6 +4701,14 @@ paths:
         explode: false
         in: query
         name: stage.name
+        schema:
+          items:
+            type: string
+          type: array
+      - description: Filters for tickets belonging to specific groups.
+        explode: false
+        in: query
+        name: ticket.group
         schema:
           items:
             type: string
@@ -4677,7 +4721,7 @@ paths:
         name: ticket.rev_org
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          - don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           items:
             type: string
           type: array
@@ -4729,7 +4773,7 @@ paths:
         name: id
         required: true
         schema:
-          example: don:<partition>:core:devo/<dev-org-id>:<work-type>/<work-id>
+          example: don:core:<partition>:devo/<dev-org-id>:<work-type>/<work-id>
           type: string
       responses:
         "200":
@@ -4765,7 +4809,7 @@ paths:
         name: applies_to_part
         schema:
           example:
-          - don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          - don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           items:
             type: string
           type: array
@@ -4775,7 +4819,7 @@ paths:
         name: created_by
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -4802,7 +4846,7 @@ paths:
         name: issue.rev_orgs
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          - don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           items:
             type: string
           type: array
@@ -4828,7 +4872,7 @@ paths:
         name: owned_by
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -4836,6 +4880,14 @@ paths:
         explode: false
         in: query
         name: stage.name
+        schema:
+          items:
+            type: string
+          type: array
+      - description: Filters for tickets belonging to specific groups.
+        explode: false
+        in: query
+        name: ticket.group
         schema:
           items:
             type: string
@@ -4848,7 +4900,7 @@ paths:
         name: ticket.rev_org
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          - don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           items:
             type: string
           type: array

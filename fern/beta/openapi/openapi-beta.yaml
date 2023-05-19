@@ -152,7 +152,7 @@ components:
         members:
           description: The users in the conversation.
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -182,7 +182,7 @@ components:
         artifacts:
           description: The IDs of the artifacts to the message.
           example:
-          - don:<partition>:core:devo/<dev-org-id>:artifact/<artifact-id>
+          - don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
           items:
             type: string
           type: array
@@ -284,6 +284,8 @@ components:
         status:
           description: The updated status of the conversation.
           type: string
+        tags:
+          $ref: '#/components/schemas/conversations-update-request-tags'
         title:
           description: The updated title of the conversation.
           type: string
@@ -296,11 +298,20 @@ components:
         set:
           description: Updates the parts that the conversation applies to.
           example:
-          - don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          - don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           items:
             type: string
           type: array
       title: conversations-update-request-applies-to-parts
+      type: object
+    conversations-update-request-tags:
+      properties:
+        set:
+          description: Sets the tag IDs to the provided tags.
+          items:
+            $ref: '#/components/schemas/set-tag-with-value'
+          type: array
+      title: conversations-update-request-tags
       type: object
     conversations-update-response:
       description: The response for updating a conversation.
@@ -434,66 +445,6 @@ components:
       title: custom-schema-fragments-set-response
       type: object
       x-go-name: CustomSchemaFragmentsSetResponseBody
-    custom-stage:
-      allOf:
-      - $ref: '#/components/schemas/atom-base'
-      title: custom-stage
-    custom-stages-get-response:
-      properties:
-        custom_stage:
-          $ref: '#/components/schemas/custom-stage'
-      required:
-      - custom_stage
-      title: custom-stages-get-response
-      type: object
-      x-go-name: CustomStagesGetResponseBody
-    custom-stages-list-response:
-      properties:
-        cursor:
-          description: |
-            The cursor to resume iteration from, otherwise if not provided,
-            then iteration starts from the beginning.
-          type: string
-        result:
-          description: The custom stages.
-          items:
-            $ref: '#/components/schemas/custom-stage'
-          type: array
-      required:
-      - result
-      title: custom-stages-list-response
-      type: object
-      x-go-name: CustomStagesListResponseBody
-    custom-state:
-      allOf:
-      - $ref: '#/components/schemas/atom-base'
-      title: custom-state
-    custom-states-get-response:
-      properties:
-        custom_state:
-          $ref: '#/components/schemas/custom-state'
-      required:
-      - custom_state
-      title: custom-states-get-response
-      type: object
-      x-go-name: CustomStatesGetResponseBody
-    custom-states-list-response:
-      properties:
-        cursor:
-          description: |
-            The cursor to resume iteration from, otherwise if not provided,
-            then iteration starts from the beginning.
-          type: string
-        result:
-          description: The custom states.
-          items:
-            $ref: '#/components/schemas/custom-state'
-          type: array
-      required:
-      - result
-      title: custom-states-list-response
-      type: object
-      x-go-name: CustomStatesListResponseBody
     dev-user-summary:
       allOf:
       - $ref: '#/components/schemas/user-base-summary'
@@ -828,7 +779,7 @@ components:
       properties:
         rev_org_don:
           description: The don of the rev org to link the rev user to.
-          example: don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           type: string
         user_don:
           description: The don of the rev user to link.
@@ -955,6 +906,15 @@ components:
       - after
       - before
       type: string
+    org-base:
+      allOf:
+      - $ref: '#/components/schemas/atom-base'
+      - properties:
+          display_name:
+            description: Name of the Organization.
+            type: string
+        type: object
+      title: org-base
     org-base-summary:
       allOf:
       - $ref: '#/components/schemas/atom-base-summary'
@@ -964,6 +924,14 @@ components:
             type: string
         type: object
       title: org-base-summary
+    org-environment:
+      description: |
+        The environment of the Org. Defaults to 'production' if not specified.
+      enum:
+      - production
+      - staging
+      - test
+      type: string
     org-summary:
       discriminator:
         mapping:
@@ -997,14 +965,186 @@ components:
       allOf:
       - $ref: '#/components/schemas/part-base-summary'
       title: product-summary
+    rev-org:
+      allOf:
+      - $ref: '#/components/schemas/org-base'
+      - properties:
+          custom_schema_fragments:
+            description: Custom schema fragments.
+            example:
+            - don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>
+            items:
+              type: string
+            type: array
+          description:
+            description: Description of the Rev organization.
+            type: string
+          domain:
+            description: Company's domain name. Example - 'devrev.ai'.
+            type: string
+          external_ref:
+            description: |
+              External ref is a unique identifier for the Rev (customer)
+              organization from your primary customer system of records. If none
+              is specified, a system-generated identifier will be assigned to the
+              organization.
+            type: string
+          stock_schema_fragment:
+            description: Stock schema fragment.
+            example: don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>
+            type: string
+        type: object
+      title: rev-org
     rev-org-summary:
       allOf:
       - $ref: '#/components/schemas/org-base-summary'
       title: rev-org-summary
+    rev-orgs-create-request:
+      description: |
+        Request object to create a new Rev organization in the Dev
+        organization.
+      properties:
+        custom_fields:
+          description: Application-defined custom fields.
+          type: object
+        custom_schema_fragments:
+          description: |
+            Schema fragment IDs associated with this Rev organization.
+          example:
+          - don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>
+          items:
+            type: string
+          type: array
+        description:
+          description: Description of the Rev organization.
+          type: string
+        display_name:
+          description: Name of the Rev organization.
+          type: string
+        domain:
+          description: Company's domain name. Example - 'devrev.ai'.
+          type: string
+        environment:
+          $ref: '#/components/schemas/org-environment'
+        external_ref:
+          description: |
+            External ref is a custom unique identifier which is a reference to
+            an unique id for this organization's data in some system of
+            records.
+          type: string
+        tier:
+          description: The tier of the RevOrg.
+          type: string
+      required:
+      - display_name
+      title: rev-orgs-create-request
+      type: object
+    rev-orgs-create-response:
+      description: |
+        Response object for request to create a new Rev organization.
+      properties:
+        rev_org:
+          $ref: '#/components/schemas/rev-org'
+      required:
+      - rev_org
+      title: rev-orgs-create-response
+      type: object
+      x-go-name: RevOrgsCreateResponseBody
+    rev-orgs-get-response:
+      description: The response to getting a Rev organization's information.
+      properties:
+        rev_org:
+          $ref: '#/components/schemas/rev-org'
+      required:
+      - rev_org
+      title: rev-orgs-get-response
+      type: object
+      x-go-name: RevOrgsGetResponseBody
+    rev-orgs-list-response:
+      description: |
+        The response to getting a list of Rev organizations' information.
+      properties:
+        next_cursor:
+          description: |
+            The cursor used to iterate subsequent results in accordance to the
+            sort order. If not set, then no later elements exist.
+          type: string
+        prev_cursor:
+          description: |
+            The cursor used to iterate preceding results in accordance to the
+            sort order. If not set, then no prior elements exist.
+          type: string
+        rev_orgs:
+          description: List with all of the Rev organizations' information.
+          items:
+            $ref: '#/components/schemas/rev-org'
+          type: array
+      required:
+      - rev_orgs
+      title: rev-orgs-list-response
+      type: object
+      x-go-name: RevOrgsListResponseBody
+    rev-orgs-update-request:
+      description: |
+        Request object to update information of the Rev organization.
+      properties:
+        custom_schema_fragments:
+          description: |
+            Schema fragment IDs associated with this Rev organization.
+          example:
+          - don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>
+          items:
+            type: string
+          type: array
+        description:
+          description: Description of the Rev organization.
+          type: string
+        display_name:
+          description: Customer chosen name for the Rev organization.
+          type: string
+        domain:
+          description: Company's domain name. Example - 'devrev.ai'.
+          type: string
+        environment:
+          $ref: '#/components/schemas/org-environment'
+        external_ref:
+          description: |
+            External ref is a custom unique identifier which is a reference to
+            an unique id for this organization's data in some system of
+            records.
+          type: string
+        id:
+          description: The ID of Rev organization to update.
+          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
+          type: string
+        tier:
+          description: The tier of the RevOrg.
+          type: string
+      required:
+      - id
+      title: rev-orgs-update-request
+      type: object
+    rev-orgs-update-response:
+      description: Response object to updating Rev organization's information.
+      properties:
+        rev_org:
+          $ref: '#/components/schemas/rev-org'
+      required:
+      - rev_org
+      title: rev-orgs-update-response
+      type: object
+      x-go-name: RevOrgsUpdateResponseBody
     rev-user:
       allOf:
       - $ref: '#/components/schemas/user-base'
       - properties:
+          custom_schema_fragments:
+            description: Custom schema fragments.
+            example:
+            - don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>
+            items:
+              type: string
+            type: array
           description:
             description: Description of the Rev user.
             type: string
@@ -1018,6 +1158,10 @@ components:
             type: string
           rev_org:
             $ref: '#/components/schemas/org-summary'
+          stock_schema_fragment:
+            description: Stock schema fragment.
+            example: don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>
+            type: string
         type: object
       title: rev-user
     rev-user-summary:
@@ -1040,6 +1184,16 @@ components:
       description: |
         Request object to create a new Rev user for a Rev organization.
       properties:
+        custom_fields:
+          description: Application-defined custom fields.
+          type: object
+        custom_schema_fragments:
+          description: The schema fragment IDs associated with the Rev user.
+          example:
+          - don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>
+          items:
+            type: string
+          type: array
         description:
           description: Description of the Rev user.
           type: string
@@ -1066,7 +1220,7 @@ components:
         rev_org:
           description: |
             The ID of Rev organization for which a Rev user is to be created.
-          example: don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           type: string
       required:
       - rev_org
@@ -1135,6 +1289,11 @@ components:
     rev-users-update-request:
       description: Request to update details of a Rev user.
       properties:
+        custom_fields:
+          description: Application-defined custom fields.
+          type: object
+        custom_schema_fragments:
+          $ref: '#/components/schemas/rev-users-update-request-custom-schema-fragments'
         description:
           description: Updated description of the Rev user.
           type: string
@@ -1153,6 +1312,17 @@ components:
       required:
       - id
       title: rev-users-update-request
+      type: object
+    rev-users-update-request-custom-schema-fragments:
+      properties:
+        set:
+          description: Sets the IDs to the provided schema fragment IDs.
+          example:
+          - don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>
+          items:
+            type: string
+          type: array
+      title: rev-users-update-request-custom-schema-fragments
       type: object
     rev-users-update-response:
       description: Updated Rev user object.
@@ -1355,7 +1525,7 @@ components:
           description: |
             Whether this field is filterable, groupable and sortable.
           type: boolean
-        is_personally_identifiable_information:
+        is_pii:
           description: |
             Whether this field can hold Personally Identifiable Information
             (PII).
@@ -1369,6 +1539,8 @@ components:
         origin:
           description: Type this field is from.
           type: string
+        ui:
+          $ref: '#/components/schemas/schema-field-ui-metadata'
       required:
       - name
       title: schema-field-descriptor-base
@@ -1387,6 +1559,14 @@ components:
       - timestamp
       - tokens
       type: string
+    schema-field-ui-metadata:
+      description: The schema of ui specific fields.
+      properties:
+        display_name:
+          description: Display name of the field.
+          type: string
+      title: schema-field-ui-metadata
+      type: object
     schema-id-field-descriptor:
       allOf:
       - $ref: '#/components/schemas/schema-field-descriptor-base'
@@ -1701,7 +1881,7 @@ components:
       properties:
         id:
           description: The ID of the tag.
-          example: don:<partition>:core:devo/<dev-org-id>:tag/<tag-id>
+          example: don:core:<partition>:devo/<dev-org-id>:tag/<tag-id>
           type: string
         value:
           description: |
@@ -1743,36 +1923,6 @@ components:
       description: Override for the allowed values of a stock field enum.
       title: stock-field-enum-override
       type: object
-    stock-schema-fragment:
-      allOf:
-      - $ref: '#/components/schemas/atom-base'
-      title: stock-schema-fragment
-    stock-schema-fragments-get-response:
-      properties:
-        fragment:
-          $ref: '#/components/schemas/stock-schema-fragment'
-      required:
-      - fragment
-      title: stock-schema-fragments-get-response
-      type: object
-      x-go-name: StockSchemaFragmentsGetResponseBody
-    stock-schema-fragments-list-response:
-      properties:
-        cursor:
-          description: |
-            The cursor to resume iteration from, otherwise if not provided,
-            then iteration starts from the beginning.
-          type: string
-        result:
-          description: The stock schema fragments.
-          items:
-            $ref: '#/components/schemas/stock-schema-fragment'
-          type: array
-      required:
-      - result
-      title: stock-schema-fragments-list-response
-      type: object
-      x-go-name: StockSchemaFragmentsListResponseBody
     subtype:
       properties:
         display_name:
@@ -1840,7 +1990,7 @@ components:
           type: string
         display_picture:
           description: Artifact ID of the system user's new display picture.
-          example: don:<partition>:core:devo/<dev-org-id>:artifact/<artifact-id>
+          example: don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
           nullable: true
           type: string
         full_name:
@@ -1898,8 +2048,7 @@ components:
           body_type:
             $ref: '#/components/schemas/timeline-comment-body-type'
           snap_kit_body:
-            description: The SnapKit Body of the comment.
-            type: object
+            $ref: '#/components/schemas/timeline-snap-kit-body'
         type: object
       title: timeline-comment
     timeline-comment-body-type:
@@ -1930,12 +2079,30 @@ components:
       enum:
       - timeline_comment
       type: string
+    timeline-snap-kit-body:
+      description: Snap Kit Body of the comment.
+      properties:
+        body:
+          description: The JSON body of the SnapKit.
+          type: object
+        snap_in_action_name:
+          description: |
+            The name of an action defined in the SnapIn. The combination of
+            snap_in_id and snap_in_action_name uniquely identifies the
+            interaction object which is to be called when actions on a snapkit
+            element is taken.
+          type: string
+        snap_in_id:
+          description: ID of the snap-in which created the SnapKit.
+          type: string
+      title: timeline-snap-kit-body
+      type: object
     unlink-rev-user-from-rev-org-request:
       description: A request to unlink a rev user from a rev org.
       properties:
         rev_org_don:
           description: The don of the rev org to unlink the rev user from.
-          example: don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           type: string
         user_don:
           description: The don of the rev user to unlink.
@@ -2132,7 +2299,7 @@ paths:
         name: applies_to_parts
         schema:
           example:
-          - don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          - don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           items:
             type: string
           type: array
@@ -2145,6 +2312,14 @@ paths:
         schema:
           format: int32
           type: integer
+      - description: Filters for conversation that belong to the given groups.
+        explode: false
+        in: query
+        name: group
+        schema:
+          items:
+            type: string
+          type: array
       - description: |
           Filters for conversations where these users are participants.
         explode: false
@@ -2152,7 +2327,7 @@ paths:
         name: members
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -2162,7 +2337,7 @@ paths:
         name: owned_by
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -2174,7 +2349,7 @@ paths:
         name: rev_org
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          - don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           items:
             type: string
           type: array
@@ -2201,7 +2376,7 @@ paths:
         name: tags
         schema:
           example:
-          - don:<partition>:core:devo/<dev-org-id>:tag/<tag-id>
+          - don:core:<partition>:devo/<dev-org-id>:tag/<tag-id>
           items:
             type: string
           type: array
@@ -2273,7 +2448,7 @@ paths:
         name: applies_to_parts
         schema:
           example:
-          - don:<partition>:core:devo/<dev-org-id>:<part-type>/<part-id>
+          - don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
           items:
             type: string
           type: array
@@ -2285,6 +2460,14 @@ paths:
         name: cursor
         schema:
           type: string
+      - description: Filters for conversation that belong to the given groups.
+        explode: false
+        in: query
+        name: group
+        schema:
+          items:
+            type: string
+          type: array
       - description: |
           The maximum number of conversations to return. The default is '50'.
         explode: false
@@ -2300,7 +2483,7 @@ paths:
         name: members
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -2318,7 +2501,7 @@ paths:
         name: owned_by
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:devu/<dev-user-id>
+          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
           items:
             type: string
           type: array
@@ -2330,7 +2513,7 @@ paths:
         name: rev_org
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          - don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           items:
             type: string
           type: array
@@ -2357,7 +2540,7 @@ paths:
         name: tags
         schema:
           example:
-          - don:<partition>:core:devo/<dev-org-id>:tag/<tag-id>
+          - don:core:<partition>:devo/<dev-org-id>:tag/<tag-id>
           items:
             type: string
           type: array
@@ -2599,6 +2782,231 @@ paths:
           $ref: '#/components/responses/service-unavailable'
       tags:
       - links
+  /rev-orgs.create:
+    post:
+      description: |
+        Creates a Rev organization in the authenticated user's Dev
+        organization.
+      operationId: rev-orgs-create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rev-orgs-create-request'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rev-orgs-create-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - rev-orgs
+  /rev-orgs.get:
+    get:
+      description: Retrieves the Rev organization's information.
+      operationId: rev-orgs-get
+      parameters:
+      - description: The ID of the required Rev organization.
+        explode: false
+        in: query
+        name: id
+        required: true
+        schema:
+          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rev-orgs-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - rev-orgs
+  /rev-orgs.list:
+    get:
+      description: |
+        Gets the list of Rev organizations' information belonging to the
+        authenticated user's Dev Organization which the user is also authorized
+        to access.
+      operationId: rev-orgs-list
+      parameters:
+      - description: Filters by creator.
+        explode: false
+        in: query
+        name: created_by
+        schema:
+          items:
+            type: string
+          type: array
+      - description: |
+          Filters for objects created after the provided timestamp (inclusive).
+        explode: false
+        in: query
+        name: created_date.after
+        schema:
+          format: date-time
+          type: string
+      - description: |
+          Filters for objects created before the provided timestamp
+          (inclusive).
+        explode: false
+        in: query
+        name: created_date.before
+        schema:
+          format: date-time
+          type: string
+      - description: |
+          The cursor to resume iteration from. If not provided, then iteration
+          starts from the beginning.
+        explode: false
+        in: query
+        name: cursor
+        schema:
+          type: string
+      - description: |
+          Filters on custom fields. Input will be of the format
+          (custom_field_filter=field_name1:val1,val2,val3&custom_field_filter=field_name2:val1,val2).
+        explode: false
+        in: query
+        name: custom_field_filter
+        schema:
+          items:
+            type: string
+          type: array
+      - description: List of external refs to filter Rev organizations for.
+        explode: false
+        in: query
+        name: external_ref
+        schema:
+          items:
+            type: string
+          type: array
+      - description: |
+          The maximum number of Rev organizations to be retrieved per page.
+        explode: false
+        in: query
+        name: limit
+        schema:
+          format: int32
+          type: integer
+      - description: |
+          The iteration mode to use, otherwise if not set, then "after" is
+          used.
+        explode: false
+        in: query
+        name: mode
+        schema:
+          $ref: '#/components/schemas/list-mode'
+      - description: |
+          Filters for objects created after the provided timestamp (inclusive).
+        explode: false
+        in: query
+        name: modified_date.after
+        schema:
+          format: date-time
+          type: string
+      - description: |
+          Filters for objects created before the provided timestamp
+          (inclusive).
+        explode: false
+        in: query
+        name: modified_date.before
+        schema:
+          format: date-time
+          type: string
+      - description: |
+          Fields to sort the Rev organizations by and the direction to sort
+          them.
+        explode: false
+        in: query
+        name: sort_by
+        schema:
+          items:
+            type: string
+          type: array
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rev-orgs-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - rev-orgs
+  /rev-orgs.update:
+    post:
+      description: Updates the Rev organization's information.
+      operationId: rev-orgs-update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rev-orgs-update-request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rev-orgs-update-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - rev-orgs
   /rev-users.create:
     post:
       description: |
@@ -2826,7 +3234,7 @@ paths:
         name: rev_org
         schema:
           example:
-          - don:<partition>:identity:devo/<dev-org-id>:revo/<rev-org-id>
+          - don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
           items:
             type: string
           type: array
@@ -3118,104 +3526,6 @@ paths:
           $ref: '#/components/responses/service-unavailable'
       tags:
       - customization
-  /schemas.stock.get:
-    get:
-      description: Gets a stock schema fragment.
-      operationId: stock-schema-fragments-get
-      parameters:
-      - description: The ID of the stock schema fragment.
-        explode: false
-        in: query
-        name: id
-        schema:
-          type: string
-      - description: The leaf type this fragment applies to.
-        explode: false
-        in: query
-        name: leaf_type
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/stock-schema-fragments-get-response'
-          description: Success.
-        "400":
-          $ref: '#/components/responses/bad-request'
-        "401":
-          $ref: '#/components/responses/unauthorized'
-        "403":
-          $ref: '#/components/responses/forbidden'
-        "404":
-          $ref: '#/components/responses/not-found'
-        "429":
-          $ref: '#/components/responses/too-many-requests'
-        "500":
-          $ref: '#/components/responses/internal-server-error'
-        "503":
-          $ref: '#/components/responses/service-unavailable'
-      tags:
-      - customization
-  /schemas.stock.list:
-    get:
-      description: Lists stock schema fragments.
-      operationId: stock-schema-fragments-list
-      parameters:
-      - description: |
-          The cursor to resume iteration from, otherwise if not provided, then
-          iteration starts from the beginning.
-        explode: false
-        in: query
-        name: cursor
-        schema:
-          type: string
-      - description: The list of leaf types.
-        explode: false
-        in: query
-        name: leaf_type
-        schema:
-          items:
-            type: string
-          type: array
-      - description: The maximum number of items.
-        explode: false
-        in: query
-        name: limit
-        schema:
-          format: int32
-          type: integer
-      - description: |
-          The list of fields to sort the items by and how to sort them.
-        explode: false
-        in: query
-        name: sort_by
-        schema:
-          items:
-            type: string
-          type: array
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/stock-schema-fragments-list-response'
-          description: Success.
-        "400":
-          $ref: '#/components/responses/bad-request'
-        "401":
-          $ref: '#/components/responses/unauthorized'
-        "403":
-          $ref: '#/components/responses/forbidden'
-        "429":
-          $ref: '#/components/responses/too-many-requests'
-        "500":
-          $ref: '#/components/responses/internal-server-error'
-        "503":
-          $ref: '#/components/responses/service-unavailable'
-      tags:
-      - customization
   /schemas.subtypes.list:
     get:
       description: Lists subtypes.
@@ -3234,228 +3544,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/subtypes-list-response'
-          description: Success.
-        "400":
-          $ref: '#/components/responses/bad-request'
-        "401":
-          $ref: '#/components/responses/unauthorized'
-        "403":
-          $ref: '#/components/responses/forbidden'
-        "429":
-          $ref: '#/components/responses/too-many-requests'
-        "500":
-          $ref: '#/components/responses/internal-server-error'
-        "503":
-          $ref: '#/components/responses/service-unavailable'
-      tags:
-      - customization
-  /stages.custom.get:
-    get:
-      description: Gets a custom stage.
-      operationId: custom-stages-get
-      parameters:
-      - description: The ID of the custom stage to get.
-        explode: false
-        in: query
-        name: id
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/custom-stages-get-response'
-          description: Success.
-        "400":
-          $ref: '#/components/responses/bad-request'
-        "401":
-          $ref: '#/components/responses/unauthorized'
-        "403":
-          $ref: '#/components/responses/forbidden'
-        "404":
-          $ref: '#/components/responses/not-found'
-        "429":
-          $ref: '#/components/responses/too-many-requests'
-        "500":
-          $ref: '#/components/responses/internal-server-error'
-        "503":
-          $ref: '#/components/responses/service-unavailable'
-      tags:
-      - customization
-  /stages.custom.list:
-    get:
-      description: Lists custom stages.
-      operationId: custom-stages-list
-      parameters:
-      - description: |
-          The cursor to resume iteration from, otherwise if not provided, then
-          iteration starts from the beginning.
-        explode: false
-        in: query
-        name: cursor
-        schema:
-          type: string
-      - description: The maximum number of items.
-        explode: false
-        in: query
-        name: limit
-        schema:
-          format: int32
-          type: integer
-      - description: ' Required if any marketplace_ref.* fields are provided.'
-        explode: false
-        in: query
-        name: marketplace_ref.id
-        schema:
-          type: string
-      - description: The list of stage names.
-        explode: false
-        in: query
-        name: name
-        schema:
-          items:
-            type: string
-          type: array
-      - description: The list of stage ordinals.
-        explode: false
-        in: query
-        name: ordinal
-        schema:
-          items:
-            format: int32
-            type: integer
-          type: array
-      - description: |
-          The list of fields to sort the items by and how to sort them.
-        explode: false
-        in: query
-        name: sort_by
-        schema:
-          items:
-            type: string
-          type: array
-      - description: ' Required if any state_id.* fields are provided.'
-        explode: false
-        in: query
-        name: state_id.id
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/custom-stages-list-response'
-          description: Success.
-        "400":
-          $ref: '#/components/responses/bad-request'
-        "401":
-          $ref: '#/components/responses/unauthorized'
-        "403":
-          $ref: '#/components/responses/forbidden'
-        "429":
-          $ref: '#/components/responses/too-many-requests'
-        "500":
-          $ref: '#/components/responses/internal-server-error'
-        "503":
-          $ref: '#/components/responses/service-unavailable'
-      tags:
-      - customization
-  /states.custom.get:
-    get:
-      description: Gets a custom state.
-      operationId: custom-states-get
-      parameters:
-      - description: The ID of the custom state to get.
-        explode: false
-        in: query
-        name: id
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/custom-states-get-response'
-          description: Success.
-        "400":
-          $ref: '#/components/responses/bad-request'
-        "401":
-          $ref: '#/components/responses/unauthorized'
-        "403":
-          $ref: '#/components/responses/forbidden'
-        "404":
-          $ref: '#/components/responses/not-found'
-        "429":
-          $ref: '#/components/responses/too-many-requests'
-        "500":
-          $ref: '#/components/responses/internal-server-error'
-        "503":
-          $ref: '#/components/responses/service-unavailable'
-      tags:
-      - customization
-  /states.custom.list:
-    get:
-      description: Lists custom states.
-      operationId: custom-states-list
-      parameters:
-      - description: |
-          The cursor to resume iteration from, otherwise if not provided, then
-          iteration starts from the beginning.
-        explode: false
-        in: query
-        name: cursor
-        schema:
-          type: string
-      - description: The list of final stage indicators.
-        explode: false
-        in: query
-        name: is_final
-        schema:
-          type: boolean
-      - description: The maximum number of items.
-        explode: false
-        in: query
-        name: limit
-        schema:
-          format: int32
-          type: integer
-      - description: The list of stage names.
-        explode: false
-        in: query
-        name: name
-        schema:
-          items:
-            type: string
-          type: array
-      - description: The list of stage ordinals.
-        explode: false
-        in: query
-        name: ordinal
-        schema:
-          items:
-            format: int32
-            type: integer
-          type: array
-      - description: |
-          The list of fields to sort the items by and how to sort them.
-        explode: false
-        in: query
-        name: sort_by
-        schema:
-          items:
-            type: string
-          type: array
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/custom-states-list-response'
           description: Success.
         "400":
           $ref: '#/components/responses/bad-request'
@@ -3582,6 +3670,8 @@ tags:
   name: customization
 - description: DevRev link interactions.
   name: links
+- description: Rev organization interactions.
+  name: rev-orgs
 - description: Rev user interactions.
   name: rev-users
 - description: System user interactions
