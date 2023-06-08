@@ -1,0 +1,19 @@
+navigation:
+  - section: Introduction
+    contents:
+      - page: Getting started
+        path: ./intro.md
+      - page: Authentication
+        path: ./auth.md
+      - page: Rate Limits
+        path: ./rate-limits.md
+  - api: API Reference
+  - section: Additional
+    contents:
+      - page: Webhooks
+        path: ./webhooks.md
+colors:
+  accentPrimary: '#ffffff'
+logo: ./devrev.png
+favicon: ./favicon.ico
+title: DevRev

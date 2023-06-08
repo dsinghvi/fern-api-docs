@@ -1,13 +1,17 @@
-groups: 
+groups:
   sdks:
     generators:
       - name: fernapi/fern-typescript-sdk
         version: 0.5.20
         output:
           location: npm
-          package-name: "@fern-api/devrev"
+          package-name: '@fern-api/devrev'
           token: ${NPM_TOKEN}
         github:
           repository: fern-devrev/devrev-node
         config:
           namespaceExport: DevRev
+  docs:
+    generators: []
+    docs:
+      domain: 'https://devrev.docs.dev.buildwithfern.com'
