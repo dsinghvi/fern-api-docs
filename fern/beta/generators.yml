@@ -3,7 +3,7 @@ groups:
   sdks:
     generators:
       - name: fernapi/fern-typescript-sdk
-        version: 0.5.20
+        version: 0.7.2
         output:
           location: npm
           package-name: "@fern-api/devrev-beta"

@@ -52,11 +52,28 @@ components:
       allOf:
       - $ref: '#/components/schemas/atom-base-summary'
       title: artifact-summary
+    artifacts-locate-request:
+      description: The request to get an artifact's download URL.
+      properties:
+        id:
+          description: The ID of the artifact to get the URL for.
+          example: ARTIFACT-12345
+          type: string
+        version:
+          description: The version of the artifact that needs to be fetched.
+          example: "2023-01-01T12:00:00.000Z"
+          format: date-time
+          type: string
+      required:
+      - id
+      title: artifacts-locate-request
+      type: object
     artifacts-locate-response:
       description: The response to getting an artifact's download URL.
       properties:
         expires_at:
           description: The expiration timestamp of the URL.
+          example: "2023-01-01T12:00:00.000Z"
           format: date-time
           type: string
         url:
@@ -87,7 +104,7 @@ components:
           type: array
         id:
           description: The generated artifact's ID.
-          example: don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
+          example: ARTIFACT-12345
           type: string
         url:
           description: The URL that the file's data should be uploaded to.
@@ -118,6 +135,7 @@ components:
           $ref: '#/components/schemas/user-summary'
         created_date:
           description: Timestamp when the object was created.
+          example: "2023-01-01T12:00:00.000Z"
           format: date-time
           type: string
         display_id:
@@ -130,6 +148,7 @@ components:
           $ref: '#/components/schemas/user-summary'
         modified_date:
           description: Timestamp when the object was last modified.
+          example: "2023-01-01T12:00:00.000Z"
           format: date-time
           type: string
       required:
@@ -284,10 +303,12 @@ components:
             type: string
           expires_at:
             description: The time at which the token expires.
+            example: "2023-01-01T12:00:00.000Z"
             format: date-time
             type: string
           issued_at:
             description: The time at which the token was issued.
+            example: "2023-01-01T12:00:00.000Z"
             format: date-time
             type: string
           requested_token_type:
@@ -315,9 +336,9 @@ components:
       type: string
       x-fern-enum:
         urn:devrev:params:oauth:grant-type:token-issue:
-          name: urn-devrev-params-oauth-grant-type-token-issue
+          name: urn_devrev_params_oauth_grant_type_token_issue
         urn:ietf:params:oauth:grant-type:token-exchange:
-          name: urn-ietf-params-oauth-grant-type-token-exchange
+          name: urn_ietf_params_oauth_grant_type_token_exchange
     auth-token-requested-token-type:
       description: The type of the requested token.
       enum:
@@ -328,28 +349,31 @@ components:
       - urn:devrev:params:oauth:token-type:rev
       - urn:devrev:params:oauth:token-type:session
       - urn:devrev:params:oauth:token-type:session:dev0
+      - urn:devrev:params:oauth:token-type:session:onetime
       - urn:devrev:params:oauth:token-type:sys
       - urn:ietf:params:oauth:token-type:jwt
       type: string
       x-fern-enum:
-        urn:devrev:params:oauth:token-type:aat:
-          name: urn-devrev-params-oauth-token-type-aat
-        urn:devrev:params:oauth:token-type:aat:public:
-          name: urn-devrev-params-oauth-token-type-aat-public
-        urn:devrev:params:oauth:token-type:dev:
-          name: urn-devrev-params-oauth-token-type-dev
-        urn:devrev:params:oauth:token-type:pat:
-          name: urn-devrev-params-oauth-token-type-pat
-        urn:devrev:params:oauth:token-type:rev:
-          name: urn-devrev-params-oauth-token-type-rev
-        urn:devrev:params:oauth:token-type:session:
-          name: urn-devrev-params-oauth-token-type-session
-        urn:devrev:params:oauth:token-type:session:dev0:
-          name: urn-devrev-params-oauth-token-type-session-dev0
-        urn:devrev:params:oauth:token-type:sys:
-          name: urn-devrev-params-oauth-token-type-sys
-        urn:ietf:params:oauth:token-type:jwt:
-          name: urn-ietf-params-oauth-token-type-jwt
+        urn:devrev:params:oauth:token_type:aat:
+          name: urn_devrev_params_oauth_token_type_aat
+        urn:devrev:params:oauth:token_type:aat:public:
+          name: urn_devrev_params_oauth_token_type_aat_public
+        urn:devrev:params:oauth:token_type:dev:
+          name: urn_devrev_params_oauth_token_type_dev
+        urn:devrev:params:oauth:token_type:pat:
+          name: urn_devrev_params_oauth_token_type_pat
+        urn:devrev:params:oauth:token_type:rev:
+          name: urn_devrev_params_oauth_token_type_rev
+        urn:devrev:params:oauth:token_type:session:
+          name: urn_devrev_params_oauth_token_type_session
+        urn:devrev:params:oauth:token_type:session:dev0:
+          name: urn_devrev_params_oauth_token_type_session_dev0
+        urn:devrev:params:oauth:token_type:session:onetime:
+          name: urn_devrev_params_oauth_token_type_session_onetime
+        urn:devrev:params:oauth:token_type:sys:
+          name: urn_devrev_params_oauth_token_type_sys
+        urn:ietf:params:oauth:token_type:jwt:
+          name: urn_ietf_params_oauth_token_type_jwt
     auth-token-status:
       description: The status of the token.
       enum:
@@ -363,26 +387,29 @@ components:
       - urn:devrev:params:oauth:token-type:jwt:auth0
       - urn:devrev:params:oauth:token-type:jwt:dev
       - urn:devrev:params:oauth:token-type:revinfo
+      - urn:devrev:params:oauth:token-type:session
       - urn:devrev:params:oauth:token-type:sysu
       - urn:devrev:params:oauth:token-type:userinfo
       - urn:devrev:params:oauth:token-type:userinfo:profile
       - urn:ietf:params:oauth:token-type:jwt
       type: string
       x-fern-enum:
-        urn:devrev:params:oauth:token-type:jwt:auth0:
-          name: urn-devrev-params-oauth-token-type-jwt-auth0
-        urn:devrev:params:oauth:token-type:jwt:dev:
-          name: urn-devrev-params-oauth-token-type-jwt-dev
-        urn:devrev:params:oauth:token-type:revinfo:
-          name: urn-devrev-params-oauth-token-type-revinfo
-        urn:devrev:params:oauth:token-type:sysu:
-          name: urn-devrev-params-oauth-token-type-sysu
-        urn:devrev:params:oauth:token-type:userinfo:
-          name: urn-devrev-params-oauth-token-type-userinfo
-        urn:devrev:params:oauth:token-type:userinfo:profile:
-          name: urn-devrev-params-oauth-token-type-userinfo-profile
-        urn:ietf:params:oauth:token-type:jwt:
-          name: urn-ietf-params-oauth-token-type-jwt
+        urn:devrev:params:oauth:token_type:jwt:auth0:
+          name: urn_devrev_params_oauth_token_type_jwt_auth0
+        urn:devrev:params:oauth:token_type:jwt:dev:
+          name: urn_devrev_params_oauth_token_type_jwt_dev
+        urn:devrev:params:oauth:token_type:revinfo:
+          name: urn_devrev_params_oauth_token_type_revinfo
+        urn:devrev:params:oauth:token_type:session:
+          name: urn_devrev_params_oauth_token_type_session
+        urn:devrev:params:oauth:token_type:sysu:
+          name: urn_devrev_params_oauth_token_type_sysu
+        urn:devrev:params:oauth:token_type:userinfo:
+          name: urn_devrev_params_oauth_token_type_userinfo
+        urn:devrev:params:oauth:token_type:userinfo:profile:
+          name: urn_devrev_params_oauth_token_type_userinfo_profile
+        urn:ietf:params:oauth:token_type:jwt:
+          name: urn_ietf_params_oauth_token_type_jwt
     auth-token-token-type:
       description: |
         The type of the issued token. Bearer is the only supported token type.
@@ -485,6 +512,17 @@ components:
           type: string
       title: auth-tokens-delete-request
       type: object
+    auth-tokens-get-request:
+      description: The request to get the token metadata.
+      properties:
+        token_id:
+          description: |
+            The unique identifier of the token under a given Dev organization.
+          type: string
+      required:
+      - token_id
+      title: auth-tokens-get-request
+      type: object
     auth-tokens-get-response:
       description: The response to get the token metadata.
       properties:
@@ -495,6 +533,24 @@ components:
       title: auth-tokens-get-response
       type: object
       x-go-name: AuthTokensGetResponseBody
+    auth-tokens-list-request:
+      description: A request to list the token metadata.
+      properties:
+        client_id:
+          description: |
+            An identifier that represents the application, which requested the
+            token. Only relevant for application access tokens.
+          type: string
+        requested_token_type:
+          $ref: '#/components/schemas/auth-token-requested-token-type'
+        subject:
+          description: |
+            The subject associated with the token. In the absence of this
+            parameter, the ID of the authenticated entity is treated as the
+            subject.
+          type: string
+      title: auth-tokens-list-request
+      type: object
     auth-tokens-list-response:
       description: The response to list the token metadata.
       properties:
@@ -576,6 +632,9 @@ components:
     auth-tokens-user-traits:
       description: Carries Rev user info.
       properties:
+        custom_fields:
+          description: Application-defined custom fields.
+          type: object
         display_name:
           description: The display name of the Rev user.
           type: string
@@ -585,6 +644,11 @@ components:
         full_name:
           description: The full name of the Rev user.
           type: string
+        phone_numbers:
+          description: Phone numbers of the Rev user.
+          items:
+            type: string
+          type: array
       title: auth-tokens-user-traits
       type: object
     capability:
@@ -595,6 +659,96 @@ components:
       allOf:
       - $ref: '#/components/schemas/part-base-summary'
       title: capability-summary
+    date-filter:
+      description: Provides ways to specify date ranges on objects.
+      discriminator:
+        mapping:
+          preset: '#/components/schemas/date-time-preset'
+          range: '#/components/schemas/date-time-filter'
+        propertyName: type
+      oneOf:
+      - $ref: '#/components/schemas/date-time-filter'
+      - $ref: '#/components/schemas/date-time-preset'
+      properties:
+        type:
+          $ref: '#/components/schemas/date-filter-type'
+      required:
+      - type
+      title: date-filter
+      type: object
+    date-filter-type:
+      description: Type of date filter.
+      enum:
+      - preset
+      - range
+      type: string
+    date-time-filter:
+      properties:
+        after:
+          description: |
+            Filters for objects created after the provided timestamp
+            (inclusive).
+          example: "2023-01-01T12:00:00.000Z"
+          format: date-time
+          type: string
+        before:
+          description: |
+            Filters for objects created before the provided timestamp
+            (inclusive).
+          example: "2023-01-01T12:00:00.000Z"
+          format: date-time
+          type: string
+      title: date-time-filter
+      type: object
+    date-time-preset:
+      description: Provides preset types for date filter.
+      discriminator:
+        mapping:
+          last_n_days: '#/components/schemas/date-time-preset-last-n-days'
+          next_n_days: '#/components/schemas/date-time-preset-next-n-days'
+        propertyName: preset_type
+      oneOf:
+      - $ref: '#/components/schemas/date-time-preset-last-n-days'
+      - $ref: '#/components/schemas/date-time-preset-next-n-days'
+      properties:
+        preset_type:
+          $ref: '#/components/schemas/date-time-preset-type'
+      required:
+      - preset_type
+      title: date-time-preset
+      type: object
+    date-time-preset-last-n-days:
+      properties:
+        days:
+          description: |
+            The range starts from the current timestamp and continues for the
+            past n days.
+          maximum: 4294967295
+          minimum: 0
+          type: integer
+      required:
+      - days
+      title: date-time-preset-last-n-days
+      type: object
+    date-time-preset-next-n-days:
+      properties:
+        days:
+          description: |
+            The range starts from the current timestamp and continues for the
+            next n days.
+          maximum: 4294967295
+          minimum: 0
+          type: integer
+      required:
+      - days
+      title: date-time-preset-next-n-days
+      type: object
+    date-time-preset-type:
+      description: Type of date preset.
+      enum:
+      - last_n_days
+      - next_n_days
+      type: string
     dev-org-auth-connections-create-request:
       description: |
         Request to create a new enterprise authentication connection.
@@ -659,6 +813,18 @@ components:
       - id
       title: dev-org-auth-connections-delete-request
       type: object
+    dev-org-auth-connections-get-request:
+      description: |
+        Request to get configuration details of organization's authentication
+        Connection.
+      properties:
+        id:
+          description: ID of the authentication connection.
+          type: string
+      required:
+      - id
+      title: dev-org-auth-connections-get-request
+      type: object
     dev-org-auth-connections-get-response:
       description: |
         Response object encapsulating the configuration details of an
@@ -719,6 +885,7 @@ components:
       - $ref: '#/components/schemas/auth-connection-options-google-apps'
       - $ref: '#/components/schemas/auth-connection-options-oidc'
       - $ref: '#/components/schemas/auth-connection-options-saml'
+      - $ref: '#/components/schemas/empty'
       properties:
         display_name:
           description: |
@@ -735,7 +902,6 @@ components:
           $ref: '#/components/schemas/dev-org-auth-connections-update-request-type'
       required:
       - id
-      - type
       title: dev-org-auth-connections-update-request
       type: object
     dev-org-auth-connections-update-request-type:
@@ -777,6 +943,59 @@ components:
       allOf:
       - $ref: '#/components/schemas/user-base-summary'
       title: dev-user-summary
+    dev-users-get-request:
+      description: A request to get a Dev user's information.
+      properties:
+        id:
+          description: User ID of the requested Dev user.
+          type: string
+      required:
+      - id
+      title: dev-users-get-request
+      type: object
+    dev-users-get-response:
+      description: The response to getting the information for the Dev user.
+      properties:
+        dev_user:
+          $ref: '#/components/schemas/dev-user'
+      required:
+      - dev_user
+      title: dev-users-get-response
+      type: object
+      x-go-name: DevUsersGetResponseBody
+    dev-users-list-request:
+      description: A request to get the list of Dev user's information.
+      properties:
+        cursor:
+          description: |
+            The cursor to resume iteration from. If not provided, then
+            iteration starts from the beginning.
+          type: string
+        email:
+          description: Filters Dev users based on email addresses.
+          items:
+            type: string
+          type: array
+        limit:
+          description: |
+            The maximum number of Dev users to return. The default is '50'.
+          format: int32
+          type: integer
+        mode:
+          $ref: '#/components/schemas/list-mode'
+        sort_by:
+          description: |
+            Fields to sort the Dev users by and the direction to sort them.
+          items:
+            type: string
+          type: array
+        state:
+          description: Filters Dev users based on state.
+          items:
+            $ref: '#/components/schemas/user-state'
+          type: array
+      title: dev-users-list-request
+      type: object
     dev-users-list-response:
       description: The response to listing the Dev users.
       properties:
@@ -800,6 +1019,10 @@ components:
       title: dev-users-list-response
       type: object
       x-go-name: DevUsersListResponseBody
+    dev-users-self-request:
+      description: A request to get the authenticated user's information.
+      title: dev-users-self-request
+      type: object
     dev-users-self-response:
       description: |
         The response to getting the information for the authenticated user.
@@ -817,12 +1040,6 @@ components:
     enhancement:
       allOf:
       - $ref: '#/components/schemas/part-base'
-      - properties:
-          target_close_date:
-            description: Timestamp when the enhancement is expected to be closed.
-            format: date-time
-            type: string
-        type: object
       title: enhancement
     enhancement-summary:
       allOf:
@@ -836,6 +1053,7 @@ components:
             bad_request: '#/components/schemas/error-bad-request-bad-request'
             invalid_enum_value: '#/components/schemas/error-bad-request-invalid-enum-value'
             invalid_field: '#/components/schemas/error-bad-request-invalid-field'
+            missing_dependency: '#/components/schemas/error-bad-request-missing-dependency'
             missing_required_field: '#/components/schemas/error-bad-request-missing-required-field'
             parse_error: '#/components/schemas/error-bad-request-parse-error'
             value_not_permitted: '#/components/schemas/error-bad-request-value-not-permitted'
@@ -844,6 +1062,7 @@ components:
         - $ref: '#/components/schemas/error-bad-request-bad-request'
         - $ref: '#/components/schemas/error-bad-request-invalid-enum-value'
         - $ref: '#/components/schemas/error-bad-request-invalid-field'
+        - $ref: '#/components/schemas/error-bad-request-missing-dependency'
         - $ref: '#/components/schemas/error-bad-request-missing-required-field'
         - $ref: '#/components/schemas/error-bad-request-parse-error'
         - $ref: '#/components/schemas/error-bad-request-value-not-permitted'
@@ -885,6 +1104,22 @@ components:
       - field_name
       title: error-bad-request-invalid-field
       type: object
+    error-bad-request-missing-dependency:
+      properties:
+        dependent_field_name:
+          description: The field on which the value depends.
+          type: string
+        dependent_field_value:
+          description: The value which needs to be set of the dependent field.
+          type: string
+        provided_field_name:
+          description: The field whose value was received.
+          type: string
+        provided_field_value:
+          description: The value that was received.
+          type: string
+      title: error-bad-request-missing-dependency
+      type: object
     error-bad-request-missing-required-field:
       properties:
         field_name:
@@ -902,6 +1137,7 @@ components:
       - bad_request
       - invalid_enum_value
       - invalid_field
+      - missing_dependency
       - missing_required_field
       - parse_error
       - value_not_permitted
@@ -920,6 +1156,9 @@ components:
       type: object
     error-base:
       properties:
+        detail:
+          description: Error detail information.
+          type: string
         message:
           description: The message associated with the error.
           type: string
@@ -1085,7 +1324,7 @@ components:
       properties:
         id:
           description: The ID of the part that was deleted.
-          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
+          example: PROD-12345
           type: string
       required:
       - id
@@ -1111,7 +1350,7 @@ components:
       properties:
         id:
           description: The ID of the Rev organization that was deleted.
-          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
+          example: REV-AbCdEfGh
           type: string
       required:
       - id
@@ -1125,6 +1364,31 @@ components:
       - rev_org
       title: event-rev-org-updated
       type: object
+    event-rev-user-created:
+      properties:
+        rev_user:
+          $ref: '#/components/schemas/rev-user'
+      required:
+      - rev_user
+      title: event-rev-user-created
+      type: object
+    event-rev-user-deleted:
+      properties:
+        id:
+          description: The ID of the Rev user that was deleted.
+          type: string
+      required:
+      - id
+      title: event-rev-user-deleted
+      type: object
+    event-rev-user-updated:
+      properties:
+        rev_user:
+          $ref: '#/components/schemas/rev-user'
+      required:
+      - rev_user
+      title: event-rev-user-updated
+      type: object
     event-tag-created:
       properties:
         tag:
@@ -1137,7 +1401,7 @@ components:
       properties:
         id:
           description: The ID of the tag that was deleted.
-          example: don:core:<partition>:devo/<dev-org-id>:tag/<tag-id>
+          example: TAG-12345
           type: string
       required:
       - id
@@ -1215,7 +1479,7 @@ components:
       properties:
         id:
           description: The ID of the work that was deleted.
-          example: don:core:<partition>:devo/<dev-org-id>:<work-type>/<work-id>
+          example: ISS-12345
           type: string
       required:
       - id
@@ -1316,6 +1580,26 @@ components:
       enum:
       - rev_org
       type: string
+    parent-part-filter:
+      description: The filter for specifying parent part.
+      properties:
+        level:
+          description: Number of levels to fetch the part hierarchy up to.
+          format: int32
+          minimum: 1
+          type: integer
+        parts:
+          description: Part IDs to fetch the hierarchy for.
+          example:
+          - PROD-12345
+          items:
+            type: string
+          minItems: 1
+          type: array
+      required:
+      - parts
+      title: parent-part-filter
+      type: object
     part:
       discriminator:
         mapping:
@@ -1418,6 +1702,13 @@ components:
       - $ref: '#/components/schemas/parts-create-request-feature'
       - $ref: '#/components/schemas/parts-create-request-product'
       properties:
+        artifacts:
+          description: The IDs of the artifacts.
+          example:
+          - ARTIFACT-12345
+          items:
+            type: string
+          type: array
         description:
           description: Description of the part.
           type: string
@@ -1427,7 +1718,7 @@ components:
         owned_by:
           description: The users that own the part.
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
+          - DEVU-12345
           items:
             type: string
           type: array
@@ -1444,7 +1735,7 @@ components:
         parent_part:
           description: ID of the parent product for the capability.
           example:
-          - don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
+          - PROD-12345
           items:
             type: string
           maxItems: 1
@@ -1459,7 +1750,7 @@ components:
           description: |
             ID of the parent part on which the enhancement is to be created.
           example:
-          - don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
+          - PROD-12345
           items:
             type: string
           maxItems: 1
@@ -1467,6 +1758,14 @@ components:
         target_close_date:
           description: |
             Target close date by which enhancement is expected to be closed.
+          example: "2023-01-01T12:00:00.000Z"
+          format: date-time
+          type: string
+        target_start_date:
+          description: |
+            Target start date by which enhancement is expected to be started.
+            Example Date Format: 2000-11-01T01:01:01Z
+          example: "2023-01-01T12:00:00.000Z"
           format: date-time
           type: string
       required:
@@ -1478,7 +1777,7 @@ components:
         parent_part:
           description: ID of the parent capability/feature for the feature.
           example:
-          - don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
+          - PROD-12345
           items:
             type: string
           maxItems: 1
@@ -1503,7 +1802,7 @@ components:
       properties:
         id:
           description: The ID of the part to delete.
-          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
+          example: PROD-12345
           type: string
       required:
       - id
@@ -1513,6 +1812,16 @@ components:
       title: parts-delete-response
       type: object
       x-go-name: PartsDeleteResponseBody
+    parts-get-request:
+      properties:
+        id:
+          description: The ID of the part to retrieve.
+          example: PROD-12345
+          type: string
+      required:
+      - id
+      title: parts-get-request
+      type: object
     parts-get-response:
       properties:
         part:
@@ -1522,6 +1831,48 @@ components:
       title: parts-get-response
       type: object
       x-go-name: PartsGetResponseBody
+    parts-list-request:
+      properties:
+        created_by:
+          description: Filters for parts created by any of these users.
+          example:
+          - DEVU-12345
+          items:
+            type: string
+          type: array
+        cursor:
+          description: |
+            The cursor to resume iteration from. If not provided, then
+            iteration starts from the beginning.
+          type: string
+        limit:
+          description: |
+            The maximum number of parts to return. The default is '50'.
+          format: int32
+          type: integer
+        mode:
+          $ref: '#/components/schemas/list-mode'
+        name:
+          description: Filters for parts of the provided name(s).
+          items:
+            type: string
+          type: array
+        owned_by:
+          description: Filters for parts owned by any of these users.
+          example:
+          - DEVU-12345
+          items:
+            type: string
+          type: array
+        parent_part:
+          $ref: '#/components/schemas/parent-part-filter'
+        type:
+          description: Filters for parts of the provided type(s).
+          items:
+            $ref: '#/components/schemas/part-type'
+          type: array
+      title: parts-list-request
+      type: object
     parts-list-response:
       properties:
         next_cursor:
@@ -1554,17 +1905,20 @@ components:
           product: '#/components/schemas/parts-update-request-product'
         propertyName: type
       oneOf:
+      - $ref: '#/components/schemas/empty'
       - $ref: '#/components/schemas/parts-update-request-capability'
       - $ref: '#/components/schemas/parts-update-request-enhancement'
       - $ref: '#/components/schemas/parts-update-request-feature'
       - $ref: '#/components/schemas/parts-update-request-product'
       properties:
+        artifacts:
+          $ref: '#/components/schemas/parts-update-request-artifacts'
         description:
           description: The updated description of the part.
           type: string
         id:
           description: The ID of the part to update.
-          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
+          example: PROD-12345
           type: string
         name:
           description: The updated name of the part.
@@ -1575,8 +1929,18 @@ components:
           $ref: '#/components/schemas/part-type'
       required:
       - id
-      - type
       title: parts-update-request
+      type: object
+    parts-update-request-artifacts:
+      properties:
+        set:
+          description: Sets the artifacts to the provided IDs.
+          example:
+          - ARTIFACT-12345
+          items:
+            type: string
+          type: array
+      title: parts-update-request-artifacts
       type: object
     parts-update-request-capability:
       title: parts-update-request-capability
@@ -1585,6 +1949,14 @@ components:
       properties:
         target_close_date:
           description: Updates the target close date of the enhancement.
+          example: "2023-01-01T12:00:00.000Z"
+          format: date-time
+          type: string
+        target_start_date:
+          description: |
+            Updates the target start date of the enhancement. Example Date
+            Format: 2000-11-01T01:01:01Z
+          example: "2023-01-01T12:00:00.000Z"
           format: date-time
           type: string
       title: parts-update-request-enhancement
@@ -1599,7 +1971,7 @@ components:
             Sets the owner IDs to the provided user IDs. This must not be
             empty.
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
+          - DEVU-12345
           items:
             type: string
           type: array
@@ -1693,7 +2065,7 @@ components:
       properties:
         id:
           description: The ID of Rev organization to delete.
-          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
+          example: REV-AbCdEfGh
           type: string
       required:
       - id
@@ -1704,6 +2076,21 @@ components:
       title: rev-orgs-delete-response
       type: object
       x-go-name: RevOrgsDeleteResponseBody
+    rev-orgs-get-request:
+      description: Request object to get Rev organization's information.
+      properties:
+        account:
+          description: |
+            The ID of account for which default Rev organization is to be
+            fetched.
+          example: ACC-12345
+          type: string
+        id:
+          description: The ID of the required Rev organization.
+          example: REV-AbCdEfGh
+          type: string
+      title: rev-orgs-get-request
+      type: object
     rev-orgs-get-response:
       description: The response to getting a Rev organization's information.
       properties:
@@ -1714,6 +2101,46 @@ components:
       title: rev-orgs-get-response
       type: object
       x-go-name: RevOrgsGetResponseBody
+    rev-orgs-list-request:
+      description: |
+        A request to get the list of Rev organizations for the authenticated
+        user's Dev organization.
+      properties:
+        created_by:
+          description: Filters by creator.
+          items:
+            type: string
+          type: array
+        created_date:
+          $ref: '#/components/schemas/date-time-filter'
+        cursor:
+          description: |
+            The cursor to resume iteration from. If not provided, then
+            iteration starts from the beginning.
+          type: string
+        external_ref:
+          description: List of external refs to filter Rev organizations for.
+          items:
+            type: string
+          type: array
+        limit:
+          description: |
+            The maximum number of Rev organizations to be retrieved per page.
+          format: int32
+          type: integer
+        mode:
+          $ref: '#/components/schemas/list-mode'
+        modified_date:
+          $ref: '#/components/schemas/date-time-filter'
+        sort_by:
+          description: |
+            Fields to sort the Rev organizations by and the direction to sort
+            them.
+          items:
+            type: string
+          type: array
+      title: rev-orgs-list-request
+      type: object
     rev-orgs-list-response:
       description: |
         The response to getting a list of Rev organizations' information.
@@ -1761,7 +2188,7 @@ components:
           type: string
         id:
           description: The ID of Rev organization to update.
-          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
+          example: REV-AbCdEfGh
           type: string
         tier:
           description: The tier of the RevOrg.
@@ -1780,6 +2207,25 @@ components:
       title: rev-orgs-update-response
       type: object
       x-go-name: RevOrgsUpdateResponseBody
+    rev-user:
+      allOf:
+      - $ref: '#/components/schemas/user-base'
+      - properties:
+          description:
+            description: Description of the Rev user.
+            type: string
+          external_ref:
+            description: |
+              External ref is a mutable unique identifier for a user within the
+              Rev organization from your primary customer record. If none is
+              available, a good alternative is the email address/phone number
+              which could uniquely identify the user. If none is specified, a
+              system-generated identifier will be assigned to the user.
+            type: string
+          rev_org:
+            $ref: '#/components/schemas/org-summary'
+        type: object
+      title: rev-user
     rev-user-summary:
       allOf:
       - $ref: '#/components/schemas/user-base-summary'
@@ -1800,7 +2246,7 @@ components:
       properties:
         id:
           description: The ID of the tag.
-          example: don:core:<partition>:devo/<dev-org-id>:tag/<tag-id>
+          example: TAG-12345
           type: string
         value:
           description: |
@@ -1811,6 +2257,10 @@ components:
       - id
       title: set-tag-with-value
       type: object
+    sla-summary-filter:
+      description: The filter for SLA summary.
+      title: sla-summary-filter
+      type: object
     stage:
       description: Describes the current stage of a work item.
       properties:
@@ -1820,6 +2270,16 @@ components:
       required:
       - name
       title: stage
+      type: object
+    stage-filter:
+      description: The filter for stages.
+      properties:
+        name:
+          description: Filters for records in the provided stage(s) by name.
+          items:
+            type: string
+          type: array
+      title: stage-filter
       type: object
     stage-init:
       description: Sets an object's initial stage.
@@ -1837,6 +2297,10 @@ components:
             The updated name of the stage, otherwise unchanged if not set.
           type: string
       title: stage-update
+      type: object
+    survey-aggregation-filter:
+      description: The filter for survey aggregation.
+      title: survey-aggregation-filter
       type: object
     sys-user-summary:
       allOf:
@@ -1930,7 +2394,7 @@ components:
       properties:
         id:
           description: The ID of the tag to delete.
-          example: don:core:<partition>:devo/<dev-org-id>:tag/<tag-id>
+          example: TAG-12345
           type: string
       required:
       - id
@@ -1941,6 +2405,17 @@ components:
       title: tags-delete-response
       type: object
       x-go-name: TagsDeleteResponseBody
+    tags-get-request:
+      description: The request to get a tag's information.
+      properties:
+        id:
+          description: The requested tag's ID.
+          example: TAG-12345
+          type: string
+      required:
+      - id
+      title: tags-get-request
+      type: object
     tags-get-response:
       description: The response to getting a tag's information.
       properties:
@@ -1951,6 +2426,33 @@ components:
       title: tags-get-response
       type: object
       x-go-name: TagsGetResponseBody
+    tags-list-request:
+      description: The request to get information about a list of tags.
+      properties:
+        cursor:
+          description: |
+            The cursor to resume iteration from. If not provided, then
+            iteration starts from the beginning.
+          type: string
+        limit:
+          description: |
+            The maximum number of tags to return. The default is '50'.
+          format: int32
+          type: integer
+        mode:
+          $ref: '#/components/schemas/list-mode'
+        name:
+          description: Filters for tags with the provided names.
+          items:
+            type: string
+          type: array
+        sort_by:
+          description: Fields to sort tags by and the direction to sort them.
+          items:
+            type: string
+          type: array
+      title: tags-list-request
+      type: object
     tags-list-response:
       description: The response to listing the tags.
       properties:
@@ -1994,7 +2496,7 @@ components:
           type: string
         id:
           description: The ID of the tag to update.
-          example: don:core:<partition>:devo/<dev-org-id>:tag/<tag-id>
+          example: TAG-12345
           type: string
         name:
           description: |
@@ -2070,10 +2572,28 @@ components:
       oneOf:
       - $ref: '#/components/schemas/timeline-entries-create-request-timeline-comment'
       properties:
+        expires_at:
+          description: |
+            If set, then the entry is ephemeral and will be deleted after the
+            provided time. The minimum value should be at least a minute more
+            than the current timestamp.
+          example: "2023-01-01T12:00:00.000Z"
+          format: date-time
+          type: string
         object:
           description: The ID of the object to create the timeline entry for.
-          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
+          example: PROD-12345
           type: string
+        private_to:
+          description: |
+            If the visibility of the entry is private, this specifies the users
+            that the entry is private to. Note the creator is always implicitly
+            included in this list.
+          example:
+          - DEVU-12345
+          items:
+            type: string
+          type: array
         type:
           $ref: '#/components/schemas/timeline-entries-create-request-type'
         visibility:
@@ -2088,7 +2608,7 @@ components:
         artifacts:
           description: The IDs of the artifacts attached to the comment.
           example:
-          - don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
+          - ARTIFACT-12345
           items:
             type: string
           type: array
@@ -2115,6 +2635,33 @@ components:
       title: timeline-entries-create-response
       type: object
       x-go-name: TimelineEntriesCreateResponseBody
+    timeline-entries-delete-request:
+      description: The request to delete a timeline entry from an object.
+      properties:
+        id:
+          description: The ID of the timeline entry to delete.
+          example: don:core:<partition>:devo/<dev-org-id>:ticket/123:timeline_event/<timeline-event-id>
+          type: string
+      required:
+      - id
+      title: timeline-entries-delete-request
+      type: object
+    timeline-entries-delete-response:
+      description: The response to deleting a timeline entry from an object.
+      title: timeline-entries-delete-response
+      type: object
+      x-go-name: TimelineEntriesDeleteResponseBody
+    timeline-entries-get-request:
+      description: The request to get a timeline entry.
+      properties:
+        id:
+          description: The ID of the timeline entry to get.
+          example: don:core:<partition>:devo/<dev-org-id>:ticket/123:timeline_event/<timeline-event-id>
+          type: string
+      required:
+      - id
+      title: timeline-entries-get-request
+      type: object
     timeline-entries-get-response:
       description: The request to getting a timeline entry.
       properties:
@@ -2125,6 +2672,38 @@ components:
       title: timeline-entries-get-response
       type: object
       x-go-name: TimelineEntriesGetResponseBody
+    timeline-entries-list-request:
+      description: The request to list timeline entries for an object.
+      properties:
+        cursor:
+          description: |
+            The cursor to resume iteration from. If not provided, then
+            iteration starts from the beginning.
+          type: string
+        limit:
+          description: |
+            The maximum number of entries to return. If not set, then this
+            defaults to `50`.
+          format: int32
+          type: integer
+        mode:
+          $ref: '#/components/schemas/list-mode'
+        object:
+          description: The ID of the object to list timeline entries for.
+          example: PROD-12345
+          type: string
+        visibility:
+          description: |
+            The visibility of the timeline entries to filter for. Note this is
+            a strict filter, such that only entries with the exact visibilities
+            specified will be returned.
+          items:
+            $ref: '#/components/schemas/timeline-entry-visibility'
+          type: array
+      required:
+      - object
+      title: timeline-entries-list-request
+      type: object
     timeline-entries-list-response:
       description: The response to listing timeline entries for an object.
       properties:
@@ -2189,7 +2768,7 @@ components:
             added more than once, i.e. nothing is done if the artifact is
             already attached. Mutually exclusive with `set`.
           example:
-          - don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
+          - ARTIFACT-12345
           items:
             type: string
           type: array
@@ -2198,14 +2777,14 @@ components:
             Removes the provided artifacts from the comment. If an artifact is
             not present, then it's ignored. Mututally exclusive with `set`.
           example:
-          - don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
+          - ARTIFACT-12345
           items:
             type: string
           type: array
         set:
           description: Sets the field to the provided artifacts.
           example:
-          - don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
+          - ARTIFACT-12345
           items:
             type: string
           type: array
@@ -2242,7 +2821,32 @@ components:
     timeline-entry-base:
       allOf:
       - $ref: '#/components/schemas/atom-base'
+      - properties:
+          object:
+            description: The object that the Timeline entry belongs to.
+            type: string
+          object_type:
+            $ref: '#/components/schemas/timeline-entry-object-type'
+          visibility:
+            $ref: '#/components/schemas/timeline-entry-visibility'
+        required:
+        - object
+        type: object
       title: timeline-entry-base
+    timeline-entry-object-type:
+      description: The type of object that the Timeline entry belongs to.
+      enum:
+      - capability
+      - conversation
+      - enhancement
+      - feature
+      - issue
+      - product
+      - rev_org
+      - rev_user
+      - ticket
+      - timeline_comment
+      type: string
     timeline-entry-type:
       enum:
       - timeline_comment
@@ -2328,6 +2932,7 @@ components:
       enum:
       - active
       - deactivated
+      - deleted
       - locked
       - shadow
       - unassigned
@@ -2397,6 +3002,12 @@ components:
           $ref: '#/components/schemas/event-rev-org-deleted'
         rev_org_updated:
           $ref: '#/components/schemas/event-rev-org-updated'
+        rev_user_created:
+          $ref: '#/components/schemas/event-rev-user-created'
+        rev_user_deleted:
+          $ref: '#/components/schemas/event-rev-user-deleted'
+        rev_user_updated:
+          $ref: '#/components/schemas/event-rev-user-updated'
         tag_created:
           $ref: '#/components/schemas/event-tag-created'
         tag_deleted:
@@ -2415,6 +3026,7 @@ components:
             should be used to protect against replay attacks, where the event
             should only be processed if the timestamp isn't stale by several
             seconds.
+          example: "2023-01-01T12:00:00.000Z"
           format: date-time
           type: string
         type:
@@ -2462,6 +3074,9 @@ components:
       - rev_org_created
       - rev_org_deleted
       - rev_org_updated
+      - rev_user_created
+      - rev_user_deleted
+      - rev_user_updated
       - tag_created
       - tag_deleted
       - tag_updated
@@ -2542,6 +3157,17 @@ components:
       title: webhooks-delete-response
       type: object
       x-go-name: WebhooksDeleteResponseBody
+    webhooks-get-request:
+      description: The request to get a webhook's information.
+      properties:
+        id:
+          description: ID for the webhook.
+          example: don:integration:<partition>:devo/<dev-org-id>:webhook/<webhook-id>
+          type: string
+      required:
+      - id
+      title: webhooks-get-request
+      type: object
     webhooks-get-response:
       description: The response to getting the information for the webhook.
       properties:
@@ -2552,6 +3178,10 @@ components:
       title: webhooks-get-response
       type: object
       x-go-name: WebhooksGetResponseBody
+    webhooks-list-request:
+      description: The request to list the webhooks.
+      title: webhooks-list-request
+      type: object
     webhooks-list-response:
       description: The response to listing the webhooks.
       properties:
@@ -2688,6 +3318,7 @@ components:
             type: array
           target_close_date:
             description: Timestamp when the work is expected to be complete.
+            example: "2023-01-01T12:00:00.000Z"
             format: date-time
             type: string
           title:
@@ -2718,37 +3349,30 @@ components:
             The [part](https://devrev.ai/docs/product/parts) that the work
             applies to. Specifying a part is required when creating tickets and
             issues.
-          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
+          example: PROD-12345
           type: string
         artifacts:
           description: |
             The IDs of the artifacts to associate with the work item.
           example:
-          - don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
+          - ARTIFACT-12345
           items:
             type: string
           type: array
         body:
           description: Body of the work object.
           type: string
-        custom_schema_fragments:
-          description: The custom schema fragments to use.
-          example:
-          - don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>
-          items:
-            type: string
-          type: array
         owned_by:
           description: The users that own the work.
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
+          - DEVU-12345
           items:
             type: string
           type: array
         reported_by:
           description: The users that reported the work.
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
+          - DEVU-12345
           items:
             type: string
           type: array
@@ -2761,6 +3385,7 @@ components:
           type: array
         target_close_date:
           description: Timestamp for when the work is expected to be complete.
+          example: "2023-01-01T12:00:00.000Z"
           format: date-time
           type: string
         title:
@@ -2789,12 +3414,18 @@ components:
         group:
           description: The group that the ticket is associated with.
           type: string
+        is_spam:
+          description: Whether the ticket is spam.
+          type: boolean
         rev_org:
           description: The Rev organization that the ticket is associated with.
-          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
+          example: REV-AbCdEfGh
           type: string
         severity:
           $ref: '#/components/schemas/ticket-severity'
+        source_channel:
+          description: The source channel of the ticket.
+          type: string
       title: works-create-request-ticket
       type: object
     works-create-response:
@@ -2810,7 +3441,7 @@ components:
       properties:
         id:
           description: The work's ID.
-          example: don:core:<partition>:devo/<dev-org-id>:<work-type>/<work-id>
+          example: ISS-12345
           type: string
       required:
       - id
@@ -2820,6 +3451,63 @@ components:
       title: works-delete-response
       type: object
       x-go-name: WorksDeleteResponseBody
+    works-export-request:
+      properties:
+        actual_close_date:
+          $ref: '#/components/schemas/date-filter'
+        applies_to_part:
+          description: Filters for work belonging to any of the provided parts.
+          example:
+          - PROD-12345
+          items:
+            type: string
+          type: array
+        created_by:
+          description: Filters for work created by any of these users.
+          example:
+          - DEVU-12345
+          items:
+            type: string
+          type: array
+        created_date:
+          $ref: '#/components/schemas/date-filter'
+        first:
+          description: |
+            The number of work items to return. The default is '50', the
+            maximum is '5000'.
+          format: int32
+          type: integer
+        issue:
+          $ref: '#/components/schemas/works-filter-issue'
+        modified_date:
+          $ref: '#/components/schemas/date-filter'
+        owned_by:
+          description: Filters for work owned by any of these users.
+          example:
+          - DEVU-12345
+          items:
+            type: string
+          type: array
+        stage:
+          $ref: '#/components/schemas/stage-filter'
+        tags:
+          description: Filters for work with any of the provided tags.
+          example:
+          - TAG-12345
+          items:
+            type: string
+          type: array
+        target_close_date:
+          $ref: '#/components/schemas/date-filter'
+        ticket:
+          $ref: '#/components/schemas/works-filter-ticket'
+        type:
+          description: Filters for work of the provided types.
+          items:
+            $ref: '#/components/schemas/work-type'
+          type: array
+      title: works-export-request
+      type: object
     works-export-response:
       properties:
         works:
@@ -2832,6 +3520,72 @@ components:
       title: works-export-response
       type: object
       x-go-name: WorksExportResponseBody
+    works-filter-issue:
+      properties:
+        priority:
+          description: Filters for issues with any of the provided priorities.
+          items:
+            $ref: '#/components/schemas/issue-priority'
+          type: array
+        rev_orgs:
+          description: |
+            Filters for issues with any of the provided Rev organizations.
+          example:
+          - REV-AbCdEfGh
+          items:
+            type: string
+          type: array
+      title: works-filter-issue
+      type: object
+    works-filter-ticket:
+      properties:
+        group:
+          description: Filters for tickets belonging to specific groups.
+          items:
+            type: string
+          type: array
+        is_spam:
+          description: Filters for tickets that are spam.
+          type: boolean
+        needs_response:
+          description: Filters for tickets that need response.
+          type: boolean
+        rev_org:
+          description: |
+            Filters for tickets that are associated with any of the provided
+            Rev organizations.
+          example:
+          - REV-AbCdEfGh
+          items:
+            type: string
+          type: array
+        severity:
+          description: Filters for tickets with any of the provided severities.
+          items:
+            $ref: '#/components/schemas/ticket-severity'
+          type: array
+        sla_summary:
+          $ref: '#/components/schemas/sla-summary-filter'
+        source_channel:
+          description: |
+            Filters for tickets with any of the provided source channels.
+          items:
+            type: string
+          type: array
+        surveys:
+          $ref: '#/components/schemas/survey-aggregation-filter'
+      title: works-filter-ticket
+      type: object
+    works-get-request:
+      properties:
+        id:
+          description: The work's ID.
+          example: ISS-12345
+          type: string
+      required:
+      - id
+      title: works-get-request
+      type: object
     works-get-response:
       properties:
         work:
@@ -2841,6 +3595,69 @@ components:
       title: works-get-response
       type: object
       x-go-name: WorksGetResponseBody
+    works-list-request:
+      properties:
+        actual_close_date:
+          $ref: '#/components/schemas/date-filter'
+        applies_to_part:
+          description: Filters for work belonging to any of the provided parts.
+          example:
+          - PROD-12345
+          items:
+            type: string
+          type: array
+        created_by:
+          description: Filters for work created by any of these users.
+          example:
+          - DEVU-12345
+          items:
+            type: string
+          type: array
+        created_date:
+          $ref: '#/components/schemas/date-filter'
+        cursor:
+          description: |
+            The cursor to resume iteration from. If not provided, then
+            iteration starts from the beginning.
+          type: string
+        issue:
+          $ref: '#/components/schemas/works-filter-issue'
+        limit:
+          description: |
+            The maximum number of works to return. The default is '50'.
+          format: int32
+          type: integer
+        mode:
+          $ref: '#/components/schemas/list-mode'
+        modified_date:
+          $ref: '#/components/schemas/date-filter'
+        owned_by:
+          description: Filters for work owned by any of these users.
+          example:
+          - DEVU-12345
+          items:
+            type: string
+          type: array
+        stage:
+          $ref: '#/components/schemas/stage-filter'
+        tags:
+          description: Filters for work with any of the provided tags.
+          example:
+          - TAG-12345
+          items:
+            type: string
+          type: array
+        target_close_date:
+          $ref: '#/components/schemas/date-filter'
+        ticket:
+          $ref: '#/components/schemas/works-filter-ticket'
+        type:
+          description: Filters for work of the provided types.
+          items:
+            $ref: '#/components/schemas/work-type'
+          type: array
+      title: works-list-request
+      type: object
     works-list-response:
       properties:
         next_cursor:
@@ -2871,12 +3688,13 @@ components:
           ticket: '#/components/schemas/works-update-request-ticket'
         propertyName: type
       oneOf:
+      - $ref: '#/components/schemas/empty'
       - $ref: '#/components/schemas/works-update-request-issue'
       - $ref: '#/components/schemas/works-update-request-ticket'
       properties:
         applies_to_part:
-          description: Updates the part that the work applies to.
-          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
+          description: Updates the part that the work item applies to.
+          example: PROD-12345
           type: string
         artifacts:
           $ref: '#/components/schemas/works-update-request-artifact-ids'
@@ -2884,16 +3702,9 @@ components:
           description: |
             Updated body of the work object, or unchanged if not provided.
           type: string
-        custom_schema_fragments:
-          description: The custom schema fragments to use.
-          example:
-          - don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>
-          items:
-            type: string
-          type: array
         id:
           description: The work's ID.
-          example: don:core:<partition>:devo/<dev-org-id>:<work-type>/<work-id>
+          example: ISS-12345
           type: string
         owned_by:
           $ref: '#/components/schemas/works-update-request-owned-by'
@@ -2906,7 +3717,9 @@ components:
         target_close_date:
           description: |
             Updates the timestamp for when the work is expected to be complete.
+          example: "2023-01-01T12:00:00.000Z"
           format: date-time
+          nullable: true
           type: string
         title:
           description: |
@@ -2916,7 +3729,6 @@ components:
           $ref: '#/components/schemas/work-type'
       required:
       - id
-      - type
       title: works-update-request
       type: object
     works-update-request-artifact-ids:
@@ -2924,7 +3736,7 @@ components:
         set:
           description: Sets the IDs to the provided artifact IDs.
           example:
-          - don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
+          - ARTIFACT-12345
           items:
             type: string
           type: array
@@ -2947,7 +3759,7 @@ components:
             Sets the owner IDs to the provided user IDs. This must not be
             empty.
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
+          - DEVU-12345
           items:
             type: string
           type: array
@@ -2959,7 +3771,7 @@ components:
           description: |
             Sets the users that reported the work to the provided user IDs.
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
+          - DEVU-12345
           items:
             type: string
           type: array
@@ -2979,10 +3791,13 @@ components:
         group:
           description: The group that the ticket is associated with.
           type: string
+        is_spam:
+          description: Updates whether the ticket is spam.
+          type: boolean
         rev_org:
           description: |
             Updates the Rev organization that the ticket is associated with.
-          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
+          example: REV-AbCdEfGh
           nullable: true
           type: string
         severity:
@@ -3023,8 +3838,48 @@ paths:
         name: id
         required: true
         schema:
-          example: don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>
+          example: ARTIFACT-12345
           type: string
+      - description: The version of the artifact that needs to be fetched.
+        explode: false
+        in: query
+        name: version
+        schema:
+          example: "2023-01-01T12:00:00.000Z"
+          format: date-time
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/artifacts-locate-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - artifacts
+      x-request-name: ArtifactsLocateQuery
+    post:
+      description: Gets the download URL for the artifact.
+      operationId: artifacts-locate-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/artifacts-locate-request'
       responses:
         "200":
           content:
@@ -3179,6 +4034,40 @@ paths:
           $ref: '#/components/responses/service-unavailable'
       tags:
       - auth-tokens
+      x-request-name: AuthTokensGetQuery
+    post:
+      description: |
+        Gets the token metadata corresponding to the given token ID under the
+        given Dev organization.
+      operationId: auth-tokens-get-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/auth-tokens-get-request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/auth-tokens-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - auth-tokens
   /auth-tokens.list:
     get:
       description: |
@@ -3211,6 +4100,40 @@ paths:
         name: subject
         schema:
           type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/auth-tokens-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - auth-tokens
+      x-request-name: AuthTokensListQuery
+    post:
+      description: |
+        Gets the token metadata for all the tokens corresponding to the given
+        token type issued for a given subject.
+      operationId: auth-tokens-list-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/auth-tokens-list-request'
       responses:
         "200":
           content:
@@ -3403,6 +4326,39 @@ paths:
       tags:
       - auth-connection
       - dev-orgs
+      x-request-name: DevOrgAuthConnectionsGetQuery
+    post:
+      description: Retrieves the details for an authentication connection.
+      operationId: dev-org-auth-connections-get-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dev-org-auth-connections-get-request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dev-org-auth-connections-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - auth-connection
+      - dev-orgs
   /dev-orgs.auth-connections.list:
     get:
       description: |
@@ -3411,6 +4367,41 @@ paths:
         connections which are either available by default or are explicitly
         created by the user.
       operationId: dev-org-auth-connections-list
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dev-org-auth-connections-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - auth-connection
+      - dev-orgs
+      x-request-name: DevOrgAuthConnectionsListQuery
+    post:
+      description: |
+        Lists all the authentication connections available for a Dev
+        organization. This list will include both social and enterprise
+        connections which are either available by default or are explicitly
+        created by the user.
+      operationId: dev-org-auth-connections-list-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/empty'
       responses:
         "200":
           content:
@@ -3500,6 +4491,73 @@ paths:
       tags:
       - auth-connection
       - dev-orgs
+  /dev-users.get:
+    get:
+      description: Gets the requested user's information.
+      operationId: dev-users-get
+      parameters:
+      - description: User ID of the requested Dev user.
+        explode: false
+        in: query
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dev-users-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - dev-users
+      x-request-name: DevUsersGetQuery
+    post:
+      description: Gets the requested user's information.
+      operationId: dev-users-get-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dev-users-get-request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dev-users-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - dev-users
   /dev-users.list:
     get:
       description: Lists users within your organization.
@@ -3575,10 +4633,70 @@ paths:
           $ref: '#/components/responses/service-unavailable'
       tags:
       - dev-users
+      x-request-name: DevUsersListQuery
+    post:
+      description: Lists users within your organization.
+      operationId: dev-users-list-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dev-users-list-request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dev-users-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - dev-users
   /dev-users.self:
     get:
       description: Gets the authenticated user's information.
       operationId: dev-users-self
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dev-users-self-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - dev-users
+      x-request-name: DevUsersSelfQuery
+    post:
+      description: Gets the authenticated user's information.
+      operationId: dev-users-self-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dev-users-self-request'
       responses:
         "200":
           content:
@@ -3674,8 +4792,41 @@ paths:
         name: id
         required: true
         schema:
-          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
+          example: PROD-12345
           type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/parts-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - parts
+      x-request-name: PartsGetQuery
+    post:
+      description: |
+        Gets a [part's](https://devrev.ai/docs/product/parts) information.
+      operationId: parts-get-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/parts-get-request'
       responses:
         "200":
           content:
@@ -3711,7 +4862,7 @@ paths:
         name: created_by
         schema:
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
+          - DEVU-12345
           items:
             type: string
           type: array
@@ -3753,9 +4904,30 @@ paths:
         name: owned_by
         schema:
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
+          - DEVU-12345
           items:
             type: string
+          type: array
+      - description: Number of levels to fetch the part hierarchy up to.
+        explode: false
+        in: query
+        name: parent_part.level
+        schema:
+          format: int32
+          minimum: 1
+          type: integer
+      - description: |
+          Part IDs to fetch the hierarchy for. Required if any parent_part.*
+          fields are provided.
+        explode: false
+        in: query
+        name: parent_part.parts
+        schema:
+          example:
+          - PROD-12345
+          items:
+            type: string
+          minItems: 1
           type: array
       - description: Filters for parts of the provided type(s).
         explode: false
@@ -3765,6 +4937,37 @@ paths:
           items:
             $ref: '#/components/schemas/part-type'
           type: array
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/parts-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - parts
+      x-request-name: PartsListQuery
+    post:
+      description: |
+        Lists a collection of [parts](https://devrev.ai/docs/product/parts).
+      operationId: parts-list-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/parts-list-request'
       responses:
         "200":
           content:
@@ -3888,14 +5091,54 @@ paths:
       description: Retrieves the Rev organization's information.
       operationId: rev-orgs-get
       parameters:
+      - description: |
+          The ID of account for which default Rev organization is to be
+          fetched.
+        explode: false
+        in: query
+        name: account
+        schema:
+          example: ACC-12345
+          type: string
       - description: The ID of the required Rev organization.
         explode: false
         in: query
         name: id
-        required: true
         schema:
-          example: don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
+          example: REV-AbCdEfGh
           type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rev-orgs-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - rev-orgs
+      x-request-name: RevOrgsGetQuery
+    post:
+      description: Retrieves the Rev organization's information.
+      operationId: rev-orgs-get-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rev-orgs-get-request'
       responses:
         "200":
           content:
@@ -3941,6 +5184,7 @@ paths:
         in: query
         name: created_date.after
         schema:
+          example: "2023-01-01T12:00:00.000Z"
           format: date-time
           type: string
       - description: |
@@ -3950,6 +5194,7 @@ paths:
         in: query
         name: created_date.before
         schema:
+          example: "2023-01-01T12:00:00.000Z"
           format: date-time
           type: string
       - description: |
@@ -3990,6 +5235,7 @@ paths:
         in: query
         name: modified_date.after
         schema:
+          example: "2023-01-01T12:00:00.000Z"
           format: date-time
           type: string
       - description: |
@@ -3999,6 +5245,7 @@ paths:
         in: query
         name: modified_date.before
         schema:
+          example: "2023-01-01T12:00:00.000Z"
           format: date-time
           type: string
       - description: |
@@ -4011,6 +5258,41 @@ paths:
           items:
             type: string
           type: array
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rev-orgs-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - rev-orgs
+      x-request-name: RevOrgsListQuery
+    post:
+      description: |
+        Gets the list of Rev organizations' information belonging to the
+        authenticated user's Dev Organization which the user is also authorized
+        to access.
+      operationId: rev-orgs-list-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rev-orgs-list-request'
       responses:
         "200":
           content:
@@ -4141,8 +5423,40 @@ paths:
         name: id
         required: true
         schema:
-          example: don:core:<partition>:devo/<dev-org-id>:tag/<tag-id>
+          example: TAG-12345
           type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tags-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - tags
+      x-request-name: TagsGetQuery
+    post:
+      description: Gets a tag's information.
+      operationId: tags-get-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tags-get-request'
       responses:
         "200":
           content:
@@ -4194,6 +5508,52 @@ paths:
         name: mode
         schema:
           $ref: '#/components/schemas/list-mode'
+      - description: Filters for tags with the provided names.
+        explode: false
+        in: query
+        name: name
+        schema:
+          items:
+            type: string
+          type: array
+      - description: Fields to sort tags by and the direction to sort them.
+        explode: false
+        in: query
+        name: sort_by
+        schema:
+          items:
+            type: string
+          type: array
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tags-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - tags
+      x-request-name: TagsListQuery
+    post:
+      description: Lists the available tags.
+      operationId: tags-list-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tags-list-request'
       responses:
         "200":
           content:
@@ -4277,6 +5637,36 @@ paths:
           $ref: '#/components/responses/service-unavailable'
       tags:
       - timeline-entries
+  /timeline-entries.delete:
+    post:
+      description: Deletes an entry from an object's timeline.
+      operationId: timeline-entries-delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/timeline-entries-delete-request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/timeline-entries-delete-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - timeline-entries
   /timeline-entries.get:
     get:
       description: Gets an entry on an object's timeline.
@@ -4313,6 +5703,38 @@ paths:
           $ref: '#/components/responses/service-unavailable'
       tags:
       - timeline-entries
+      x-request-name: TimelineEntriesGetQuery
+    post:
+      description: Gets an entry on an object's timeline.
+      operationId: timeline-entries-get-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/timeline-entries-get-request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/timeline-entries-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - timeline-entries
   /timeline-entries.list:
     get:
       description: Lists the timeline entries for an object.
@@ -4324,7 +5746,7 @@ paths:
         name: object
         required: true
         schema:
-          example: don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
+          example: PROD-12345
           type: string
       - description: |
           The cursor to resume iteration from. If not provided, then iteration
@@ -4362,6 +5784,38 @@ paths:
           items:
             $ref: '#/components/schemas/timeline-entry-visibility'
           type: array
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/timeline-entries-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - timeline-entries
+      x-request-name: TimelineEntriesListQuery
+    post:
+      description: Lists the timeline entries for an object.
+      operationId: timeline-entries-list-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/timeline-entries-list-request'
       responses:
         "200":
           content:
@@ -4513,10 +5967,72 @@ paths:
           $ref: '#/components/responses/service-unavailable'
       tags:
       - webhooks
+      x-request-name: WebhooksGetQuery
+    post:
+      description: Gets the requested webhook's information.
+      operationId: webhooks-get-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/webhooks-get-request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/webhooks-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - webhooks
   /webhooks.list:
     get:
       description: Lists the webhooks.
       operationId: webhooks-list
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/webhooks-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - webhooks
+      x-request-name: WebhooksListQuery
+    post:
+      description: Lists the webhooks.
+      operationId: webhooks-list-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/webhooks-list-request'
       responses:
         "200":
           content:
@@ -4575,6 +6091,8 @@ paths:
       description: |
         Creates new work ([issue](https://devrev.ai/docs/product/build),
         [ticket](https://devrev.ai/docs/product/support)) item.
+        [task](https://docs.devrev.ai/product/tasks) and opportunity work types
+        are supported in the beta version.
       operationId: works-create
       requestBody:
         content:
@@ -4645,7 +6163,7 @@ paths:
         name: applies_to_part
         schema:
           example:
-          - don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
+          - PROD-12345
           items:
             type: string
           type: array
@@ -4655,7 +6173,7 @@ paths:
         name: created_by
         schema:
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
+          - DEVU-12345
           items:
             type: string
           type: array
@@ -4683,7 +6201,7 @@ paths:
         name: issue.rev_orgs
         schema:
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
+          - REV-AbCdEfGh
           items:
             type: string
           type: array
@@ -4693,15 +6211,25 @@ paths:
         name: owned_by
         schema:
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
+          - DEVU-12345
           items:
             type: string
           type: array
-      - description: Filters for records in the provided stage(s).
+      - description: Filters for records in the provided stage(s) by name.
         explode: false
         in: query
         name: stage.name
         schema:
+          items:
+            type: string
+          type: array
+      - description: Filters for work with any of the provided tags.
+        explode: false
+        in: query
+        name: tags
+        schema:
+          example:
+          - TAG-12345
           items:
             type: string
           type: array
@@ -4713,6 +6241,18 @@ paths:
           items:
             type: string
           type: array
+      - description: Filters for tickets that are spam.
+        explode: false
+        in: query
+        name: ticket.is_spam
+        schema:
+          type: boolean
+      - description: Filters for tickets that need response.
+        explode: false
+        in: query
+        name: ticket.needs_response
+        schema:
+          type: boolean
       - description: |
           Filters for tickets that are associated with any of the provided Rev
           organizations.
@@ -4721,7 +6261,7 @@ paths:
         name: ticket.rev_org
         schema:
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
+          - REV-AbCdEfGh
           items:
             type: string
           type: array
@@ -4733,6 +6273,15 @@ paths:
           items:
             $ref: '#/components/schemas/ticket-severity'
           type: array
+      - description: |
+          Filters for tickets with any of the provided source channels.
+        explode: false
+        in: query
+        name: ticket.source_channel
+        schema:
+          items:
+            type: string
+          type: array
       - description: Filters for work of the provided types.
         explode: false
         in: query
@@ -4741,6 +6290,36 @@ paths:
           items:
             $ref: '#/components/schemas/work-type'
           type: array
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/works-export-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - works
+      x-request-name: WorksExportQuery
+    post:
+      description: Exports a collection of work items.
+      operationId: works-export-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/works-export-request'
       responses:
         "200":
           content:
@@ -4773,8 +6352,40 @@ paths:
         name: id
         required: true
         schema:
-          example: don:core:<partition>:devo/<dev-org-id>:<work-type>/<work-id>
+          example: ISS-12345
           type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/works-get-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "404":
+          $ref: '#/components/responses/not-found'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - works
+      x-request-name: WorksGetQuery
+    post:
+      description: Gets a work item's information.
+      operationId: works-get-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/works-get-request'
       responses:
         "200":
           content:
@@ -4809,7 +6420,7 @@ paths:
         name: applies_to_part
         schema:
           example:
-          - don:core:<partition>:devo/<dev-org-id>:<part-type>/<part-id>
+          - PROD-12345
           items:
             type: string
           type: array
@@ -4819,7 +6430,7 @@ paths:
         name: created_by
         schema:
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
+          - DEVU-12345
           items:
             type: string
           type: array
@@ -4846,7 +6457,7 @@ paths:
         name: issue.rev_orgs
         schema:
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
+          - REV-AbCdEfGh
           items:
             type: string
           type: array
@@ -4872,15 +6483,25 @@ paths:
         name: owned_by
         schema:
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:devu/<dev-user-id>
+          - DEVU-12345
           items:
             type: string
           type: array
-      - description: Filters for records in the provided stage(s).
+      - description: Filters for records in the provided stage(s) by name.
         explode: false
         in: query
         name: stage.name
         schema:
+          items:
+            type: string
+          type: array
+      - description: Filters for work with any of the provided tags.
+        explode: false
+        in: query
+        name: tags
+        schema:
+          example:
+          - TAG-12345
           items:
             type: string
           type: array
@@ -4892,6 +6513,18 @@ paths:
           items:
             type: string
           type: array
+      - description: Filters for tickets that are spam.
+        explode: false
+        in: query
+        name: ticket.is_spam
+        schema:
+          type: boolean
+      - description: Filters for tickets that need response.
+        explode: false
+        in: query
+        name: ticket.needs_response
+        schema:
+          type: boolean
       - description: |
           Filters for tickets that are associated with any of the provided Rev
           organizations.
@@ -4900,7 +6533,7 @@ paths:
         name: ticket.rev_org
         schema:
           example:
-          - don:identity:<partition>:devo/<dev-org-id>:revo/<rev-org-id>
+          - REV-AbCdEfGh
           items:
             type: string
           type: array
@@ -4912,6 +6545,15 @@ paths:
           items:
             $ref: '#/components/schemas/ticket-severity'
           type: array
+      - description: |
+          Filters for tickets with any of the provided source channels.
+        explode: false
+        in: query
+        name: ticket.source_channel
+        schema:
+          items:
+            type: string
+          type: array
       - description: Filters for work of the provided types.
         explode: false
         in: query
@@ -4920,6 +6562,36 @@ paths:
           items:
             $ref: '#/components/schemas/work-type'
           type: array
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/works-list-response'
+          description: Success.
+        "400":
+          $ref: '#/components/responses/bad-request'
+        "401":
+          $ref: '#/components/responses/unauthorized'
+        "403":
+          $ref: '#/components/responses/forbidden'
+        "429":
+          $ref: '#/components/responses/too-many-requests'
+        "500":
+          $ref: '#/components/responses/internal-server-error'
+        "503":
+          $ref: '#/components/responses/service-unavailable'
+      tags:
+      - works
+      x-request-name: WorksListQuery
+    post:
+      description: Lists a collection of work items.
+      operationId: works-list-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/works-list-request'
       responses:
         "200":
           content:
