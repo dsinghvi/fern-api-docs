@@ -1,4 +1,4 @@
-# Vellum API
+# DevRev API
 
 Tagging a release on this repository will update the following clients:
 
