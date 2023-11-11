@@ -1,0 +1,187 @@
+<Callout intent="info">
+This functionality is in Beta. We do not recommend using it in production applications.
+</Callout>
+
+DevRev's customization framework offers workspace admins the ability to customize DevRev objects to your organization's needs.
+Extend entities in your DevRev workspace by adding new custom fields or defining new subtypes from existing objects.
+
+## Glossary
+
+1. **Leaf type**: A DevRev object type. For example, _issue_, _ticket_.
+1. **Subtype**: A flavor of a leaf type. For example, _incident_ can be a subtype of _issue_.
+
+## Customization options
+
+### Tenant custom fields
+
+Use tenant custom fields to extend a DevRev object type with new fields that apply to all records of the object type in your application workspace.
+
+![Custom field 'Closure Code' on the Ticket object type](https://docs.devrev.ai/_next/image?url=%2Fimg%2Fcustom-field.jpeg&w=1920&q=75)
+
+### Subtypes
+
+Use subtypes to create specific flavors of a DevRev object type that includes an additional fieldset and stock fields on the object type.
+Once subtypes are defined, your application can maintain records of the original object type, and optionally a subtype with its defined fields.
+
+![A Subtype of Ticket called Incident, that defines additional fields 'Incident Level' & 'Root Cause'](https://docs.devrev.ai/_next/image?url=%2Fimg%2Fcustom-subtype.jpeg&w=1920&q=75)
+
+## Concepts
+
+### Schema fragments
+
+Objects in DevRev are customized with "schema fragments".
+When an object record is created or updated, multiple such schema fragments can be mixed to define the aggregate custom fields available to that record.
+
+Multiple object records can reference the same fragment specifying a set of custom fields.
+
+![schema](https://docs.devrev.ai/_next/image?url=%2Fimg%2Fdiagrams%2Fcustomization.png&w=1920&q=75)
+
+Custom schema fragments are immutable, and thus updating a fragment means creating a new one.
+
+Two older objects (1 and 2) and one newer object referencing different fragment versions.
+
+![custom schema](https://docs.devrev.ai/_next/image?url=%2Fimg%2Fdiagrams%2Fcustomization2.png&w=1920&q=75)
+
+### References
+
+References to each fragment describing the object fields are stored with the object. An object can contain references to a subtype fragment and a tenant fragment.
+
+### Prefixing
+
+Fields defined by different schema fragments are held in different namespaces in an object. Stock fields, subtype fields, tenant custom fields, and app custom fields live in their respective namespaces to prevent field name conflicts. Specifically:
+
+1. Names for tenant custom fields are in the form `tnt__<name>`.
+2. Names for subtype custom fields are of the form `ctype__<name>`.
+
+For illustration, a fully populated object might look like this:
+
+<CodeBlock title="Object">
+```json
+{
+    "id": "don:core:dvrv-us-1:devo/test:issue/1",
+    "dev_oid": "don:identity:dvrv-us-1:devo/test",
+    ... // other stock fields
+
+    // references to schema fragments used
+    "schema_fragments": [
+        "don:core:dvrv-us-1:devo/test:tenant_fragment/1"
+        "don:core:dvrv-us-1:devo/test:custom_type_fragment/1",
+    ],
+
+    // map of custom fields
+    "custom_fields": {
+        "tnt__field_1": 1234,
+        "tnt__field_2": "enterprise custom data",
+        "ctype__field_1": 5678
+        ...
+    }
+}
+```
+</CodeBlock>
+
+## Using the APIs for customization
+
+### Creating a custom schema fragment ([API Spec](https://devrev.ai/docs/apis/beta-api-spec#/operations/custom-schema-fragments-set)
+
+An example usage of custom fields is to extend the DevRev schema for Ticket to track incidents across various environments (dev, QA, prod). This can be done by creating a subtype called "Incident". The following API call describes the custom attributes introduced by the subtype.
+
+<CodeBlock title = "Incident">
+```curl
+curl --location 'https://api.devrev.ai/schemas.custom.set' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'X-Devrev-Scope: beta' \
+--header 'Authorization: <TOKEN>' \
+--data '{
+    "type": "custom_type_fragment",
+    "description": "Attributes for tracking an incident",
+    "leaf_type": "ticket",
+    "subtype": "Incident",
+    "fields": [
+        {
+            "field_type": "enum",
+            "allowed_values": [
+                "Yes",
+                "No"
+            ],
+            "is_filterable": true,
+            "name": "regression",
+            "is_required": true,
+            "default_value": "No",
+            "ui": {
+                "display_name": "Regression",
+            }
+        },
+        {
+            "field_type": "text",
+            "name": "pia",
+            "ui": {
+                "display_name": "PIA",
+            }
+        },
+        {
+            "field_type": "array",
+            "base_type": "enum",
+            "allowed_values": [
+                "Dev",
+                "QA",
+                "Prod"
+            ],
+            "name": "impacted_environments",
+            "ui": {
+                "display_name": "Impacted Environments",
+            }
+        }
+    ]
+}'
+```
+</CodeBlock>
+
+### Supported custom field types
+
+The following custom field types are supported -
+
+| Type      | Example                                  |
+| --------- | ---------------------------------------- |
+| int       | `42`                                     |
+| double    | `3.14`                                   |
+| bool      | `true`                                   |
+| tokens    | `"apple"`, `"orange"`                    |
+| text      | `"Hello, world!"`                        |
+| rich_text | `"**Hello**, world!"`                    |
+| enum      | `"red"`                                  |
+| timestamp | `"2020-10-20T00:00:00Z"` (RFC3339)       |
+| date      | `"2020-10-20"` (YYYY-MM-DD)              |
+| id        | `"don:core:dvrv-us-1:devo/test:issue/1"` |
+
+The list variants of all the supported custom field types are also supported (`[]tokens`, `[]text`, etc).
+
+### Deprecating a custom schema fragment
+
+Custom schema fragments can be marked as deprecated to avoid creating work items with them. The following POST request payload can be used for the same.
+
+```json
+{
+    "type": "custom_type_fragment",
+    "description": "Attributes for tracking an incident",
+    "leaf_type": "ticket",
+    "subtype": "Incident",
+    "fields": [
+        ...
+    ],
+    "deprecated": true,
+}
+```
+
+### Listing custom schema fragments ([API Spec](https://devrev.ai/docs/apis/beta-api-spec#/operations/custom-schema-fragments-list))
+
+To verify the result of the above API invocation, we can list the custom schema fragments in the org:
+
+```curl
+curl --location 'https://api.devrev.ai/schemas.custom.list' \
+--header 'Accept: application/json' \
+--header 'X-Devrev-Scope: beta' \
+--header 'Authorization: <TOKEN>'
+```
+
+Deprecated fragments are not returned when listing custom schema fragments.

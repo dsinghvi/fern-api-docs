@@ -1,0 +1,27 @@
+When backwards-incompatible changes are made to the API, a new, dated version is released.
+The current version is `2022-10-20`.
+
+By default, all requests implicitly use version `2022-10-20` unless you override the API version by passing
+in the `X-Devrev-Version` header with the requested version. For example:
+
+```text
+X-Devrev-Version: 2022-10-20
+```
+
+When new API versions are released, the customer can opt-in by providing the date string which gets published in the documentation.
+
+## Public APIs
+
+We strive to always introduce backward compatible changes. In the event, we need to introduce a new version,
+we provide adequate notice for users to migrate or adopt the new version. All public API versions are supported for at least 1 year.
+
+## Early-access APIs
+
+We expose newer functionality in the form of early-access (or "beta") APIs to allow early adopters to explore and
+experiment. These APIs are likely evolve and change as we receive more feedback, so they do not
+have the same backward compatibility and version guarantees as our public APIs.
+In order to access early-access or beta APIs, send the following header with your request:
+
+```text
+X-Devrev-Scope: beta
+```

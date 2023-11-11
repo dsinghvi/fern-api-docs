@@ -1,0 +1,97 @@
+At DevRev, we are building OneCRM that brings developers ("devs") closer to their customers ("revs"). In the coming decade, we believe developers are capable of running their entire business with code and that DevRev is the platform to enable this via its APIs.
+
+<Callout intent="success">
+Never used a DevRev API before? You're at the right place. Let's get started.
+</Callout>
+
+## Prerequisites
+
+First, [create a DevRev account](https://app.devrev.ai/signup) or [login](https://app.devrev.ai/login).
+
+Every call to a DevRev API must include a personal access token (PAT). After you create your account, you can generate a PAT .
+1. Go to **Settings** > **Account** > **Personal Access Tokens**. 
+2. Click on **+ New token**. 
+3. Enter the token name and validity. 
+4. Click **Generate**.
+
+Copy the PAT and save it. You won't be able to access it later.
+
+If using Python, ensure that you're got Python 3.6 or higher and the [requests](https://pypi.org/project/requests/) library installed.
+
+## Getting started
+
+In this guide, you'll make a call to the [`dev-users.self`](https://docs.devrev.ai/api#/operations/dev-users-self) API which gets the authenticated user's information. You will retrieve the user object created for your account on DevRev. This user object contains information such as a unique identifier, full name, display name, and profile picture.
+
+Every object in DevRev is uniquely identified by an `id` known as DevRev Object Notation (DON). DON `id` field can be found in the API response. 
+The value `SELF` can be passed in as `id` to reference the logged-in user.
+
+The `display-id` visible on the DevRev UI is also accepted in the `id` field for better usability. `ISS-69` in the below image is an example of `display-id` for issues.
+
+![Display ID in DevRev UI](https://user-images.githubusercontent.com/86735914/230507371-27eadf22-c866-4e06-aa93-6aeda2ed82f7.png)
+
+
+## Send your first API request
+
+To do this, make a GET request to the DevRev server ("https://api.devrev.ai/dev-users.self") and include the PAT created in the Authorization header of the request. 
+
+This guide shows you how to get user's information with a GET request using six popular web languages as well as cURL. If you're looking for the fastest way to test the ins and outs of working with DevRev APIs, try the quickstart in your language of choice.
+
+
+### Maing a GET request 
+
+<CodeBlocks>
+  <CodeBlock title = "cURL">
+    ```bash
+    curl --location --request GET 'https://api.devrev.ai/dev-users.self' \
+    --header 'Authorization: <PAT>'
+    ```
+  </CodeBlock>
+  <CodeBlock title = "Python">
+    ```python
+    import requests
+
+    url = 'https://api.devrev.ai/dev-users.self'
+    headers = {
+        'Authorization': '<PAT>'
+    }
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        # You can access the response content with response.text
+        print(response.text)
+    else:
+        print(f'Request failed with status code {response.status_code}')
+
+    ```
+  </CodeBlock>
+</CodeBlocks>
+
+<CodeBlock title = "Response">
+```json
+{
+    "dev_user": {
+        "display_handle": "John Doe",
+        "created_date": "2022-01-28T10:45:53.698Z",
+        "modified_date": "2022-01-28T10:45:53.698Z",
+        "profile_picture": "<logo-url-here>",
+        "auth0_user_ids": [
+            "auth0|abcd1234eca43c006913f97d"
+        ],
+        "id": "don:identity:dvrv-us-1:devo/20:devu/40",
+        "display_id": "DEVU-40",
+        "state": "active",
+        "full_name": "John Smith Doe",
+        "email": "JohnDoe@devrev.ai"
+    }
+}
+```
+</CodeBlock>
+
+<Callout intent="info">
+Facing an error while authenticating the APIs? Refer to our [responses guide](./responses) to learn more about our error codes.
+</Callout>
+
+## Next steps
+
+You're all set to explore our platform. Visit [this page](https://devrev.ai/docs/apis/methods) to browse through our APIs and build your first integration with DevRev.

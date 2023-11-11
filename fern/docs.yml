@@ -1,0 +1,28 @@
+instances:
+  - url: devrev.docs.buildwithfern.com
+
+title: DevRev | Docs
+
+navbar-links: 
+  - type: secondary
+    text: Get a demo
+    url: https://calendly.com/mdr-team/devrev-demo
+  - type: primary
+    text: Sign In
+    url: https://app.devrev.ai/login
+
+colors:
+  accentPrimary: "#050505"
+
+logo:
+  light: ./docs/assets/devrev_logo.png
+
+versions: 
+  - display-name: Public
+    path: ./versions/public.yml
+    availability: stable
+    slug: public
+  - display-name: Beta
+    path: ./versions/beta.yml
+    availability: beta
+    slug: beta

@@ -1,0 +1,18 @@
+To ensure a consistent experience for all users, DevRev applies rate limits to its APIs. This helps prevent unintentionally proactive clients from impacting others’ accessibility.
+
+Rate limits are applied in aggregate to all requests made by an authenticated user. If a user exceeds their rate limit, they are throttled from further processing until their rate limit *window* elapses. At present, this window resets every five minutes. 
+
+If a request is made when the user’s rate limit has been exceeded, the following response is received :
+
+```
+HTTP/1.1 429 Too Many Requests
+Retry-After: 30
+```
+
+The `Retry-After` response header can be used to determine the number of seconds left before the user’s rate limit window expires.
+
+:::note
+All APIs have the same weight when applying rate limiting, and there is no preference given to any individual API. However, this is subject to change in the future.
+:::
+
+
