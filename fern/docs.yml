@@ -12,10 +12,13 @@ navbar-links:
     url: https://app.devrev.ai/login
 
 colors:
-  accentPrimary: "#050505"
+  accentPrimary: 
+    dark: "#3f48e2"
+  background: 
+    dark: "#1c1c21"
 
 logo:
-  light: ./docs/assets/devrev_logo.png
+  light: ./docs/assets/logo_white.png
 
 versions: 
   - display-name: Public
