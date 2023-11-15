@@ -13,17 +13,23 @@ navbar-links:
 
 colors:
   accentPrimary: 
-    dark: "#3f48e2"
+    dark: "#8587e6"
+    light: "#3333f5"
   background: 
-    dark: "#1c1c21"
+    dark: "#131414"
+    light: '#ffffff'
 
 logo:
-  light: ./docs/assets/logo_white.png
+  dark: ./docs/assets/logo_white.png
+  light: ./docs/assets/logo_black.png
+  href: https://devrev.ai
+  height: 24
+
+favicon: ./docs/assets/favicon.ico
 
 versions: 
   - display-name: Public
     path: ./versions/public.yml
-    availability: stable
     slug: public
   - display-name: Beta
     path: ./versions/beta.yml
