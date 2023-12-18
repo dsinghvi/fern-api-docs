@@ -1,9 +1,7 @@
-# DevRev API
+# DevRev Docs
 
 Tagging a release on this repository will update the following clients:
 
-- [Node.js SDK repo -- public](https://github.com/fern-devrev/devrev-node)
-- [Node.js SDK repo -- beta](https://github.com/fern-devrev/devrev-node-beta)
 - [API Docs](https://devrev.docs.buildwithfern.com)
 
 ## What is in this repository?
