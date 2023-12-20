@@ -3,8 +3,6 @@ navigation:
     contents: 
       - page: Welcome 
         path: ../docs/pages/welcome.mdx
-      - page: SDKs
-        path: ../docs/pages/sdks.mdx
   - section: Guides
     contents: 
       - page: Responses
