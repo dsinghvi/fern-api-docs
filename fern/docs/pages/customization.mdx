@@ -81,11 +81,10 @@ For illustration, a fully populated object might look like this:
 
 ## Using the APIs for customization
 
-### Creating a custom schema fragment ([API Spec](https://devrev.ai/docs/apis/beta-api-spec#/operations/custom-schema-fragments-set)
+### Creating a custom schema fragment
 
-An example usage of custom fields is to extend the DevRev schema for Ticket to track incidents across various environments (dev, QA, prod). This can be done by creating a subtype called "Incident". The following API call describes the custom attributes introduced by the subtype.
+An example usage of custom fields is to extend the [DevRev schema](https://devrev.ai/docs/apis/beta-api-spec#/operations/custom-schema-fragments-set) for ticket to track incidents across various environments (dev, QA, prod). This can be done by creating a subtype called "Incident". The following API call describes the custom attributes introduced by the subtype.
 
-<CodeBlock title = "Incident">
 ```curl
 curl --location 'https://api.devrev.ai/schemas.custom.set' \
 --header 'Content-Type: application/json' \
@@ -135,7 +134,6 @@ curl --location 'https://api.devrev.ai/schemas.custom.set' \
     ]
 }'
 ```
-</CodeBlock>
 
 ### Supported custom field types
 
@@ -173,9 +171,9 @@ Custom schema fragments can be marked as deprecated to avoid creating work items
 }
 ```
 
-### Listing custom schema fragments ([API Spec](https://devrev.ai/docs/apis/beta-api-spec#/operations/custom-schema-fragments-list))
+### Listing custom schema fragments
 
-To verify the result of the above API invocation, we can list the custom schema fragments in the org:
+To verify the result of the above API invocation, you can [list the custom schema fragments](https://devrev.ai/docs/apis/beta-api-spec#/operations/custom-schema-fragments-list) in the org:
 
 ```curl
 curl --location 'https://api.devrev.ai/schemas.custom.list' \
@@ -184,4 +182,4 @@ curl --location 'https://api.devrev.ai/schemas.custom.list' \
 --header 'Authorization: <TOKEN>'
 ```
 
-Deprecated fragments are not returned when listing custom schema fragments.
+Deprecated fragments aren't returned when listing custom schema fragments.

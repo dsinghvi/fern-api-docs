@@ -1,10 +1,9 @@
 navigation:
-  - section: Getting started
     contents: 
-      - page: Welcome 
+      - page: Getting started
         path: ../docs/pages/welcome.mdx
-  - section: Guides
-    contents: 
+      - page: Entities 
+        path: ../docs/pages/entities.mdx
       - page: Responses
         path: ../docs/pages/responses.mdx 
       - page: Authentication 
@@ -14,6 +13,10 @@ navigation:
       - page: Versioning 
         path: ../docs/pages/versioning.mdx       
       - page: Rate Limits 
-        path: ../docs/pages/rate-limits.mdx          
+        path: ../docs/pages/rate-limits.mdx
+  - section: Tutorials
+    contents:
+      - page: Timeline entries API: Send restricted visibility messages 
+        path: ../docs/pages/timeline-entries.mdx           
   - api: API Reference
     api-name: public
