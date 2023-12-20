@@ -1,22 +1,23 @@
 navigation:
-    contents: 
+  - section: Welcome
+    contents:
       - page: Getting started
         path: ../docs/pages/welcome.mdx
-      - page: Entities 
-        path: ../docs/pages/entities.mdx
-      - page: Responses
+      - page: Entities
+        path: ../docs/pages/entities.mdx 
+      - page: Errors
         path: ../docs/pages/responses.mdx 
-      - page: Authentication 
+      - page: Authentication
         path: ../docs/pages/authentication.mdx
-      - page: Object Customization 
+      - page: Object Customization
         path: ../docs/pages/customization.mdx
-      - page: Versioning 
+      - page: Versioning
         path: ../docs/pages/versioning.mdx       
-      - page: Rate Limits 
+      - page: Rate Limits
         path: ../docs/pages/rate-limits.mdx
-  - section: Tutorials
+  - section: Guides
     contents:
-      - page: Timeline entries API: Send restricted visibility messages 
-        path: ../docs/pages/timeline-entries.mdx           
+      - page: Timeline entries - Send restricted messages
+        path: ../docs/pages/timeline-entries.mdx          
   - api: API Reference
     api-name: public
