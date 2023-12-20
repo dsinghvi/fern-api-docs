@@ -16,7 +16,7 @@ navigation:
         path: ../docs/pages/rate-limits.mdx
   - section: Tutorials
     contents:
-      - page: Timeline entries API: Send restricted visibility messages 
-        path: ../docs/pages/timeline-entries.mdx           
+      - page: Timeline entries- Send restricted visiblity messages
+        path: ../docs/pages/timeline-entries.mdx       
   - api: API Reference
     api-name: public
