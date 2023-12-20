@@ -1,4 +1,5 @@
 navigation:
+ - section: Welcome
     contents: 
       - page: Getting started 
         path: ../docs/pages/welcome.mdx
