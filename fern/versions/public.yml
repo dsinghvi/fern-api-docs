@@ -18,6 +18,10 @@ navigation:
   - section: Guides
     contents:
       - page: Timeline entries - Send restricted messages
-        path: ../docs/pages/timeline-entries.mdx          
+        path: ../docs/pages/timeline-entries.mdx
+  - section: Webhooks
+    contents:
+      - page: Getting started with webhooks
+        path: ../docs/pages/webhooks.mdx        
   - api: API Reference
     api-name: public
