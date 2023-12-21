@@ -15,7 +15,7 @@ navigation:
         path: ../docs/pages/versioning.mdx       
       - page: Rate Limits
         path: ../docs/pages/rate-limits.mdx
-  - section: Guides
+  - section: Tutorials
     contents:
       - page: Timeline entries - Send restricted messages
         path: ../docs/pages/timeline-entries.mdx
