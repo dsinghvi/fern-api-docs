@@ -5,18 +5,19 @@ When you make an API call, it returns a cursor with a random code. If there are 
 
 <CodeBlock title = "Response">
 \```bash
-{
+\{
   "next_cursor": "ufhe492s",
   // ... Rest of the payload ...
-}
+\}
 \```
 </CodeBlock>
+
 If there are no more pages to paginate, the response will not include the `next_cursor` field.
 
 To advance to the next page, include the cursor parameter in your query like this:
 
 <CodeBlock title = "Request">
 \```bash
-.../internal/works.list?cursor=u4hf9fd
+.../internal/works.list?cursor="u4hf9fd"
 \```
 </CodeBlock>
