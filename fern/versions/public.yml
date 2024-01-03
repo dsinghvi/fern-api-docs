@@ -11,8 +11,6 @@ navigation:
         path: ../docs/pages/authentication.mdx
       - page: Pagination
         path: ../docs/pages/pagination.mdx
-      - page: Object Customization
-        path: ../docs/pages/customization.mdx
       - page: Versioning
         path: ../docs/pages/versioning.mdx       
       - page: Rate Limits
