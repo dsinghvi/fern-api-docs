@@ -4,9 +4,11 @@ Let's say your initial call is asking to list all the users in an org; the resul
 When you make an API call, it returns a cursor with a random code. If there are more pages available, the response will include a field called `next_cursor` which points to the next page.
 
 <CodeBlock title = "Response">
-\```bash
+\```json
+{
   "next_cursor": "ufhe492s",
   // ... Rest of the payload ...
+}
 \```
 </CodeBlock>
 
@@ -15,7 +17,7 @@ If there are no more pages to paginate, the response will not include the `next_
 To advance to the next page, include the cursor parameter in your query like this:
 
 <CodeBlock title = "Request">
-\```bash
+\```json
 .../internal/works.list?cursor="u4hf9fd"
 \```
 </CodeBlock>
