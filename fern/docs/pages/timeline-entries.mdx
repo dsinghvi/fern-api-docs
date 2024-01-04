@@ -19,10 +19,10 @@ The payload to make a request would look like given below:
     }
 ``` 
 
-- `object` must be of type string and contains `<partition>`, `<dev-org-id>`, and `<object-id>`.
-- `body` is of type string and contains the actual message to be posted.
-- `visibility` is set to `private` in order for the message to be visible only to users, `internal` is visible with the Dev organization, `external` is visible to the Dev organzation and customers, and `public` is visible to all. 
-- `type` should be `timeline_comment`.
+* `object` must be of type string and contains `<partition>`, `<dev-org-id>`, and `<object-id>`.
+* `body` is of type string and contains the actual message to be posted.
+* `visibility` is set to `private` in order for the message to be visible only to users, `internal` is visible with the Dev organization, `external` is visible to the Dev organzation and customers, and `public` is visible to all. 
+* `type` should be `timeline_comment`.
 
 1. Get the [object ID](https://docs.devrev.ai/apis/getting-started#devrev-object-id) and object type where you want to send a message.
 
