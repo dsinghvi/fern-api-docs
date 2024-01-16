@@ -23,8 +23,9 @@ navigation:
     contents:
       - page: Getting started with webhooks
         path: ../docs/pages/webhooks.mdx        
-  - section: API Reference
+  - section: DevRev REST API
     contents:
-      - page: DevRev REST API
+      - page: Overview
         path: ../docs/pages/api-overview.mdx
-    api-name: public
+      - api: API Reference
+        api-name: public
