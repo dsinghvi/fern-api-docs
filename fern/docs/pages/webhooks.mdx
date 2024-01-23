@@ -30,9 +30,9 @@ timestamp: The timestamp for the event.
 type: The event type. This is always followed by a field of the type’s name that contains the event’s data.
 ```
 
-Event POST from DevRev to your endpoint
-
 ### Event POST `[json]`
+
+Event POST from DevRev to your endpoint
 
 ```
 POST your-webhook-endpoint-url
@@ -157,7 +157,7 @@ To mitigate intermittent and/or transient failures, DevRev retries unacknowledge
 
 ## Webhook security
 
-A header signature `X-DevRev-Signature` is always be provided, and is a hash-based message authentication code (HMAC) utilizing SHA256 consisting of the secret as the key and the raw request payload as the message. Any adversary that intercepts and modifies the request is unable to reproduce the proper signature, and therefore should be discarded by the webhook endpoint. Note that this method is still subject to replay attacks, such that an adversary could intercept the request and replay it at different points in time, however the timestamp should be used to validate the proximity of the request and be discarded if stale.
+A header signature `X-DevRev-Signature` is always provided, which is a hash-based message authentication code (HMAC) utilizing SHA256 consisting of the secret as the key and the raw request payload as the message. Any adversary that intercepts and modifies the request is unable to reproduce the proper signature, and therefore should be discarded by the webhook endpoint. Note that this method is still subject to replay attacks, such that an adversary could intercept the request and replay it at different points in time, however the timestamp should be used to validate the proximity of the request and be discarded if stale.
 
 <Callout intent="info">
 The webhook endpoint must handle duplicate deliveries of the same event.
