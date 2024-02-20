@@ -4,6 +4,5 @@ dist
 dist-ssr
 *.local
 node_modules/*
-
-fern/*/definition/
-.DS_Store
+yarn.lock
+tailwind.config.js
