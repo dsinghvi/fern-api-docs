@@ -8,12 +8,15 @@ tabs:
   guides:
     display-name: Guides
     icon: book
+  webhook:
+    display-name: Webhooks
+    icon: webhook
 
 navigation:
   - tab: welcome
     layout:
       - section: Welcome
-          contents:
+         contents:
             - page: Getting started
                 path: ../docs/pages/welcome.mdx
             - page: Entities
@@ -31,17 +34,19 @@ navigation:
   - tab: welcome
     layout:
       - section: Guides
-          contents:
+         contents:
             - page: Timeline entries - Send restricted messages
                 path: ../docs/pages/timeline-entries.mdx
-  - section: Webhooks
-    contents:
-      - page: Getting started with webhooks
-        path: ../docs/pages/webhooks.mdx 
+  - tab: webhook
+    layout:
+      - section: Webhooks
+         contents:
+            - page: Getting started with webhooks
+                path: ../docs/pages/webhooks.mdx 
   - tab: api
     layout:
     - section: DevRev REST API
-        contents:
+       contents:
           - page: Overview
               path: ../docs/pages/api-overview.mdx
     - api: API Reference
