@@ -13,7 +13,7 @@ navbar-links:
 
 colors:
   accentPrimary: 
-    dark: "#6b72ef"
+    dark: "#5D65EE"
     light: "#5D65EE"
   background: 
     dark: "#131414"
@@ -35,17 +35,3 @@ versions:
     path: ./versions/beta.yml
     availability: beta
     slug: beta
-
-tabs: 
-  api: 
-    display-name: API Reference
-    icon: puzzle
-  welcome:
-    display-name: Welcome
-    icon: home
-  guides:
-    display-name: Guides
-    icon: book
-  webhook:
-    display-name: Webhooks
-    icon: webhook
