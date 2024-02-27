@@ -3,9 +3,6 @@ navigation:
     contents:
       - page: Object Customization
         path: ../docs/pages/customization.mdx
-    contents:
-      - page: Overview
-        path: ../docs/pages/api-overview.mdx
   - section: DevRev REST API
     contents:
       - page: Overview
