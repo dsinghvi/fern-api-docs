@@ -1,4 +1,14 @@
+tabs: 
+  api: 
+    display-name: API Reference
+    icon: puzzle
+  welcome:
+    display-name: Welcome
+    icon: home
+
 navigation:
+  - tab: welcome
+    layout:
   - section: Welcome
     contents:
       - page: Getting started
@@ -22,7 +32,9 @@ navigation:
   - section: Webhooks
     contents:
       - page: Getting started with webhooks
-        path: ../docs/pages/webhooks.mdx        
+        path: ../docs/pages/webhooks.mdx 
+  - tab: api
+    layout:
   - section: DevRev REST API
     contents:
       - page: Overview
