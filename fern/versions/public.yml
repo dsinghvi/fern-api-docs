@@ -5,39 +5,44 @@ tabs:
   welcome:
     display-name: Welcome
     icon: home
+  guides:
+    display-name: Guides
+    icon: book
 
 navigation:
   - tab: welcome
     layout:
-  - section: Welcome
-    contents:
-      - page: Getting started
-        path: ../docs/pages/welcome.mdx
-      - page: Entities
-        path: ../docs/pages/entities.mdx 
-      - page: Errors
-        path: ../docs/pages/responses.mdx 
-      - page: Authentication
-        path: ../docs/pages/authentication.mdx
-      - page: Pagination
-        path: ../docs/pages/pagination.mdx
-      - page: Versioning
-        path: ../docs/pages/versioning.mdx       
-      - page: Rate Limits
-        path: ../docs/pages/rate-limits.mdx
-  - section: Guides
-    contents:
-      - page: Timeline entries - Send restricted messages
-        path: ../docs/pages/timeline-entries.mdx
+      - section: Welcome
+          contents:
+            - page: Getting started
+                path: ../docs/pages/welcome.mdx
+            - page: Entities
+                path: ../docs/pages/entities.mdx 
+            - page: Errors
+                path: ../docs/pages/responses.mdx 
+            - page: Authentication
+                path: ../docs/pages/authentication.mdx
+            - page: Pagination
+                path: ../docs/pages/pagination.mdx
+            - page: Versioning
+                path: ../docs/pages/versioning.mdx       
+            - page: Rate Limits
+                path: ../docs/pages/rate-limits.mdx
+  - tab: welcome
+    layout:
+      - section: Guides
+          contents:
+            - page: Timeline entries - Send restricted messages
+                path: ../docs/pages/timeline-entries.mdx
   - section: Webhooks
     contents:
       - page: Getting started with webhooks
         path: ../docs/pages/webhooks.mdx 
   - tab: api
     layout:
-  - section: DevRev REST API
-    contents:
-      - page: Overview
-        path: ../docs/pages/api-overview.mdx
-      - api: API Reference
-        api-name: public
+    - section: DevRev REST API
+        contents:
+          - page: Overview
+              path: ../docs/pages/api-overview.mdx
+    - api: API Reference
+      api-name: public
