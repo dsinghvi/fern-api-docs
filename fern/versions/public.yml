@@ -1,3 +1,17 @@
+tabs: 
+  api: 
+    display-name: API Reference
+    icon: puzzle
+  welcome:
+    display-name: Welcome
+    icon: home
+  guides:
+    display-name: Guides
+    icon: book
+  webhook:
+    display-name: Webhooks
+    icon: webhook
+    
 navigation:
   - tab: welcome
     layout:
