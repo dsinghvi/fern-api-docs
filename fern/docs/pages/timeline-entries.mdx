@@ -9,6 +9,7 @@ To send a restricted visibility message, follow the steps listed below:
 
 The payload to make a request would look like given below: 
 
+<CodeBlock title="Payload">
 ```json
     {
         "object": "don:core:<partition>:devo/<dev-org-id>:<object-type>/<object-id>",
@@ -18,6 +19,7 @@ The payload to make a request would look like given below:
         "type": "timeline_comment"
     }
 ``` 
+</CodeBlock>
 
 * `object` must be of type string and contains `<partition>`, `<dev-org-id>`, and `<object-id>`.
 * `body` is of type string and contains the actual message to be posted.
@@ -38,6 +40,7 @@ The payload to make a request would look like given below:
 
 In this example, you are using curl to make the requests but you can use any tool you prefer.
 
+<CodeBlock title="Request">
 ```bash
 curl -X POST -H "Content-Type: application/json" -d 
 '{
@@ -49,6 +52,7 @@ curl -X POST -H "Content-Type: application/json" -d
 'https://api.devrev.ai/timeline-entries.create' \
 --header 'Authorization: <PAT>'
 ```
+</CodeBlock>
 
 You receive the following `json` response.
 

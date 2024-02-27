@@ -34,7 +34,7 @@ type: The event type. This is always followed by a field of the type’s name th
 
 Event POST from DevRev to your endpoint
 
-```
+```json
 POST your-webhook-endpoint-url
 X-DevRev-Signature: z1BY0e8JYzEGfxZ8e4k8agCdWQyTr2An
 
@@ -63,13 +63,13 @@ is created or deleted on DevRev.
 You can start receiving event notifications using the following steps:
 
 1. Set up a secure HTTP server and expose a publicly accessible endpoint, which serves as the webhook invocation target.
-   Insert your endpoint where the following is mentioned: your-webhook-endpoint-url
+   Insert your endpoint where the following is mentioned: `your-webhook-endpoint-url`.
 
 2. Identify the events you want to monitor and the event payloads to parse.
-   Please look up the supported events and event payloads in our API Methods section.
+   Look up the supported events and event payloads in our API Methods section.
    A general guideline here is to only subscribe to event types which you require in order
    to avoid overwhelming your HTTP server.
-   In the above example, you may be interested in work_created and work_deleted
+   In the above example, you may be interested in `work_created` and `work_deleted`.
 
 3. Register webhook endpoint
 
@@ -100,7 +100,7 @@ The following response is sent by DevRev
 
 ### Webhook create response `[json]`
 
-```
+```json
 201 Created
 
 {
@@ -120,7 +120,7 @@ To perform a successful verification, your endpoint must echo the provided chall
 
 ### Verify request `[json]`
 
-```
+```json
 POST your-webhook-endpoint-url
 X-DevRev-Signature: GfxZ8e4k8agCdWQyTr2z1BY0e8JYzEAn
 {
@@ -138,7 +138,7 @@ The following response is expected from your endpoint
 
 ### Echo challenge `[json]`
 
-```
+```json
 200 OK
 
 {
