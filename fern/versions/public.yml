@@ -21,13 +21,13 @@ navigation:
             path: ../docs/pages/rate-limits.mdx
           - page: Getting started with webhooks
             path: ../docs/pages/webhooks.mdx
-  - section: Guides
-    contents:
-      - page: Timeline entries - Send restricted messages
-        path: ../docs/pages/timeline-entries.mdx        
-  - section: DevRev REST API
-    contents:
-      - page: Overview
-        path: ../docs/pages/api-overview.mdx
-      - api: API Reference
-        api-name: public
+          - section: Guides
+            contents:
+              - page: Timeline entries - Send restricted messages
+                path: ../docs/pages/timeline-entries.mdx        
+          - section: DevRev REST API
+            contents:
+              - page: Overview
+                path: ../docs/pages/api-overview.mdx
+              - api: API Reference
+                api-name: public
