@@ -1,5 +1,6 @@
 instances:
   - url: devrev.docs.buildwithfern.com
+    custom-domain: developer.devrev.ai
 
 title: DevRev | Docs
 
