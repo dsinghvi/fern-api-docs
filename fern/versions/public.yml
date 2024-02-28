@@ -31,3 +31,59 @@ navigation:
                 path: ../docs/pages/api-overview.mdx
               - api: API Reference
                 api-name: public
+      - section: Develop snap-ins
+        contents:
+          - page: Concepts
+            path: ../docs/pages/snapin-concepts.mdx
+          - section: Tutorials
+            contents:
+              - page: Overview
+                path: ../docs/pages/tutorial.mdx
+              - page: Getting started
+                path: ../docs/pages/start.mdx
+              - page: Using a snap-in to perform a DevRev action
+                path: ../docs/pages/tutorials/timer-ticket-creator.mdx
+              - page: Snap-in triggered by a DevRev event
+                path: ../docs/pages/tutorials/triggered-event.mdx
+              - page: Snap-in triggered by an external source
+                path: ../docs/pages/tutorials/triggered-external-source.mdx
+              - page: Using snap-in to perform an external action
+                path: ../docs/pages/tutorials/perform-external-action.mdx
+          - section: References
+            contents:
+              - page: Install DevRev CLI
+                path: ../docs/pages/refrences/cli-install.mdx
+              - page: DevRev CLI reference
+                path: ../docs/pages/refrences/cli.mdx
+              - page: Snap-in manifest
+                path: ../docs/pages/refrences/manifest.mdx
+              - page: Keyrings
+                path: ../docs/pages/refrences/keyrings.mdx
+              - page: Event sources
+                path: ../docs/pages/refrences/event_sources.mdx
+              - page: Inputs
+                path: ../docs/pages/refrences/inputs.mdx
+              - page: Commands
+                path: ../docs/pages/refrences/commands.mdx
+              - page: Functions
+                path: ../docs/pages/refrences/functions.mdx
+              - page: Function invocation
+                path: ../docs/pages/refrences/function_invocation.mdx
+              - page: Hooks
+                path: ../docs/pages/refrences/hooks.mdx
+              - page: Snapkit
+                path: ../docs/pages/refrences/snapkit.mdx
+              - page: Snapkit
+                path: ../docs/pages/refrences/snapkit.mdx
+              - page: Snap-in resources
+                path: ../docs/pages/refrences/snap-in-resources.mdx
+          - page: Development best practices
+            path: ../docs/pages/best_practices.mdx
+          - page: Debugging
+            path: ../docs/pages/debugging.mdx
+          - page: Quotas and limits
+            path: ../docs/pages/limits.mdx
+          - page: Upgrade snap-ins
+            path: ../docs/pages/upgrades.mdx
+          - page: Resources
+            path: ../docs/pages/examples/resources.mdx
