@@ -52,31 +52,31 @@ navigation:
           - section: References
             contents:
               - page: Install DevRev CLI
-                path: ../docs/pages/refrences/cli-install.mdx
+                path: ../docs/pages/references/cli-install.mdx
               - page: DevRev CLI reference
-                path: ../docs/pages/refrences/cli.mdx
+                path: ../docs/pages/references/cli.mdx
               - page: Snap-in manifest
-                path: ../docs/pages/refrences/manifest.mdx
+                path: ../docs/pages/references/manifest.mdx
               - page: Keyrings
-                path: ../docs/pages/refrences/keyrings.mdx
+                path: ../docs/pages/references/keyrings.mdx
               - page: Event sources
-                path: ../docs/pages/refrences/event_sources.mdx
+                path: ../docs/pages/references/event_sources.mdx
               - page: Inputs
-                path: ../docs/pages/refrences/inputs.mdx
+                path: ../docs/pages/references/inputs.mdx
               - page: Commands
-                path: ../docs/pages/refrences/commands.mdx
+                path: ../docs/pages/references/commands.mdx
               - page: Functions
-                path: ../docs/pages/refrences/functions.mdx
+                path: ../docs/pages/references/functions.mdx
               - page: Function invocation
-                path: ../docs/pages/refrences/function_invocation.mdx
+                path: ../docs/pages/references/function_invocation.mdx
               - page: Hooks
-                path: ../docs/pages/refrences/hooks.mdx
+                path: ../docs/pages/references/hooks.mdx
               - page: Snapkit
-                path: ../docs/pages/refrences/snapkit.mdx
+                path: ../docs/pages/references/snapkit.mdx
               - page: Snapkit
-                path: ../docs/pages/refrences/snapkit.mdx
+                path: ../docs/pages/references/snapkit.mdx
               - page: Snap-in resources
-                path: ../docs/pages/refrences/snap-in-resources.mdx
+                path: ../docs/pages/references/snap-in-resources.mdx
           - page: Development best practices
             path: ../docs/pages/best_practices.mdx
           - page: Debugging
@@ -85,5 +85,7 @@ navigation:
             path: ../docs/pages/limits.mdx
           - page: Upgrade snap-ins
             path: ../docs/pages/upgrades.mdx
+          - page: Code Samples
+            path: ../docs/pages/examples/samples.mdx
           - page: Resources
-            path: ../docs/pages/examples/resources.mdx
+            path: ../docs/pages/resources.mdx
