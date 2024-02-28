@@ -69,13 +69,12 @@ The snap-in can have the following states:
 - _DEACTIVATING_: The snap-in is being deactivated, and the automations, commands, and snap-kit actions are paused. The snap-in can't be updated in this state.
 - _INACTIVE_: The snap-in is paused by the user, and the automations, commands, and snap-kit actions are paused.
 
-:::note
+<Callout intent="info">
 _ACTIVATING_ and _DEACTIVATING_ are transitory states and background processes and hooks move the snap-in from these states to a stable state.
-:::
+</Callout>
 
 The following diagram illustrates the transitions between different states.
-![Snap-in lifecycle](/img/snap-in-lifecycle.jpg)
-
+![snap-in-lifecycle](https://github.com/devrev/fern-api-docs/assets/74637789/b8eaf357-e215-4648-917f-ffd795c20101)
 
 ## Snap-kit
 

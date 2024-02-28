@@ -170,11 +170,9 @@ In `function_2`, you can use the payload of the scheduled event as follows:
   console.log(`Received payload with object_id: ${object_id}, name: ${name}, delay: ${delay}`);
 ```
 
-:::note 
-
+<Callout intent="info">
 The `/event-sources.schedule` API is currently in early access. For API details, see [event-sources-schedule-event](https://devrev.ai/docs/apis/beta-api-spec#/operations/event-sources-schedule-event).
-
-:::
+</Callout>
 
 To cancel scheduled events, you can utilize the `/event-sources.unschedule` API. For API details, see [event-sources-delete-scheduled-event](https://devrev.ai/docs/apis/beta-api-spec#/operations/event-sources-delete-scheduled-event).
 
@@ -343,19 +341,16 @@ When a snap-in using such an event source is deployed, the instructions show a u
 email inbox or Google Group to this email address. In the example above, if the forwarding address is `v1.abc.xyz@hooks.devrev.ai`, you should set up email
 forwarding from `test@company.com` to `v1.abc.xyz@hooks.devrev.ai`.
 
-:::note
-
+<Callout intent="info">
 Only emails forwarded from the allowlist of emails/domains are emitted as events. Hence, this event source should be used for email forwarding only, not as a direct mailbox to which anyone can send their emails. Emails received (either directly or by forwarding) from senders who aren't in the allowlist are dropped. There are a few exceptions to this like Google's forwarding confirmation emails.
-
-:::
+</Callout>
 
 The allowlist can either contain an email address or an entire domain. Strict matching is done for domains, meaning that subdomains are not included.
 
-:::caution
+<Callout intent="warn">
 
 The email protocol regarding forwarding is not very well defined. We've tested forwarding from common sources like Gmail, Google Groups, and Outlook Inbox. However, if you're having issues with email forwarding on other providers, feel free to contact us.
-
-:::
+</Callout>
 
 #### Payload
 Below is a sample payload of the events produced by the email event source:

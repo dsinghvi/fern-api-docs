@@ -37,9 +37,10 @@ The browser opens up and asks you to log in to DevRev. Once you log in, a local 
 
 To set up authentication using the DevRev token, run the following command:
 
-:::note
-Using DevRev's interface, you can generate a DevRev token.
-:::
+<Callout intent="info">
+ Using DevRev's interface, you can generate a DevRev token.
+</Callout>
+
 
 ```bash
 echo $DevRevToken | devrev profiles set-token --org <dev-org-name> --usr <email>

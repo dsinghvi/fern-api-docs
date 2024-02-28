@@ -95,9 +95,9 @@ export const run = async (events: any[]) => {
 
 The update hook is executed when the snap-in is in the `ACTIVE` state and the user updates the snap-in configuration with validated inputs configuration. Based on the updated input values, the snap-in can perform some actions such as changing event-types required in external webhooks. If any action fails and throws an error, the snap-in configuration isn't updated and the error message is shown to the user. If all the actions are completed, the snap-in configuration is updated successfully.
 
-:::note
+<Callout intent="info">
 The validate hook is executed before the update hook. If the validate hook fails, the update hook isn't executed.
-:::
+</Callout>
 
 
 An error can be returned by throwing the following from the function's `run` method:

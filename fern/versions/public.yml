@@ -73,8 +73,6 @@ navigation:
                 path: ../docs/pages/references/hooks.mdx
               - page: Snapkit
                 path: ../docs/pages/references/snapkit.mdx
-              - page: Snapkit
-                path: ../docs/pages/references/snapkit.mdx
               - page: Snap-in resources
                 path: ../docs/pages/references/snap-in-resources.mdx
           - page: Development best practices

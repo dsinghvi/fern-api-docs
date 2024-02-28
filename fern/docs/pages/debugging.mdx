@@ -23,9 +23,9 @@ devrev snap_in_package logs --after "2023-06-06T00:00:00Z" | jq
 devrev snap_in_package logs --after "2023-06-06T10:24:17Z" --before "2023-06-07T00:00:00Z" --cursor cursor_from_previous_page | jq | code -
 ```
 
-:::note
+<Callout intent="info">
 By default, not specifying `--before` lists all logs until the current timestamp in descending order (latest logs at the top).
-:::
+</Callout>
 
 - To retrieve logs for a specific snap-in package, run the following command:
 
@@ -49,9 +49,9 @@ Similarly, you can filter only for build logs by filtering for `process = build`
 
 After creating the appropriate filters, to view the logs conveniently, run the following command:
 
-:::note
+<Callout intent="info">
 You can customize the part before `jq` according to your filters.
-:::
+</Callout>
 
 ```bash
 devrev snap_in_package logs --after "2023-06-06T00:00:00Z" --filters '{}' | jq -r '["total", .log_summary.total.value, "next_cursor", .next_cursor], (.logs[] | [.level,.timestamp,.msg]) | @tsv' | code -
