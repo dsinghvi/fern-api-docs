@@ -1,0 +1,195 @@
+This guide walks you through the process of submitting your marketplace listing, reviewing it, and publishing it for users to access and engage with using DevRev CLI. You'll learn about creating and updating marketplace submissions, the roles of the marketplace publisher and admin, and the steps involved in getting your submission approved. Whether you're new to the DevRev CLI or looking for a refresher, this documentation provides you with the necessary information to navigate the publishing process seamlessly. Let's dive in and get started.
+
+## Glossary
+
+### Marketplace
+
+A marketplace serves as a platform for creators and consumers to collaborate, engage, and conduct transactions. It provides an avenue for you to distribute your products and services, thereby enabling you to generate revenue from them.
+
+#### Types of marketplaces
+
+There are two categories of marketplaces: universal and private. A universal marketplace refers to a marketplace that's owned by DEVO-0 (also known as DevRev) and is accessible to everyone. All organizations within the DevRev platform have the ability to contribute to this marketplace by creating new listings. Similarly, any organization within DevRev can buy and install items from the universal marketplace.
+
+In an addition to the universal marketplace, we've private marketplaces that are owned by organizations and can be accessed only by its members.
+
+### Marketplace submission
+
+This object is utilized for submission purposes when the marketplace publisher is either creating a new listing for the marketplace or updating an existing one.
+
+### Marketplace item
+
+Any item in marketplace listings that's available for installation.
+
+#### Marketplace listing
+
+Marketplace listing refers to all the marketplace items that belong to the same marketplace and have the same slug. It's also important to note that at most one marketplace item, belonging to a specific marketplace listing, can be in the _Published_ state.
+
+![marketplace listing](/img/marketplace_listing.png)
+
+## Publishing process
+
+The publishing process commences by initiating a marketplace submission, which entails requesting the creation of a new marketplace listing or updating an existing one. The submission is created by the marketplace publisher and subsequently reviewed by the marketplace admin. Once the submission is prepared for review, the publisher must transition it to the "waiting for review" state. During this phase, the marketplace admin conducts a review and decides whether to approve or reject the submission. If the submission is approved, the marketplace publisher can proceed to publish it. However, if the submission is rejected, the publisher has the option to make updates and resubmit it for another round of review.
+
+![life cycle](/img/lifecycle.png)
+
+## Get started
+
+To get started with publishing marketplace item, you need DevRev CLI. Refer to [DevRev CLI Cheatsheet](references/cli) for more information.
+
+### Create a snap-in
+
+To proceed with making a submission in marketplace, you need a snap-in for which you are creating this submission. If you are new to snap-ins, [follow the development and deployment guide](../snap-ins/start) to create your first snap-in.
+
+## Create marketplace listing
+
+When creating a new marketplace listing you've to create an initial submission where you have to provide all the mandatory properties (for example, name, description, icon, and more). If you are creating a new submission for an existing marketplace listing you have to provide only an ID of the currently published marketplace item.
+
+### Initial submission
+
+First you need to create an icon for a marketplace item:
+
+```bash
+devrev artifacts upload <filepath> --config-set marketplace_listing_icon
+```
+
+Before running a command to create a marketplace item you need to compose a create request JSON:
+
+```json
+{
+    "initial_submission": {
+        "name": "My first snap-in",
+        "item_type": "snapin",
+        "tagline": "Some tagline",
+        "summary": "Some summary",
+        "description": "Some description",
+        "icon_artifact": "don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>",
+        "categories": [
+            "don:integration:<partition>:devo/<dev-org-id>:marketplace/<marketplace-id>:marketplace-category/<category-id>"
+        ],
+        "marketplace": "don:integration:<partition>:devo/<dev-org-id>:marketplace/<marketplace-id>",
+        "snap_in_version": "don:integration:<partition>:devo/<dev-org-id>:snap_in_package/<snap-in-package-id>:snap_in_version/<snap-in-version-id>",
+        "artifacts": [
+            "don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>",
+            "don:core:<partition>:devo/<dev-org-id>:artifact/<artifact-id>"
+        ]
+    }
+}
+```
+
+Save this JSON under a file named `create-mps.json`.
+
+Minify the JSON before running the command:
+
+```bash
+jq -r tostring create-mps.json > minified-create-mps.json
+```
+
+Now you can create a new marketplace submission including the previously created snap-in version:
+
+```bash
+cat minified-create-mps.json | devrev marketplace_submissions create | jq
+```
+
+### New submission for an existing marketplace item
+
+When marketplace listing already exists (there is at least one marketplace item in state _published_, or _end_of_sale_) you can modify the listing by creating a new submission. First you have to create a submission and later you have to update it as desired.
+
+Request for creating a new submission for an existing marketplace listing:
+
+```json
+{
+    "marketplace_item": "don:integration:<partition>:devo/<dev-org-id>:marketplace/<marketplace-id>:marketplace_item/<marketplace-item-id>"
+}
+```
+
+Minify the JSON before running the command:
+
+```bash
+jq -r tostring new-mps.json > minified-new-mps.json
+```
+
+To create a new submission for an existing listing run the following command:
+
+```bash
+cat minified-new-mps.json | devrev marketplace_submissions create | jq
+```
+
+Previous command (that is, `marketplace_submissions create`) returns a new submission object. Use the returned ID when updating the submission with new values.
+
+```json
+{
+    "id": "don:integration:<partition>:devo/<dev-org-id>:marketplace/<marketplace-id>:marketplace_submission/<marketplace-submission-id>",
+    "submission": {
+        "snap_in_version": "don:integration:<partition>:devo/<dev-org-id>:snap_in_package/<snap-in-package-id>:snap_in_version/<snap-in-version-id>",
+        "name": "Some new name",
+        "description": "Some new description"
+    }
+}
+```
+
+Minify the JSON before running the command:
+
+```bash
+jq -r tostring update-mps.json > minified-update-mps.json
+```
+
+To update the submission with new values please use the following command:
+
+```bash
+cat minified-update-mps.json | devrev marketplace_submissions update | jq
+```
+
+## Publish marketplace submission
+
+The newly created marketplace submission is in state draft. In order to view it on the marketplace and be able to install it you need to transition it to state approved and then publish it.
+
+Transition marketplace submission to `waiting_for_review` state:
+
+```bash
+devrev marketplace_submissions transition "<submission_id>" "waiting_for_review" | jq
+```
+
+Once the submission is transitioned to _waiting_for_review_ state, it needs to be approved by marketplace admin. While in review, the state of the submission is _in_review_. Once it's reviewed, the state is changed to either _approved_ or _rejected_.
+
+Once the submission is approved you can publish it using the following command:
+
+```bash
+devrev marketplace_items publish "<submission_id>" | jq
+```
+
+To make sure that marketplace item was published you can list marketplace items in our organizational marketplace:
+
+```bash
+devrev marketplace_items list --marketplace "<id>" | jq "{name: .name, id: .id}"
+```
+
+## Auto-upgradation of marketplace-items
+
+For marketplace-items that are snap-ins, auto-upgrade is also supported.
+Once a new version for a marketplace-item is published, the respective snap-ins are auto-upgraded to the latest version.
+
+But there are some criteria that needs to be met for auto-upgrade to work:
+
+- The upgrade shouldn't require any user input/action.
+  - There shouldn't be any new inputs added.
+  - There shouldn't be any new keyrings that needs to be configured.
+
+## Some helpful commands
+
+List marketplaces:
+
+```bash
+devrev marketplace list | jq "{name: .name, type: .marketplace_type, id: .id}"
+```
+
+List marketplace items (by default, listings are from universal marketplace):
+
+```bash
+devrev marketplace_items list | jq "{name: .name, id: .id, type: .type}"
+```
+
+List marketplace items in **organizational** marketplace:
+
+```bash
+devrev marketplace_items list --marketplace "<id>" | jq "{name: .name, id: .id, type: .type}"
+```

@@ -1,28 +1,30 @@
 navigation:
   - section: Welcome
     contents:
-      - page: Getting started
-        path: ../docs/pages/welcome.mdx
-      - page: Entities
-        path: ../docs/pages/entities.mdx 
-      - page: Errors
-        path: ../docs/pages/responses.mdx 
-      - page: Authentication
-        path: ../docs/pages/authentication.mdx
-      - page: Pagination
-        path: ../docs/pages/pagination.mdx
-      - page: Versioning
-        path: ../docs/pages/versioning.mdx       
-      - page: Rate Limits
-        path: ../docs/pages/rate-limits.mdx
+      - page: For Developers
+        path: ../docs/pages/developer-intro.mdx
+      - section: APIs and webhooks
+        contents:
+          - page: Getting started
+            path: ../docs/pages/welcome.mdx 
+          - page: Entities
+            path: ../docs/pages/entities.mdx 
+          - page: Errors
+            path: ../docs/pages/responses.mdx 
+          - page: Authentication
+            path: ../docs/pages/authentication.mdx
+          - page: Pagination
+            path: ../docs/pages/pagination.mdx
+          - page: Versioning
+            path: ../docs/pages/versioning.mdx       
+          - page: Rate Limits
+            path: ../docs/pages/rate-limits.mdx
+          - page: Getting started with webhooks
+            path: ../docs/pages/webhooks.mdx
   - section: Guides
     contents:
       - page: Timeline entries - Send restricted messages
-        path: ../docs/pages/timeline-entries.mdx
-  - section: Webhooks
-    contents:
-      - page: Getting started with webhooks
-        path: ../docs/pages/webhooks.mdx        
+        path: ../docs/pages/timeline-entries.mdx        
   - section: DevRev REST API
     contents:
       - page: Overview

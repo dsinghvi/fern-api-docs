@@ -1,0 +1,56 @@
+# Keyrings
+
+Keyrings are a way to authenticate with external services. They're defined in the snap-in manifest under the `keyrings` section.
+
+:::note
+Keyrings are called connections in the DevRev app and can be used interchangeably in the documentation.
+:::
+
+The developer can specify a list of keyrings that the snap-in requires. The installer is asked to provide the keyring when installing the snap-in. Keyrings can either be organization scoped or user scoped.
+An organization scoped keyring is a secret used by the entire organization, like a Slack token for a workspace. A user-scoped keyring is a secret for a single user, for example the token to interact with a single person's Google Calendar. 
+
+For example, if you want the installer to provide secret tokens for both an organization and per-user when installing the snap-in, you would specify the following in the manifest:
+
+```yaml
+keyrings:
+  organization:
+    - name: my-secret-token
+      description: The secret tokens stores the keys to the kingdom
+      types:
+        - snap_in_secret
+      display_name: Organization secret token
+  user:
+    - name: my-secret-user-token
+      description: Secret token for each user installing the snap-in
+      types:
+        - snap_in_secret
+      display_name: Your secret token
+```
+
+:::note
+If you are using version 1 of the manifest, you can omit the organization key in the keyring definition and directly provide the keyring definition as a list. All keyring defined in manifest version 1 are organization-scoped.
+Additionally, the keyword `connections` is used instead of `keyrings` in manifest version 1.
+:::
+
+In the above YAML, the `name` specifies a unique identifier for the keyring in the snap-in.
+The `description` is a human readable description of the keyring shown to the user at the time of snap-in installation.
+The `types` field specifies the list of possible keyring types that the user can provide.
+The `display_name` is the name that's shown to the user when they're asked to provide a keyring.
+
+All user scoped keyrings are optional in the snap-in, and developers must handle the case where a user scoped keyring isn't found.
+
+The following keyring types are currently supported, where the Identifier field is the value to be specified in the `types` field of the keyring in the manifest:
+
+| Keyring Name          | Identifier     | AppName | Description                        |
+| --------------------- | -------------- | ------- | ---------------------------------- |
+| DevRev Snap-in Secret | snap_in_secret | generic | Store a generic secret string      |
+
+:::note
+If you are using version 1 of the manifest, the identifier `devrev-snap-in-secret` is used instead of `snap_in_secret`.
+:::
+
+## Changelog
+
+### Version 2 from version 1
+
+- Identifiers updated for DevRev PAT and DevRev Snap-in Secret. The table above lists the new identifiers.

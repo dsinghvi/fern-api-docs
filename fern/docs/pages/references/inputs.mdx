@@ -1,0 +1,42 @@
+# Inputs
+
+Inputs are settings for a snap-in that allows behavior customization. They're
+scoped to either an organization or a user. Organization-scoped inputs remain
+common for the organization, while user-scoped settings need to be set for each
+user. Each input's schema maps to FieldDescriptor. Snap-ins don't support inputs
+of type `date`, `timestamp` or `array` of `booleans`. For complete reference to
+other supported global types, refer to the
+[DevRev documentation](https://devrev.ai/docs/apis/beta-api-spec#/schemas/schema-field-descriptor).
+
+
+For example, if an organization input to select a part and a user input to select an array of enums need to be implemented:
+
+```yaml
+inputs:
+    organization:
+        - name: part_picker
+          description: Input that chooses a part in the organization
+          field_type: id
+          id_type:
+            - product
+            - capability
+            - feature
+            - enhancement
+          is_required: true
+          default_value: don:core:dvrv-us-1:devo/XXXX/product:XXXX
+          ui:
+            display_name: Part Picker
+    user:
+        - name: enum_list_picker
+          description: Input to select multiple enums
+          field_type: array
+          base_type: enum
+          allowed_values:
+            - value-1
+            - value-2
+            - value-3
+          is_required: true
+          default_value: value-1
+          ui:
+            display_name: Enum List Picker
+```
