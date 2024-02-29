@@ -3,35 +3,31 @@ navigation:
     contents:
       - page: For Developers
         path: ../docs/pages/developer-intro.mdx
-      - section: APIs and webhooks
+      - page: Getting started
+        path: ../docs/pages/welcome.mdx
+      - section: About the DevRev API
         contents:
-          - page: Getting started
-            path: ../docs/pages/welcome.mdx 
+          - page: API overview
+            path: ../docs/pages/api-overview.mdx
           - page: Entities
-            path: ../docs/pages/entities.mdx 
+            path: ../docs/pages/entities.mdx
           - page: Errors
-            path: ../docs/pages/responses.mdx 
+            path: ../docs/pages/responses.mdx
           - page: Authentication
             path: ../docs/pages/authentication.mdx
           - page: Pagination
             path: ../docs/pages/pagination.mdx
           - page: Versioning
-            path: ../docs/pages/versioning.mdx       
+            path: ../docs/pages/versioning.mdx
           - page: Rate Limits
             path: ../docs/pages/rate-limits.mdx
-          - page: Getting started with webhooks
-            path: ../docs/pages/webhooks.mdx
-          - section: Guides
-            contents:
-              - page: Timeline entries - Send restricted messages
-                path: ../docs/pages/timeline-entries.mdx        
-          - section: DevRev REST API
-            contents:
-              - page: Overview
-                path: ../docs/pages/api-overview.mdx
-              - api: API Reference
-                api-name: public
-      - section: Develop snap-ins
+      - api: API Reference
+        api-name: public
+      - page: Getting started with webhooks
+        path: ../docs/pages/webhooks.mdx
+      - page: Restricted messages on a timeline
+        path: ../docs/pages/timeline-entries.mdx
+      - section: Snap-in development
         contents:
           - page: Concepts
             path: ../docs/pages/snapin-concepts.mdx
