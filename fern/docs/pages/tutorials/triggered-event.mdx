@@ -2,11 +2,11 @@
 
 - [Getting Started](../start.mdx)
 - [DevRev SDK](https://www.npmjs.com/package/@devrev/typescript-sdk?activeTab=readme)
-- [Snap-in that takes an action](./timer-ticket-creator.mdx)
+- [Snap-in that takes an action](/welcome/snap-in-development/tutorials/using-a-snap-in-to-perform-a-dev-rev-action)
 
 ## Objective
 
-This section enables users to create a dynamic snap-in that responds to both [DevRev Webhook] events triggered by the creation of a [work](../../product/core.mdx) and specialized [command](../references/commands.mdx) within DevRev. 
+This section enables users to create a dynamic snap-in that responds to both DevRev Webhook events triggered by the creation of a [work](https://docs.devrev.ai/product/core) and specialized [command](/welcome/snap-in-development/references/commands) within DevRev. 
 
 The focus is on the process of working with the payload associated with these events. The objective is to adeptly extract pertinent fields from the payload within the defined functions, subsequently executing a well-defined action. This action involves the addition of a comment to the object timeline, a feature that can be conveniently customized.
 
@@ -70,7 +70,7 @@ service_account:
 
 #### Event source
 
-Following the manifest update, the next step is to incorporate the [event source](../references/event_sources.mdx).
+Following the manifest update, the next step is to incorporate the [event source](/welcome/snap-in-development/references/event-sources).
 For this scenario, events from DevRev are essential. Therefore, an event source
 of type `devrev-webhook` is added. In the configuration, the event type is
 specified as `work_created`.
@@ -167,7 +167,7 @@ automations:
 
 #### Commands
 
-To accommodate the additional trigger, a [command](../references/commands.mdx) must be defined within the
+To accommodate the additional trigger, a [command](/welcome/snap-in-development/references/commands) must be defined within the
 manifest file:
 
 ```yml

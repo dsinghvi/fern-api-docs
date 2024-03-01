@@ -14,7 +14,7 @@ The types of events that can be received through webhooks are object mutation ev
 Events are delivered concurrently in a semi-ordered (but not guaranteed) manner,
 where object timestamps and versions enable you to determine the order of events for a particular object.
 
-![sequence diagram](../img/diagram_4.png)
+![diagram_4](https://github.com/devrev/fern-api-docs/assets/74637789/8c950f32-0ad3-4c9b-9597-1a283134a195)
 
 ## Webhook event handling
 
@@ -80,7 +80,7 @@ You can start receiving event notifications using the following steps:
    (using TLS), however the webhook request contains a derivative of the secret that you will use to verify
    DevRev as the originator.
 
-     [API Reference: Create Webhook](https://developer.devrev.ai/public/welcome/ap-is-and-webhooks/dev-rev-rest-api/api-reference/webhooks/create)
+     [API Reference: Create Webhook](/welcome/ap-is-and-webhooks/dev-rev-rest-api/api-reference/webhooks/create)
 
    You will invoke DevRev webhook create with the following fields for our example:
 
