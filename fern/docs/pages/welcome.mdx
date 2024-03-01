@@ -15,9 +15,9 @@ Let's get started with DevRev APIs.
 
 First, create a DevRev account or log in.
 
-Every call to a DevRev API must include a PAT. After you create your account, [generate a personal access token](/welcome/authentication#generate-a-personal-access-token--pat-) and store it in a safe place. 
+Every call to a DevRev API must include a PAT. After you create your account, [generate a personal access token](/welcome/about-the-dev-rev-api/authentication) and store it in a safe place. 
 
-In this guide, you’ll make a call to the [`dev-users.self`](https://docs.devrev.ai/api#/operations/dev-users-self) API which gets the authenticated user's information. You will retrieve the user object created for your account on DevRev. This user object contains information such as a unique identifier, full name, display name, and profile picture.
+In this guide, you’ll make a call to the [`dev-users.self`](/welcome/api-reference/dev-users/self) API which gets the authenticated user's information. You will retrieve the user object created for your account on DevRev. This user object contains information such as a unique identifier, full name, display name, and profile picture.
 
 Every object in DevRev is uniquely identified by an `id` known as DevRev Object Notation (DON). DON `id` can be found in the API response. 
 The value `SELF` can be passed in as `id` to reference the logged-in user.
@@ -108,9 +108,9 @@ If everything works, the command line displays the following response for a user
 </CodeBlock>
 
 <Callout intent="info">
-Facing an error while authenticating the APIs? Refer to our [errors guide](/welcome/errors) to learn more about our error codes.
+Facing an error while authenticating the APIs? Refer to our [errors guide](/welcome/about-the-dev-rev-api/errors) to learn more about our error codes.
 </Callout>
 
 ## Next steps
 
-You’re all set to explore our platform. Go through the [entities](/welcome/entities) page, where you can get familiar with the basic concepts and terminologies used in the API documentation. Visit [methods page](https://devrev.ai/docs/apis/methods) to browse through our APIs and build your first integration with DevRev.
+You’re all set to explore our platform. Go through the [entities](/welcome/about-the-dev-rev-api/entities) page, where you can get familiar with the basic concepts and terminologies used in the API documentation. Visit [methods page](/public/welcome/api-reference/artifacts/locate) to browse through our APIs and build your first integration with DevRev.

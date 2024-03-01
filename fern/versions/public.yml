@@ -7,8 +7,6 @@ navigation:
         path: ../docs/pages/welcome.mdx
       - section: About the DevRev API
         contents:
-          - page: API overview
-            path: ../docs/pages/api-overview.mdx
           - page: Entities
             path: ../docs/pages/entities.mdx
           - page: Errors
@@ -21,6 +19,8 @@ navigation:
             path: ../docs/pages/versioning.mdx
           - page: Rate Limits
             path: ../docs/pages/rate-limits.mdx
+      - page: API overview
+        path: ../docs/pages/api-overview.mdx
       - api: API Reference
         api-name: public
       - page: Getting started with webhooks
@@ -53,6 +53,8 @@ navigation:
                 path: ../docs/pages/references/cli.mdx
               - page: Snap-in manifest
                 path: ../docs/pages/references/manifest.mdx
+              - page: Snap-in V1 manifest
+                path: ../docs/pages/references/v1-manifest.mdx
               - page: Keyrings
                 path: ../docs/pages/references/keyrings.mdx
               - page: Event sources
