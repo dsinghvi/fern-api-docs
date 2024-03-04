@@ -1,11 +1,11 @@
 navigation:
-  - section: Welcome
-    contents:
-      - page: Object Customization
-        path: ../docs/pages/customization.mdx
   - section: DevRev REST API
     contents:
       - page: Overview
         path: ../docs/pages/api-overview.mdx
-      - api: API Reference
-        api-name: beta
+  - api: API Reference
+    api-name: beta
+  - section: Advanced
+    contents:
+      - page: Object Customization
+        path: ../docs/pages/customization.mdx
