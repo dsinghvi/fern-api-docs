@@ -3,10 +3,10 @@ navigation:
     contents:
       - page: For Developers
         path: ../docs/pages/developer-intro.mdx
-      - page: Getting started
-        path: ../docs/pages/welcome.mdx
       - section: About the DevRev API
         contents:
+          - page: Getting started
+            path: ../docs/pages/welcome.mdx
           - page: Entities
             path: ../docs/pages/entities.mdx
           - page: Errors
