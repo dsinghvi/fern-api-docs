@@ -5025,8 +5025,7 @@ paths:
   /rev-orgs.create:
     post:
       description: |
-        Creates a Rev organization in the authenticated user's Dev
-        organization.
+        Creates a [RevOrg](https://docs.devrev.ai/product/glossary#organization) in the authenticated user's DevOrg.
       operationId: rev-orgs-create
       requestBody:
         content:
