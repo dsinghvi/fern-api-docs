@@ -1,8 +1,8 @@
 navigation:
   - section: About the DevRev API
     contents:
-      - page: API overview
-        path: ../docs/pages/api-overview.mdx
+      - page: For Developers
+        path: ../docs/pages/developer-intro.mdx
       - page: Getting started
         path: ../docs/pages/welcome.mdx
       - page: Entities
@@ -17,6 +17,8 @@ navigation:
         path: ../docs/pages/versioning.mdx
       - page: Rate Limits
         path: ../docs/pages/rate-limits.mdx
+  - page: Overview
+    path: ../docs/pages/api-overview.mdx
   - api: API Reference
     api-name: public
   - section: Advanced
