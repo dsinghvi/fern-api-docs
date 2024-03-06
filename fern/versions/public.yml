@@ -1,10 +1,12 @@
 navigation:
-  - section: About the DevRev API
+  - section: About
     contents:
       - page: For Developers
         path: ../docs/pages/developer-intro.mdx
       - page: Getting started
         path: ../docs/pages/welcome.mdx
+      - page: Overview
+        path: ../docs/pages/api-overview.mdx
       - page: Authentication
         path: ../docs/pages/authentication.mdx
       - page: Entities
@@ -17,11 +19,9 @@ navigation:
         path: ../docs/pages/rate-limits.mdx
       - page: Errors
         path: ../docs/pages/responses.mdx
-  - page: Overview
-    path: ../docs/pages/api-overview.mdx
   - api: API Reference
     api-name: public
-  - section: Advanced
+  - section: Guides
     contents: 
       - page: Getting started with webhooks
         path: ../docs/pages/webhooks.mdx
