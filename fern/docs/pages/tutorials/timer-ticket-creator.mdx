@@ -1,6 +1,6 @@
 ## Prerequisites
 
-- [Getting Started](/welcome/snap-in-development/tutorials/getting-started): Deploying a snap-in
+- [Getting Started](/snap-in-development/tutorials/getting-started): Deploying a snap-in
   to your dev org.
 - [DevRev SDK](https://www.npmjs.com/package/@devrev/typescript-sdk): TypeScript
   SDK to ease in calling DevRev APIs.
@@ -11,7 +11,7 @@ The objective is to build a snap-in that creates a new ticket every 10 minutes.
 
 ## Blueprinting the solution
 
-The [Getting Started](/welcome/snap-in-development/tutorials/getting-started) section shows a
+The [Getting Started](/snap-in-development/tutorials/getting-started) section shows a
 hello-world snap-in which prints a log message when a work item is created. This
 snap-in has the following changes:
 
@@ -25,8 +25,8 @@ ticket must be linked to a part and have an owner.
 ### Trigger
 
 The trigger condition for the snap-in is dictated by the
-[Event Sources](/welcome/snap-in-development/references/event-sources)
-section in the manifest. The [`timer-events`](/welcome/snap-in-development/references/event-sources#timer-based-event-sources)
+[Event Sources](/snap-in-development/references/event-sources)
+section in the manifest. The [`timer-events`](/snap-in-development/references/event-sources#timer-based-event-sources)
 event source is suitable for the use-case, since it allows trigger of snap-ins
 using [CRON expression](https://crontab.guru/).
 
@@ -77,7 +77,7 @@ devrev-snaps-typescript-template/
 └── README.md
 ```
 
-As discussed in the [Getting Started](/welcome/snap-in-development/tutorials/getting-started),
+As discussed in the [Getting Started](/snap-in-development/tutorials/getting-started),
 the `code` folder contains the starter code for the snap-in.
 
 ### Updating the manifest
@@ -99,7 +99,7 @@ service_account:
 Next, update the `event_sources` section to use the `timer-events` event source.
 The `timer-events` source type takes a `config` of type `cron` or
 `interval_seconds` as mentioned in the
-[documentation](/welcome/snap-in-development/references/event-sources#timer-based-event-sources).
+[documentation](/snap-in-development/references/event-sources#timer-based-event-sources).
 The `cron` config is used here.
 
 ```yaml, manifest.yaml
@@ -294,7 +294,7 @@ and it needs to be re-deployed.
 </Callout>
 
 Steps for deploying this snap-in have been discussed in the
-[Getting Started](/welcome/snap-in-development/tutorials/getting-started) section.
+[Getting Started](/snap-in-development/tutorials/getting-started) section.
 
 ## Resources
 
