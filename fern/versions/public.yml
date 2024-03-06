@@ -1,5 +1,5 @@
 navigation:
-  - section: About the DevRev API
+  - section: About
     contents:
       - page: API overview
         path: ../docs/pages/api-overview.mdx
@@ -9,8 +9,6 @@ navigation:
         path: ../docs/pages/entities.mdx
       - page: Errors
         path: ../docs/pages/responses.mdx
-      - page: Authentication
-        path: ../docs/pages/authentication.mdx
       - page: Pagination
         path: ../docs/pages/pagination.mdx
       - page: Versioning
