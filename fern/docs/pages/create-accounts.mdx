@@ -109,11 +109,11 @@ To create a contact associated with the account you created, follow the steps li
      -H "Authorization: <apiKey>" \
      -H "Content-Type: application/json" \
      -d '
-{
- "account": [
-    "<external reference of the account>"
-  ]
-}'
+    {
+     "account": [
+        "<external reference of the account>"
+      ]
+    }'
 ```
 
     - It returns the following JSON response:
@@ -169,43 +169,43 @@ To create a contact associated with the account you created, follow the steps li
                 ```
             - You recieve the following response:
                 ```json
-                {
-            "rev_user": {
-                "created_by": {
-                    "type": "dev_user",
-                    "display_id": "DEVU-1",
-                    "display_name": "someorg",
-                    "email": "someorg@someorg.com",
-                    "full_name": "some org",
-                    "id": "don:identity:dvrv-us-1:devo/<devo-id>:devu/1",
-                    "state": "active"
-                },
-                "created_date": "2024-03-07T09:54:08.908Z",
-                "display_id": "REVU-<revu-id>",
-                "display_name": "Unknown Sheldon6587",
-                "external_ref": "REVU-<revu-id>",
-                "id": "don:identity:dvrv-us-1:devo/<devo-id>:revu/<revu-id>",
-                "is_verified": true,
-                "modified_by": {
-                    "type": "dev_user",
-                    "display_id": "DEVU-1",
-                    "display_name": "someorg",
-                    "email": "someorg@someorg.com",
-                    "full_name": "some org",
-                    "id": "don:identity:dvrv-us-1:devo/<devo-id>:devu/1",
-                    "state": "active"
-                },
-                "modified_date": "2024-03-07T09:54:08.908Z",
-                "rev_org": {
-                    "type": "rev_org",
-                    "display_id": "REV-<revo-id>",
-                    "display_name": "Jhon Doe",
-                    "id": "don:identity:dvrv-us-1:devo/<devo-id>:revo/<revo-id>"
-                },
-                "state": "active",
-                "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/32026"
-            }
-        }
+                        {
+                    "rev_user": {
+                        "created_by": {
+                            "type": "dev_user",
+                            "display_id": "DEVU-1",
+                            "display_name": "someorg",
+                            "email": "someorg@someorg.com",
+                            "full_name": "some org",
+                            "id": "don:identity:dvrv-us-1:devo/<devo-id>:devu/1",
+                            "state": "active"
+                        },
+                        "created_date": "2024-03-07T09:54:08.908Z",
+                        "display_id": "REVU-<revu-id>",
+                        "display_name": "Unknown Sheldon6587",
+                        "external_ref": "REVU-<revu-id>",
+                        "id": "don:identity:dvrv-us-1:devo/<devo-id>:revu/<revu-id>",
+                        "is_verified": true,
+                        "modified_by": {
+                            "type": "dev_user",
+                            "display_id": "DEVU-1",
+                            "display_name": "someorg",
+                            "email": "someorg@someorg.com",
+                            "full_name": "some org",
+                            "id": "don:identity:dvrv-us-1:devo/<devo-id>:devu/1",
+                            "state": "active"
+                        },
+                        "modified_date": "2024-03-07T09:54:08.908Z",
+                        "rev_org": {
+                            "type": "rev_org",
+                            "display_id": "REV-<revo-id>",
+                            "display_name": "Jhon Doe",
+                            "id": "don:identity:dvrv-us-1:devo/<devo-id>:revo/<revo-id>"
+                        },
+                        "state": "active",
+                        "stock_schema_fragment": "don:core:dvrv-us-1:stock_sf/32026"
+                    }
+                }
         ```
     - You have now successfully created a contact for the account. You can check the contact created on DevRev app by going to **Customers > Contacts** or by clicking the account you created in **Accounts** and select the **Contacts** tab to view all the contacts created for the selected account.
     
