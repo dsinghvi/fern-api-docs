@@ -13,7 +13,7 @@ The payload to make a request is given below:
 
 - `display_name` must be of type string.
 
-1. Make a POST request to "https://api.devrev.ai/accounts.create" and include the PAT created in the authorization header of the request along with the payload with replaced IDs.
+Make a POST request to "https://api.devrev.ai/accounts.create" and include the PAT created in the authorization header of the request along with the payload with replaced IDs.
 In this example, you are using curl to make the requests but you can use any tool you prefer.
 
 ```bash
@@ -102,7 +102,7 @@ Your account is now successfully created. You can check the accounts created in 
 
 To create a contact associated with the account you created, follow the steps listed below:
 
-1. Get the default rev-org created along with the account using `rev-orgs.list` API. 
+Get the default rev-org created along with the account using `rev-orgs.list` API. 
     - Make a GET/POST request to "https://api.devrev.ai/rev-orgs.list" using cURL with the `account` filter. Use the `external_ref` from previous response as `account` filter.
     ```bash
            curl -X POST https://api.devrev.ai/rev-orgs.list \
@@ -158,6 +158,7 @@ To create a contact associated with the account you created, follow the steps li
     - Note the `display_id` (example: `REV-abcd`) of the rev-org from the response. 
     - Now make a POST request to the `rev-users.create` "https://api.devrev.ai/rev-users.create" API to create a rev-user.
     - Using cURL, make the following request, here `rev_org` takes the `display_id` from the previous reposnse:
+
     ```json
                 curl -X POST https://api.devrev.ai/rev-users.create \
                     -H "Authorization: <apiKey>" \
@@ -209,7 +210,6 @@ To create a contact associated with the account you created, follow the steps li
         }
     ```
 
-    
     - You have now successfully created a contact for the account. You can check the contact created on DevRev app by going to **Customers > Contacts** or by clicking the account you created in **Accounts** and select the **Contacts** tab to view all the contacts created for the selected account.
     
-    ![contact](https://github.com/devrev/marketplace-items/assets/74637789/bc485a71-2a07-4e56-bc99-c0cd9dbbcb61)
+    ![contact](https://github.com/devrev/fern-api-docs/assets/74637789/4ba6eff1-ece6-4fee-b022-1fc99ec1ee1d)
