@@ -5,8 +5,6 @@ navigation:
         path: ../docs/pages/developer-intro.mdx
       - page: Getting started
         path: ../docs/pages/welcome.mdx
-      - page: Overview
-        path: ../docs/pages/api-overview.mdx
       - page: Authentication
         path: ../docs/pages/authentication.mdx
       - page: Entities
@@ -21,6 +19,8 @@ navigation:
         path: ../docs/pages/responses.mdx
   - api: API Reference
     api-name: public
+  - page: Overview
+    path: ../docs/pages/api-overview.mdx
   - section: Guides
     contents: 
       - page: Getting started with webhooks
