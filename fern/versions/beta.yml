@@ -5,7 +5,9 @@ navigation:
         path: ../docs/pages/api-overview.mdx
   - api: API Reference
     api-name: beta
-  - section: Advanced
+  - section: Guides
     contents:
       - page: Object Customization
         path: ../docs/pages/customization.mdx
+      - page: Create accounts in DevRev
+        path: ../docs/pages/create-accounts.mdx
