@@ -45,7 +45,604 @@ event_sources:
 
 ## DevRev Webhook
 The `devrev-webhook` event source can be used to listen for events occuring on DevRev. These includes events like `work_created` and `conversation_updated`.
-The payload of the events is defined by the [Webhooks Event Schema](https://devrev.ai/docs/apis/methods#/schemas/webhook-event-request).
+The payload of the events is defined by the Webhooks Event Schema.
+
+### Webhook-event-request example:
+
+```JSON
+{
+  "account_created": {
+    "account": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "display_name": "string",
+      "artifacts": [
+        null
+      ],
+      "custom_fields": {},
+      "custom_schema_fragments": [
+        "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>"
+      ],
+      "description": "string",
+      "domains": [
+        null
+      ],
+      "external_refs": [
+        null
+      ],
+      "owned_by": [
+        {}
+      ],
+      "stock_schema_fragment": "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>",
+      "tags": [
+        {}
+      ],
+      "tier": "string"
+    }
+  },
+  "account_deleted": {
+    "id": "ACC-12345"
+  },
+  "account_updated": {
+    "account": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "display_name": "string",
+      "artifacts": [
+        null
+      ],
+      "custom_fields": {},
+      "custom_schema_fragments": [
+        "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>"
+      ],
+      "description": "string",
+      "domains": [
+        null
+      ],
+      "external_refs": [
+        null
+      ],
+      "owned_by": [
+        {}
+      ],
+      "stock_schema_fragment": "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>",
+      "tags": [
+        {}
+      ],
+      "tier": "string"
+    }
+  },
+  "conversation_created": {
+    "conversation": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "description": "string",
+      "group": {},
+      "members": [
+        {}
+      ],
+      "messages": [
+        {}
+      ],
+      "metadata": {},
+      "owned_by": [
+        {}
+      ],
+      "stage": {},
+      "tags": [
+        {}
+      ],
+      "title": "string"
+    }
+  },
+  "conversation_deleted": {
+    "id": "string"
+  },
+  "conversation_updated": {
+    "conversation": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "description": "string",
+      "group": {},
+      "members": [
+        {}
+      ],
+      "messages": [
+        {}
+      ],
+      "metadata": {},
+      "owned_by": [
+        {}
+      ],
+      "stage": {},
+      "tags": [
+        {}
+      ],
+      "title": "string"
+    }
+  },
+  "dev_user_created": {
+    "dev_user": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "display_name": "string",
+      "display_picture": {},
+      "email": "string",
+      "full_name": "string",
+      "phone_numbers": [
+        null
+      ],
+      "state": "active",
+      "external_identities": [
+        {}
+      ]
+    }
+  },
+  "dev_user_deleted": {
+    "id": "string"
+  },
+  "dev_user_updated": {
+    "dev_user": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "display_name": "string",
+      "display_picture": {},
+      "email": "string",
+      "full_name": "string",
+      "phone_numbers": [
+        null
+      ],
+      "state": "active",
+      "external_identities": [
+        {}
+      ]
+    }
+  },
+  "id": "string",
+  "part_created": {
+    "part": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "artifacts": [
+        null
+      ],
+      "custom_fields": {},
+      "custom_schema_fragments": [
+        "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>"
+      ],
+      "description": "string",
+      "name": "string",
+      "owned_by": [
+        {}
+      ],
+      "stock_schema_fragment": "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>",
+      "tags": [
+        {}
+      ]
+    }
+  },
+  "part_deleted": {
+    "id": "PROD-12345"
+  },
+  "part_updated": {
+    "part": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "artifacts": [
+        null
+      ],
+      "custom_fields": {},
+      "custom_schema_fragments": [
+        "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>"
+      ],
+      "description": "string",
+      "name": "string",
+      "owned_by": [
+        {}
+      ],
+      "stock_schema_fragment": "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>",
+      "tags": [
+        {}
+      ]
+    }
+  },
+  "rev_org_created": {
+    "rev_org": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "display_name": "string",
+      "account": {},
+      "artifacts": [
+        null
+      ],
+      "custom_fields": {},
+      "custom_schema_fragments": [
+        "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>"
+      ],
+      "description": "string",
+      "domain": "string",
+      "external_ref": "string",
+      "stock_schema_fragment": "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>",
+      "tags": [
+        {}
+      ]
+    }
+  },
+  "rev_org_deleted": {
+    "id": "REV-AbCdEfGh"
+  },
+  "rev_org_updated": {
+    "rev_org": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "display_name": "string",
+      "account": {},
+      "artifacts": [
+        null
+      ],
+      "custom_fields": {},
+      "custom_schema_fragments": [
+        "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>"
+      ],
+      "description": "string",
+      "domain": "string",
+      "external_ref": "string",
+      "stock_schema_fragment": "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>",
+      "tags": [
+        {}
+      ]
+    }
+  },
+  "rev_user_created": {
+    "rev_user": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "display_name": "string",
+      "display_picture": {},
+      "email": "string",
+      "full_name": "string",
+      "phone_numbers": [
+        null
+      ],
+      "state": "active",
+      "artifacts": [
+        null
+      ],
+      "custom_fields": {},
+      "custom_schema_fragments": [
+        "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>"
+      ],
+      "description": "string",
+      "external_ref": "string",
+      "is_verified": true,
+      "rev_org": {},
+      "stock_schema_fragment": "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>",
+      "tags": [
+        {}
+      ]
+    }
+  },
+  "rev_user_deleted": {
+    "id": "string"
+  },
+  "rev_user_updated": {
+    "rev_user": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "display_name": "string",
+      "display_picture": {},
+      "email": "string",
+      "full_name": "string",
+      "phone_numbers": [
+        null
+      ],
+      "state": "active",
+      "artifacts": [
+        null
+      ],
+      "custom_fields": {},
+      "custom_schema_fragments": [
+        "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>"
+      ],
+      "description": "string",
+      "external_ref": "string",
+      "is_verified": true,
+      "rev_org": {},
+      "stock_schema_fragment": "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>",
+      "tags": [
+        {}
+      ]
+    }
+  },
+  "sla_tracker_created": {
+    "sla_tracker": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z"
+    }
+  },
+  "sla_tracker_deleted": {
+    "id": "string"
+  },
+  "sla_tracker_updated": {
+    "sla_tracker": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z"
+    }
+  },
+  "tag_created": {
+    "tag": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "allowed_values": [
+        null
+      ],
+      "description": "string",
+      "name": "string"
+    }
+  },
+  "tag_deleted": {
+    "id": "TAG-12345"
+  },
+  "tag_updated": {
+    "tag": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "allowed_values": [
+        null
+      ],
+      "description": "string",
+      "name": "string"
+    }
+  },
+  "timeline_entry_created": {
+    "entry": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "labels": [
+        null
+      ],
+      "object": "string",
+      "object_display_id": "string",
+      "object_type": "account",
+      "reactions": [
+        {}
+      ],
+      "thread": {},
+      "visibility": "external",
+      "artifacts": [
+        null
+      ],
+      "body": "string",
+      "body_type": "snap_kit",
+      "snap_kit_body": {
+        "body": {}
+      },
+      "snap_widget_body": [
+        {}
+      ]
+    }
+  },
+  "timeline_entry_deleted": {
+    "id": "don:core:<partition>:devo/<dev-org-id>:ticket/123:timeline_event/<timeline-event-id>"
+  },
+  "timeline_entry_updated": {
+    "entry": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "labels": [
+        null
+      ],
+      "object": "string",
+      "object_display_id": "string",
+      "object_type": "account",
+      "reactions": [
+        {}
+      ],
+      "thread": {},
+      "visibility": "external",
+      "artifacts": [
+        null
+      ],
+      "body": "string",
+      "body_type": "snap_kit",
+      "snap_kit_body": {
+        "body": {}
+      },
+      "snap_widget_body": [
+        {}
+      ]
+    }
+  },
+  "timestamp": "2023-01-01T12:00:00.000Z",
+  "type": "account_created",
+  "verify": {
+    "challenge": "string"
+  },
+  "webhook_created": {
+    "webhook": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "event_types": [
+        null
+      ],
+      "secret": "string",
+      "status": "active",
+      "url": "string"
+    }
+  },
+  "webhook_deleted": {
+    "id": "don:integration:<partition>:devo/<dev-org-id>:webhook/<webhook-id>"
+  },
+  "webhook_id": "don:integration:<partition>:devo/<dev-org-id>:webhook/<webhook-id>",
+  "webhook_updated": {
+    "webhook": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "event_types": [
+        null
+      ],
+      "secret": "string",
+      "status": "active",
+      "url": "string"
+    }
+  },
+  "work_created": {
+    "work": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "applies_to_part": {},
+      "artifacts": [
+        null
+      ],
+      "body": "string",
+      "custom_fields": {},
+      "custom_schema_fragments": [
+        "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>"
+      ],
+      "owned_by": [
+        {}
+      ],
+      "reported_by": [
+        {}
+      ],
+      "stage": {},
+      "stock_schema_fragment": "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>",
+      "tags": [
+        {}
+      ],
+      "target_close_date": "2023-01-01T12:00:00.000Z",
+      "title": "string",
+      "developed_with": [
+        {}
+      ],
+      "priority": "p0"
+    }
+  },
+  "work_deleted": {
+    "id": "ISS-12345"
+  },
+  "work_updated": {
+    "work": {
+      "created_by": {},
+      "created_date": "2023-01-01T12:00:00.000Z",
+      "display_id": "string",
+      "id": "string",
+      "modified_by": {},
+      "modified_date": "2023-01-01T12:00:00.000Z",
+      "applies_to_part": {},
+      "artifacts": [
+        null
+      ],
+      "body": "string",
+      "custom_fields": {},
+      "custom_schema_fragments": [
+        "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>"
+      ],
+      "owned_by": [
+        {}
+      ],
+      "reported_by": [
+        {}
+      ],
+      "stage": {},
+      "stock_schema_fragment": "don:core:<partition>:devo/<dev-org-id>:custom_type_fragment/<custom-type-fragment-id>",
+      "tags": [
+        {}
+      ],
+      "target_close_date": "2023-01-01T12:00:00.000Z",
+      "title": "string",
+      "developed_with": [
+        {}
+      ],
+      "priority": "p0"
+    }
+  }
+}
+```
 
 ### Webhook Filters
 To limit the events being sent to a webhook, you can also specify a `jq` query as a filter. This filter is applied on the webhook before the event is dispatched. If no filter is specified, then all events are sent.

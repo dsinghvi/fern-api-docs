@@ -18,17 +18,11 @@ where object timestamps and versions enable you to determine the order of events
 
 ## Webhook event handling
 
-<a href="https://devrev.ai/docs/apis/methods#/schemas/webhook-event-request">
-  API Reference: Webhook Event
-</a>
-
 All events are delivered to the same registered endpoint, and there is a single request schema to encompass all events that contains the following fields:
 
-```
-webhook_id: Identifies the webhook that the event is being delivered for.
-timestamp: The timestamp for the event.
-type: The event type. This is always followed by a field of the type’s name that contains the event’s data.
-```
+- `webhook_id`: Identifies the webhook that the event is being delivered for.
+- `timestamp`: The timestamp for the event.
+- `type`: The event type. This is always followed by a field of the type’s name that contains the event’s data.
 
 ### Event POST `[json]`
 
